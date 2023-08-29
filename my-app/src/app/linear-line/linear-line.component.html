@@ -1,0 +1,67 @@
+<div *ngIf="currentPart === Part.Explanation">
+  <h1>Explanation</h1>
+  <p>Learn how to find the linear line that goes between two points:</p>
+  <iframe width="560" height="315" src="https://www.youtube.com/link-to-video" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <button (click)="changePart(Part.Quiz)">Start Quiz</button>
+</div>
+
+<div *ngIf="currentPart === Part.Quiz">
+  <div *ngIf="!showSummary">
+    <h1>Question {{ attempts + 1 }}: Find the Linear Line</h1>
+    <p>Formula for slope:  m =  (y2 - y1)/(x2 - x1) </p> <!-- Added this line -->
+    <p>fermula for linear line :y=mx+b </p>
+    <p>Given points: ({{ point1_x }}, {{ point1_y }}) and ({{ point2_x }}, {{ point2_y }})</p>
+    <div *ngIf="!isSlopeChecked">
+      <label for="userSlope">Enter the slope (m):</label>
+      <input type="number" id="userSlope" [(ngModel)]="userSlope" />
+      <button (click)="checkSlope()">Check Slope</button>
+      <div *ngIf="isSlopeChecked">
+        <p *ngIf="isSlopeCorrect">Your slope is correct!</p>
+        <p *ngIf="!isSlopeCorrect">Incorrect slope. The correct slope is {{ slope }}.</p>
+      </div>
+    </div>
+
+    <div *ngIf="isSlopeChecked">
+      <label for="userSolution">Enter the equation of the line:</label>
+      <input type="text" id="userSolution" [(ngModel)]="userSolution" />
+      <button (click)="checkSolution()" *ngIf="!isAnswerChecked">Check Solution</button>
+    </div>
+    <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">Next Question</button>
+    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+    <div *ngIf="isAnswerChecked">
+      <p *ngIf="isAnswerCorrect">Well done, you answered correctly!</p>
+      <p *ngIf="!isAnswerCorrect">You answered incorrectly. The correct equation is {{ equation }}.</p>
+    </div>
+  </div>
+  <div *ngIf="showSummary">
+    <h1>Quiz Summary</h1>
+    <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
+    <button (click)="resetQuiz()">Try Again</button>
+  </div>
+</div>
+
+<div *ngIf="currentPart === Part.QuizCompleted">
+  <h1>Quiz Summary</h1>
+  <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
+  <button (click)="changePart(Part.Quiz)">Try Again</button>
+  <button (click)="startTest()">Start Test</button>
+</div>
+
+<div *ngIf="currentPart === Part.Test">
+  <h1>Test</h1>
+  <p>Formula for slope:  m =  (y2 - y1)/(x2 - x1 )</p> <!-- Added this line -->
+  <p>fermula for linear line :y=mx+b </p>
+  <div *ngFor="let question of testQuestions; let i = index">
+    <p>Question {{ i + 1 }}</p>
+    <p>Given points: ({{ question.point1_x }}, {{ question.point1_y }}) and ({{ question.point2_x }}, {{ question.point2_y }})</p>
+    <label for="userTestAnswer{{ i }}">Enter the equation of the line:</label>
+    <input type="text" id="userTestAnswer{{ i }}" [(ngModel)]="userTestAnswers[i]" />
+  </div>
+  <button (click)="checkTestAnswers()">Submit Test</button>
+  <div *ngIf="showTestSummary">
+    <h1>Test Summary</h1>
+    <p>You answered {{ testCorrectAnswers }} out of {{ testQuestions.length }} questions correctly!</p>
+    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+  </div>
+</div>
+<button (click)="navigateToTopics()">Back to Topics</button>

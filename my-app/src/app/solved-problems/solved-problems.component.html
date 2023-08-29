@@ -1,0 +1,7 @@
+
+
+<!-- Display the retrieved exercises -->
+<div *ngFor="let exercise of exercises"> <!-- Here is the change -->
+    <!-- Display each exercise. Adjust according to the structure of your data -->
+    {{ exercise.exercise_id }} - {{ exercise.timestamp }}
+</div>

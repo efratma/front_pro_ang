@@ -1,0 +1,59 @@
+<div *ngIf="currentPart === Part.Explanation">
+  <h1>Explanation</h1>
+  <p>Learn how to find the intersection points with the X and Y axes for a given linear equation:</p>
+  <iframe width="560" height="315" src="https://www.youtube.com/link-to-video" frameborder="0" allowfullscreen></iframe>
+  <button (click)="changePart(Part.Quiz)">Start Quiz</button>
+</div>
+
+<div *ngIf="currentPart === Part.Quiz">
+  <div *ngIf="!showSummary">
+    <h1>Question {{ attempts + 1 }}: Find the Intersection Points</h1>
+    <p>Given equation: {{ equation }}</p>
+    <label for="userXIntersection">Enter the intersection point with the X axis (x, 0):</label>
+    <input type="text" id="userXIntersection" [(ngModel)]="userXIntersection" />
+    <label for="userYIntersection">Enter the intersection point with the Y axis (0, y):</label>
+    <input type="text" id="userYIntersection" [(ngModel)]="userYIntersection" />
+    <button (click)="checkSolution()" *ngIf="!isAnswerChecked">Check Solution</button>
+    <div *ngIf="isAnswerChecked">
+      <p *ngIf="isAnswerCorrect">You answered correctly!</p>
+      <p *ngIf="!isAnswerCorrect">
+        You answered incorrectly. The correct intersection points are X=( {{x_when_y_zero}},0), Y=(0, {{y_when_x_zero}}).
+      </p>
+    </div>
+
+    <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">Next Question</button>
+    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+  </div>
+  <div *ngIf="showSummary">
+    <h1>Quiz Summary</h1>
+    <p>You answered {{ correctAnswers }} out of {{ maxAttempts }} questions correctly!</p>
+    <button (click)="resetQuiz()">Try Again</button>
+  </div>
+</div>
+
+<div *ngIf="currentPart === Part.QuizCompleted">
+  <h1>Quiz Summary</h1>
+  <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
+  <button (click)="changePart(Part.Quiz)">Try Again</button>
+  <button (click)="startTest()">Start Test</button>
+</div>
+
+<div *ngIf="currentPart === Part.Test">
+  <h1>Test</h1>
+  <div *ngFor="let question of testQuestions; let i = index">
+    <p>Question {{ i + 1 }}</p>
+    <p>{{ question.equation }}</p>
+    <label for="userTestAnswerX{{ i }}">Enter the intersection point with the X axis (x, 0):</label>
+    <input type="text" id="userTestAnswerX{{ i }}" [(ngModel)]="userTestAnswersX[i]" />
+    <label for="userTestAnswerY{{ i }}">Enter the intersection point with the Y axis (0, y):</label>
+    <input type="text" id="userTestAnswerY{{ i }}" [(ngModel)]="userTestAnswersY[i]" />
+  </div>
+  <button (click)="checkTestAnswers()">Submit Test</button>
+  <div *ngIf="showTestSummary">
+    <h1>Test Summary</h1>
+    <p>You answered {{ testCorrectAnswers }} out of {{ testQuestions.length }} questions correctly!</p>
+    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+  </div>
+</div>
+
+<button (click)="navigateToTopics()">Back to Topics</button>

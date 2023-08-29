@@ -1,0 +1,72 @@
+<div *ngIf="currentPart === Part.Explanation">
+  <h1>Explanation</h1>
+  <p>Learn how to find the missing side in a right triangle using Pythagoras' theorem:</p>
+  <iframe width="560" height="315" src="https://www.youtube.com/link-to-pythagoras-video" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <button (click)="changePart(Part.Quiz)">Start Quiz</button>
+</div>
+
+<div *ngIf="currentPart === Part.Quiz">
+  <div *ngIf="!showSummary">
+    <h1>Question {{ attempts + 1 }}: Find the Missing Side</h1>
+    <div><i> c² = a² + b² הנוסחה למציאת  הצלע החסרה </i></div>
+    <p>Given sides: a = {{sideA || '?'}}, b = {{sideB || '?'}}, c = {{sideC || '?'}} </p>
+    <svg width="200" height="200">
+      <polygon points="50,50 50,130 130,50" style="fill:lightgrey;stroke:black;stroke-width:2" />
+      <line x1="50" y1="50" x2="50" y2="60" style="stroke:black;stroke-width:2" />
+      <line x1="50" y1="50" x2="60" y2="50" style="stroke:black;stroke-width:2" />
+      <text x="45" y="100" text-anchor="end" font-family="Arial" font-size="14" fill="black">{{ missingSide === 'a' ? '?' : sideA }}</text>
+      <text x="90" y="40" text-anchor="middle" font-family="Arial" font-size="14" fill="black">{{ missingSide === 'b' ? '?' : sideB }}</text>
+      <text x="95" y="95" font-family="Arial" font-size="14" fill="black">{{ missingSide === 'c' ? '?' : sideC }}</text>
+    </svg>
+
+    <label for="userSolution">Enter the value of {{ missingSide }}:</label>
+    <input type="number" id="userSolution" [(ngModel)]="userSolution" />
+    <button (click)="checkSolution()" *ngIf="!isAnswerChecked">Check Solution</button>
+    <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">Next Question</button>
+    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+    <div *ngIf="isAnswerChecked">
+      <p *ngIf="isAnswerCorrect">Well done, you answered correctly!</p>
+      <p *ngIf="!isAnswerCorrect">You answered incorrectly. The correct answer is {{ correctSolution }}.</p>
+    </div>
+  </div>
+  <div *ngIf="showSummary">
+    <h1>Quiz Summary</h1>
+    <p>You answered {{ correctAnswers }} out of {{ maxAttempts }} questions correctly!</p>
+    <button (click)="resetQuiz()">Try Again</button>
+  </div>
+</div>
+
+<div *ngIf="currentPart === Part.QuizCompleted">
+  <h1>Quiz Summary</h1>
+  <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
+  <button (click)="changePart(Part.Quiz)">Try Again</button>
+  <button (click)="startTest()">Start Test</button>
+</div>
+
+<div *ngIf="currentPart === Part.Test">
+  <h1>Test</h1>
+  <div><i> c² = a² + b² הנוסחה למציאת  הצלע החסרה </i></div>
+  <div *ngFor="let question of testQuestions; let i = index">
+    <p>Question {{ i + 1 }}</p>
+    <p>Given sides: a = {{question.option === 'a' ? '?' : question.a_fl}}, b = {{question.option === 'b' ? '?' : question.b_fl}}, c = {{question.option === 'c' ? '?' : question.c_fl}}</p>
+    <svg width="200" height="200">
+      <polygon points="50,50 50,130 130,50" style="fill:lightgrey;stroke:black;stroke-width:2" />
+      <line x1="50" y1="50" x2="50" y2="60" style="stroke:black;stroke-width:2" />
+      <line x1="50" y1="50" x2="60" y2="50" style="stroke:black;stroke-width:2" />
+      <text x="45" y="100" text-anchor="end" font-family="Arial" font-size="14" fill="black">{{ question.option === 'a' ? '?' : question.a_fl }}</text>
+      <text x="90" y="40" text-anchor="middle" font-family="Arial" font-size="14" fill="black">{{ question.option === 'b' ? '?' : question.b_fl }}</text>
+      <text x="95" y="95" font-family="Arial" font-size="14" fill="black">{{ question.option === 'c' ? '?' : question.c_fl }}</text>
+    </svg>
+    <label for="userTestAnswer{{ i }}">Enter the value of {{ missingSide }}:</label>
+    <input type="number" id="userTestAnswer{{ i }}" [(ngModel)]="userTestAnswers[i]" />
+  </div>
+  <button (click)="checkTestAnswers()">Submit Test</button>
+  <div *ngIf="showTestSummary">
+    <h1>Test Summary</h1>
+    <p>You answered {{ testCorrectAnswers }} out of {{ testQuestions.length }} questions correctly!</p>
+    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+  </div>
+</div>
+<button (click)="navigateToTopics()">Back to Topics</button>
+
+

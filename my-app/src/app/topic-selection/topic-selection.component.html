@@ -1,0 +1,4 @@
+<h1>Select a Topic</h1>
+<div *ngFor="let topic of topics">
+  <button (click)="selectTopic(topic)">{{ topic.name }}</button>
+</div>

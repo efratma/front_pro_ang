@@ -1,0 +1,84 @@
+<div *ngIf="currentPart === Part.Explanation">
+  <h1>Explanation</h1>
+  <p>Watch the video tutorial on how to solve the medium-level exercise:</p>
+  <iframe width="560" height="315" src="https://www.youtube.com/link-to-video" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  <button (click)="changePart(Part.Quiz)">Start Quiz</button>
+</div>
+<div *ngIf="currentPart === Part.Quiz">
+  <div *ngIf="!showSummary">
+    <h1>Question {{ attempts + 1 }}: Solve the Medium System of Equations</h1>
+    <div>
+      <span *ngFor="let fraction of equation1Fractions; let last = last">
+        <span *ngIf="fraction.denominator">
+          <span class="fraction">
+            <span class="numerator">{{ fraction.numerator }}</span>
+            <span class="denominator">{{ fraction.denominator }}</span>
+          </span>
+        </span>
+        <span *ngIf="!fraction.denominator">{{ fraction.numerator }}</span>
+        <span *ngIf="!last">&nbsp;</span>
+      </span>
+    </div>
+    <div>
+      <span *ngFor="let fraction of equation2Fractions; let last = last">
+        <span *ngIf="fraction.denominator">
+          <span class="fraction">
+            <span class="numerator">{{ fraction.numerator }}</span>
+            <span class="denominator">{{ fraction.denominator }}</span>
+          </span>
+        </span>
+        <span *ngIf="!fraction.denominator">{{ fraction.numerator }}</span>
+        <span *ngIf="!last">&nbsp;</span>
+      </span>
+    </div>
+    <label for="solutionX">Enter your solution for x:</label>
+    <input type="number" id="solutionX" [(ngModel)]="userSolutionX" />
+    <label for="solutionY">Enter your solution for y:</label>
+    <input type="number" id="solutionY" [(ngModel)]="userSolutionY" />
+    <button (click)="checkSolution()" *ngIf="!isAnswerChecked">Check Solution</button>
+    <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">Next Question</button>
+    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+    <div *ngIf="isAnswerChecked">
+      <p *ngIf="isAnswerCorrect">Well done, you answered correctly!</p>
+      <p *ngIf="!isAnswerCorrect && correctSolutionX !== null && correctSolutionY !== null">
+        You answered incorrectly. The correct answer is x={{ correctSolutionX }}, y={{ correctSolutionY }}.
+      </p>
+    </div>
+    <div *ngIf="showSummary">
+      <h1>Quiz Summary</h1>
+      <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
+      <button (click)="resetQuiz()">Try Again</button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="currentPart === Part.QuizCompleted">
+  <h1>Quiz Summary</h1>
+  <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
+  <button (click)="changePart(Part.Quiz)">Try Again</button>
+  <button (click)="startTest()">Start Test</button>
+</div>
+
+<div *ngIf="currentPart === Part.Test">
+  <h1>Test</h1>
+  <div *ngFor="let question of testQuestions; let i = index">
+    <p>Question {{ i + 1 }}</p>
+    <div>
+      {{ question.equation1 }}
+    </div>
+    <div>
+      {{ question.equation2 }}
+    </div>
+    <label for="solutionX{{ i }}">Enter your solution for x:</label>
+    <input type="number" id="solutionX{{ i }}" [(ngModel)]="userTestAnswers[i].x" />
+    <label for="solutionY{{ i }}">Enter your solution for y:</label>
+    <input type="number" id="solutionY{{ i }}" [(ngModel)]="userTestAnswers[i].y" />
+  </div>
+  <button (click)="checkTestAnswers()">Submit Test</button>
+  <div *ngIf="showTestSummary">
+    <h1>Test Summary</h1>
+    <p>You answered {{ testCorrectAnswers }} out of {{ testQuestions.length }} questions correctly!</p>
+    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+  </div>
+</div>
+<button (click)="navigateToTopics()">Back to Topics</button>
