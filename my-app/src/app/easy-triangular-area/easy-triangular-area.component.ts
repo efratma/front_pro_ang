@@ -62,6 +62,10 @@ export class EasyTriangularAreaComponent implements OnInit {
   }
 
   loadQuestion(): void {
+    if (!this.authService.isAuthenticated()) {
+      console.error("User not authenticated. Cannot fetch question.");
+      return;
+    }
     if (this.attempts < this.maxAttempts) {
       this.authService.getTriangularArea().subscribe((data: any) => {
         this.line_equation = data.line_equation;

@@ -43,12 +43,16 @@ export class EquationSystemEasyComponent {
   backgroundColor: string = '';
   showTestSummary: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {} 
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadQuestion();
   }
   loadQuestion(): void {
+    if (!this.authService.isAuthenticated()) {
+      console.error("User not authenticated. Cannot fetch question.");
+      return;
+    }
     if (this.attempts < this.maxAttempts) {
       this.authService.getEasySystemOfEquations().subscribe(
         (data) => {
@@ -176,7 +180,7 @@ export class EquationSystemEasyComponent {
     this.initializeTest();
   }
   navigateToTopics(): void {
-    this.router.navigate(['/topics']);
+    this.router.navigate(['/topic-selection']);
   }
 
 }

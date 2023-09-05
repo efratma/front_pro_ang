@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
+
 interface QuizData {
   a: number;
   b: number;
@@ -38,6 +39,7 @@ export class PythagorasEasyComponent implements OnInit {
   userTestAnswers: number[] = [];
   testCorrectAnswers: number = 0;
   showTestSummary: boolean = false;
+  question: string='';
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -46,6 +48,10 @@ export class PythagorasEasyComponent implements OnInit {
   }
 
   loadQuestion(): void {
+    if (!this.authService.isAuthenticated()) {
+      console.error("User not authenticated. Cannot fetch question.");
+      return;
+    }
     if (this.attempts < this.maxAttempts) {
       this.authService.getPythagorasEasy().subscribe((data: QuizData) => {
         this.sideA = data.a;
@@ -59,6 +65,7 @@ export class PythagorasEasyComponent implements OnInit {
   }
 
   checkSolution(): void {
+    // Check the solution
     this.isAnswerChecked = true;
     if (this.userSolution === this.correctSolution) {
       this.isAnswerCorrect = true;
@@ -66,6 +73,18 @@ export class PythagorasEasyComponent implements OnInit {
     } else {
       this.isAnswerCorrect = false;
     }
+
+    // Now, save the response to the backend
+    const responseData = {
+      topic: 'Pythagoras Easy',  // Modify this if needed
+      question: this.question,
+      user_answer: this.userSolution,  // Using userSolution from your code
+      correct_answer: this.correctSolution,  // Using correctSolution from your code
+      is_correct: this.isAnswerCorrect,  // Using isAnswerCorrect from your code
+      // ... any other data you want to send
+    };
+
+
   }
 
   nextQuestion(): void {

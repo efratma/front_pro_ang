@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { AuthService } from '../auth.service'; // Update the path based on your structure
+import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.sass'] // Remove if not using CSS
+  styleUrls: ['./register.component.sass']
 })
 export class RegisterComponent {
   successMessage: string | null = null;
@@ -14,19 +15,23 @@ export class RegisterComponent {
 
   onSubmit(username: string, email: string, password: string): void {
     const userCredentials = { username, email, password };
+
     this.authService.register(userCredentials).subscribe({
       next: response => {
-        // Include the username in the success message
-        this.successMessage = 'Welcome to math app, ' + username + '!';
+        this.successMessage = "Well done! You have successfully registered.";
 
-        // Introduce a delay of 2 seconds before navigating
         setTimeout(() => {
-          this.router.navigate(['/topic-selection']);
+          this.router.navigate(['/login']);
         }, 2000);  // 2000 milliseconds = 2 seconds
       },
-      error: error => {
-        this.errorMessage = 'Registration failed';
+      error: (err: any) => {
+        // Check if the error has a 'detail' property
+        if (err && err.error && err.error.detail) {
+          this.errorMessage = err.error.detail;
+        } else {
+          this.errorMessage = 'Registration failed';
+        }
       }
     });
-}
+  }
 }

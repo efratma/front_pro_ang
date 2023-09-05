@@ -53,6 +53,10 @@ export class PythagorasHardComponent implements OnInit {
   }
 
   loadQuestion(): void {
+    if (!this.authService.isAuthenticated()) {
+      console.error("User not authenticated. Cannot fetch question.");
+      return;
+    }
     if (this.attempts < this.maxAttempts) {
       this.authService.getPythagorasHard().subscribe((data: any) => {
         this.sideA = data.option === 'a' ? null : data.a_fl;

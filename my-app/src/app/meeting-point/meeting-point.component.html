@@ -51,3 +51,20 @@
   </div>
 </div>
 <button (click)="navigateToTopics()">Back to Topics</button>
+<button (click)="fetchUserExercises()">My exercises</button>
+<div *ngIf="showExercises">
+  <h2>My Exercises</h2>
+  <ul *ngIf="savedQuestions.length > 0">
+    <li *ngFor="let question of savedQuestions">
+      <p>Line 1 Equation: {{ question.line1_equation }}</p>
+      <p>Line 2 Equation: {{ question.line2_equation }}</p>
+      <p>Intersection Point: {{ question.intersection_point }}</p>
+    </li>
+  </ul>
+
+  <div *ngIf="savedQuestions.length === 0">
+    <h2>No saved exercises found</h2>
+  </div>
+</div>
+
+

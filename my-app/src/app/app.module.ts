@@ -29,7 +29,7 @@ import { CuttingPointsComponent } from './cutting-points/cutting-points.componen
 import { MeetingPointsComponent } from './meeting-point/meeting-point.component';
 import { EasyTriangularAreaComponent } from './easy-triangular-area/easy-triangular-area.component';
 import { LogoutComponent } from './logout/logout.component';
-import { SolvedProblemsComponent } from './solved-problems/solved-problems.component';
+
 
 
 
@@ -42,7 +42,7 @@ import { SolvedProblemsComponent } from './solved-problems/solved-problems.compo
     RegisterComponent,
     TopicSelectionComponent,
     EquationSystemHardComponent,
-    SolvedProblemsComponent,
+
     EquationSystemMediumComponent,
      EquationSystemEasyComponent,
      LawOfDivisionHardComponent,

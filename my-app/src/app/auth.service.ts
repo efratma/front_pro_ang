@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 interface QuizData {
   problem_str: string;
@@ -27,66 +28,117 @@ export class AuthService {
   }
 
   getDifficultSystemOfEquations(): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/problem/test_2/`);
+    const headers = {
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    };
+    return this.http.get<any>(`${this.apiUrl}/problem/test_2/`, { headers });
   }
 
 
 
 getMediumSystemOfEquations(): Observable<any> {
-  return this.http.get<any>(`${this.apiUrl}/problem/test_3/`);
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/problem/test_3/`, { headers });
 }
 
 getEasySystemOfEquations() {
-  return this.http.get<any>(`${this.apiUrl}/problem/test_4/`);
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/problem/test_4/`, { headers });
 }
 
 getHardLawOfDivision(): Observable<QuizData> {
-  return this.http.get<QuizData>(`${this.apiUrl}/problem/test/`);
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<QuizData>(`${this.apiUrl}/problem/test/`, { headers });
 }
 
 getEasyLawOfDivision() {
-  return this.http.get<QuizData>(`${this.apiUrl}/problem/test_1/`);
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<QuizData>(`${this.apiUrl}/problem/test_1/`, { headers });
 }
 
 getHardEquationInOneVanishing(): Observable<any> {
-  return this.http.get(`${this.apiUrl}/problem/test_5/`);
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get(`${this.apiUrl}/problem/test_5/`, { headers });
 }
 
 getMediumEquationInOneVanishing(): Observable<any> {
-  return this.http.get(`${this.apiUrl}/problem/test_6/`);
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get(`${this.apiUrl}/problem/test_6/`, { headers });
 }
 
 getEasyEquationInOneVanishing(): Observable<any> {
-  return this.http.get(`${this.apiUrl}/problem/test_7/`);
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get(`${this.apiUrl}/problem/test_7/`, { headers });
 }
 
 getPythagorasEasy(): Observable<any> {
-  return this.http.get(`${this.apiUrl}/problem/test_14/`);
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get(`${this.apiUrl}/problem/test_14/`, { headers });
 }
 
 getPythagorasHard(): Observable<any> {
-  return this.http.get(`${this.apiUrl}/problem/test_8/`);
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get(`${this.apiUrl}/problem/test_8/`, { headers });
 }
 
 getLinearLine(): Observable<any> {
-  return this.http.get(`${this.apiUrl}/problem/test_9/`);
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get(`${this.apiUrl}/problem/test_9/`, { headers });
 }
 getCuttingPoints(): Observable<any> {
-  return this.http.get(`${this.apiUrl}/problem/test_11/`);
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get(`${this.apiUrl}/problem/test_11/`, { headers });
 }
 
 getMeetingPoint(): Observable<any> {
-  return this.http.get(`${this.apiUrl}/problem/test_10/`);
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get(`${this.apiUrl}/problem/test_10/`, { headers });
 }
 
+
 getTriangularArea(): Observable<any> {
-  return this.http.get(`${this.apiUrl}/problem/test_13/`);
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get(`${this.apiUrl}/problem/test_13/`, { headers });
 }
 // auth.service.ts
 logout(): void {
   localStorage.removeItem('token');  // Assuming you're using a token for authentication.
 }
-
+isAuthenticated(): boolean {
+  return !!localStorage.getItem('token');
+}
+getUserExercises(): Observable<any> {
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/user-exercises/`, { headers });
+}
 }
 
 

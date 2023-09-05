@@ -45,6 +45,10 @@ export class EquationInOneVanishingEasyComponent {
   }
 
   loadQuestion(): void {
+    if (!this.authService.isAuthenticated()) {
+      console.error("User not authenticated. Cannot fetch question.");
+      return;
+    }
     if (this.attempts < this.maxAttempts) {
       this.authService.getEasyEquationInOneVanishing().subscribe((data: QuizData) => {
         this.equation = data.equation; // Updated field name

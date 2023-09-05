@@ -42,6 +42,10 @@ export class LawOfDivisionEasyComponent implements OnInit {
   }
 
   loadQuestion(): void {
+    if (!this.authService.isAuthenticated()) {
+      console.error("User not authenticated. Cannot fetch question.");
+      return;
+    }
     if (this.attempts < this.maxAttempts) {
       this.authService.getEasyLawOfDivision().subscribe((data: QuizData) => {
         this.equation = data.problem_str;

@@ -21,8 +21,6 @@ export class TopicSelectionComponent {
     { id: 10, name: 'פיתגורס קל' }, // Pythagoras easy
     { id: 11, name: 'מציאת קו ישר' }, // Line equation
     { id: 12, name: 'נקודות חיתוך עם הצירים' }, // Cutting points with hinges
-    { id: 13, name: 'שטח משולש קשה' }, // Triangle area hard
-    { id: 14, name: 'שטח משולש בינוני' }, // Triangle area medium
     { id: 15, name: 'שטח משולש קל' }, // Triangle area easy
     { id: 16, name: 'נקודת מפגש 2 פונקציות' } // Meeting Point 2 functions
   ];

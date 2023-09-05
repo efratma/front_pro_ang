@@ -18,7 +18,7 @@ import { MeetingPointsComponent } from './meeting-point/meeting-point.component'
 import { EasyTriangularAreaComponent } from './easy-triangular-area/easy-triangular-area.component';
 import { TopicSelectionComponent } from './topic-selection/topic-selection.component';
 import { LogoutComponent } from './logout/logout.component';
-import { SolvedProblemsComponent } from './solved-problems/solved-problems.component';
+
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirect to login by default
@@ -40,7 +40,7 @@ const routes: Routes = [
   { path: 'themes/easy-triangular-area', component: EasyTriangularAreaComponent },
   { path: 'topic-selection', component: TopicSelectionComponent },
   { path: 'logged-out', component: LogoutComponent },
-  { path: 'solved-problems', component: SolvedProblemsComponent },
+
 
 
 

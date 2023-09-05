@@ -57,6 +57,10 @@ export class CuttingPointsComponent implements OnInit {
   }
 
   loadQuestion(): void {
+    if (!this.authService.isAuthenticated()) {
+      console.error("User not authenticated. Cannot fetch question.");
+      return;
+    }
     if (this.attempts < this.maxAttempts) {
       this.authService.getCuttingPoints().subscribe((data: any) => {
         this.equation = data.equation;
@@ -84,6 +88,7 @@ export class CuttingPointsComponent implements OnInit {
     } else {
       this.isAnswerCorrect = false;
     }
+
   }
 
 
@@ -147,7 +152,9 @@ export class CuttingPointsComponent implements OnInit {
       }
     });
     this.showTestSummary = true;
+
   }
+
 
 
 

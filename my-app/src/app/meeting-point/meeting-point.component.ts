@@ -37,6 +37,8 @@ export class MeetingPointsComponent implements OnInit {
   userTestAnswers: string[] = [];
   testCorrectAnswers: number = 0;
   showTestSummary: boolean = false;
+  savedQuestions: MeetingPointData[] = [];
+  showExercises: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
   ngOnInit(): void {
@@ -44,6 +46,11 @@ export class MeetingPointsComponent implements OnInit {
   }
 
   loadQuestion(): void {
+    if (!this.authService.isAuthenticated()) {
+      console.error("User not authenticated. Cannot fetch question.");
+      return;
+    }
+
     if (this.attempts < this.maxAttempts) {
       this.authService.getMeetingPoint().subscribe((data: any) => {
         this.line1_equation = data.line1_equation;
@@ -141,5 +148,12 @@ export class MeetingPointsComponent implements OnInit {
   navigateToTopics(): void {
     this.router.navigate(['/topic-selection']);
   }
-
+  fetchUserExercises(): void {
+    this.authService.getUserExercises().subscribe((data: MeetingPointData[]) => {
+        this.savedQuestions = data;
+        this.showExercises = true;
+    }, error => {
+        console.error("Error fetching user exercises:", error);
+    });
+}
 }
