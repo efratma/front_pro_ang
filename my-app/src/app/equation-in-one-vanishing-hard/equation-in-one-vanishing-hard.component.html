@@ -49,3 +49,23 @@
   </div>
 </div>
 <button (click)="navigateToTopics()">Back to Topics</button>
+
+  <button (click)="fetchUserExercises()">My exercises</button>
+
+  <div *ngIf="showExercises">
+    <h2>My Exercises</h2>
+
+    <ul *ngIf="savedExercises.length > 0">
+      <ng-container *ngFor="let exercise of savedExercises">
+        <li *ngIf="exercise.equation_text && exercise.equation_text.trim() !== '' && exercise.equation_text !== 'Default Equation'">
+          Equation: {{ exercise.equation_text }}
+        </li>
+      </ng-container>
+    </ul>
+
+    <div *ngIf="savedExercises.length === 0 || !anyValidExercise()">
+      <h2>No saved exercises found</h2>
+    </div>
+  </div>
+
+

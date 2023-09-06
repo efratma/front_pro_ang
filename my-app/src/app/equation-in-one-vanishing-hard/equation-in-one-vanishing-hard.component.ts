@@ -35,6 +35,8 @@ export class EquationInOneVanishingHardComponent implements OnInit {
   userTestAnswers: number[] = []; // Changed to number array
   testCorrectAnswers: number = 0;
   showTestSummary: boolean = false; // Added this property
+  savedExercises: QuizData[] = [];
+  showExercises: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -130,6 +132,17 @@ export class EquationInOneVanishingHardComponent implements OnInit {
   clearTestAnswer(index: number): void {
     this.userTestAnswers[index] = 0;
   }
+  fetchUserExercises(): void {
+    this.authService.getUserExercises5().subscribe((data: QuizData[]) => {
+        this.savedExercises = data;
+        this.showExercises = true;
+    }, error => {
+        console.error("Error fetching user exercises:", error);
+    });
+}
+anyValidExercise(): boolean {
+  return this.savedExercises.some(exercise => exercise.equation_text && exercise.equation_text.trim() !== '' && exercise.equation_text !== 'Default Equation');
+}
 
 
 }

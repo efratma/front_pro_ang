@@ -41,7 +41,8 @@ export class PythagorasHardComponent implements OnInit {
   userTestAnswers: number[] = [];
   testCorrectAnswers: number = 0;
   showTestSummary: boolean = false;
-
+  savedExercises: QuizData[] = [];
+  showExercises: boolean = false;
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
@@ -170,4 +171,17 @@ export class PythagorasHardComponent implements OnInit {
   clearTestAnswer(index: number): void {
     this.userTestAnswers[index] = 0;
   }
+
+  fetchUserExercises(): void {
+    this.authService.getUserExercises14().subscribe((data: QuizData[]) => {
+        this.savedExercises = data;
+        this.showExercises = true;
+    }, error => {
+        console.error("Error fetching user exercises:", error);
+    });
+  }
+  isValidExercise(exercise: QuizData): boolean {
+    return exercise.a_fl !== 0 && exercise.b_fl !== 0 && exercise.c_fl !== 0 ;
+  }
+
 }

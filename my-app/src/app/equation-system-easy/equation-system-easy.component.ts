@@ -42,6 +42,9 @@ export class EquationSystemEasyComponent {
   testCorrectAnswers: number = 0;
   backgroundColor: string = '';
   showTestSummary: boolean = false;
+// Add these to your existing properties
+savedEquations: { equation1: string, equation2: string }[] = [];
+showExercises: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -182,6 +185,16 @@ export class EquationSystemEasyComponent {
   navigateToTopics(): void {
     this.router.navigate(['/topic-selection']);
   }
+
+  fetchUserExercises(): void {
+    this.authService.getUserExercises7().subscribe((data: any[]) => {
+      this.savedEquations = data;
+      this.showExercises = true;
+    }, error => {
+      console.error("Error fetching user exercises:", error);
+    });
+  }
+
 
 }
 

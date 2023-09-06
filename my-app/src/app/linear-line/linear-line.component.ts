@@ -49,6 +49,8 @@ export class LinearLineComponent implements OnInit {
   userSlope: number = 0; // Variable to store user's slope input
   isSlopeChecked: boolean = false; // Add this line to track if the slope has been checked
   isSlopeCorrect: boolean = false;
+  savedExercises: QuizData[] = [];
+  showExercises: boolean = false;
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
@@ -159,6 +161,20 @@ export class LinearLineComponent implements OnInit {
     } else {
       this.isSlopeCorrect = false;
     }
+  }
+
+  fetchUserExercises(): void {
+    this.authService.getUserExercises12().subscribe((data: QuizData[]) => {
+      this.savedExercises = data;
+      this.showExercises = true;
+    }, error => {
+      console.error("Error fetching user exercises:", error);
+    });
+  }
+  isExerciseValid(exercise: QuizData): boolean {
+    return exercise.equation.trim() !== '' &&
+           !(exercise.point1_x === 0 && exercise.point1_y === 0) &&
+           !(exercise.point2_x === 0 && exercise.point2_y === 0);
   }
 
 }

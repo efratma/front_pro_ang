@@ -49,3 +49,18 @@
   </div>
 </div>
 <button (click)="navigateToTopics()">Back to Topics</button>
+<button (click)="fetchUserExercises()">My exercises</button>
+
+<div *ngIf="showExercises">
+  <h2>My Exercises</h2>
+  <ul *ngIf="savedEquations.length > 0">
+    <li *ngFor="let exercise of savedEquations">
+      <p>Equation: {{ exercise.equation }}</p>
+    </li>
+  </ul>
+
+  <div *ngIf="savedEquations.length === 0">
+    <h2>No saved exercises found</h2>
+  </div>
+</div>
+

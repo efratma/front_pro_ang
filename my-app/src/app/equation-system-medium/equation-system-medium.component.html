@@ -82,3 +82,25 @@
   </div>
 </div>
 <button (click)="navigateToTopics()">Back to Topics</button>
+<button (click)="fetchUserExercises()">My exercises</button>
+
+<div *ngIf="showExercises">
+  <h2>My Exercises</h2>
+  <ul *ngIf="savedQuestions.length > 0">
+    <ng-container *ngFor="let equation of savedQuestions">
+      <!-- Check if equation.equation1 is not empty and display it in a list item -->
+      <li *ngIf="equation.equation1 && equation.equation1.trim() !== ''">Equation 1: {{ equation.equation1 }}
+
+      </li>
+
+      <!-- Check if equation.equation2 is not empty and display it in a list item -->
+      <li *ngIf="equation.equation2 && equation.equation2.trim() !== ''">Equation 2: {{ equation.equation2 }}   <P>*****</P></li>
+
+    </ng-container>
+  </ul>
+
+  <div *ngIf="savedQuestions.length === 0">
+    <h2>No saved exercises found</h2>
+  </div>
+</div>
+

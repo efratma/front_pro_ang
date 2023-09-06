@@ -48,7 +48,8 @@ export class CuttingPointsComponent implements OnInit {
   userIntersectionPoint: string = '';
   userXIntersection: string = '';
   userYIntersection: string = '';
-
+  savedQuestions: QuestionData[] = [];
+  showExercises: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -168,6 +169,16 @@ export class CuttingPointsComponent implements OnInit {
   navigateToTopics(): void {
     this.router.navigate(['/topic-selection']);
   }
+  fetchUserExercises(): void {
+    this.authService.getUserExercises2().subscribe((data: QuestionData[]) => {
+        this.savedQuestions = data;
+        this.showExercises = true;
+    }, error => {
+        console.error("Error fetching user exercises:", error);
+    });
+}
+
+
 
 
 }

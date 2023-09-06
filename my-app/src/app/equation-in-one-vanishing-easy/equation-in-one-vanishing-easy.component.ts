@@ -38,6 +38,9 @@ export class EquationInOneVanishingEasyComponent {
   userTestAnswers: number[] = [];
   testCorrectAnswers: number = 0;
   showTestSummary: boolean = false;
+  savedQuestions: QuizData[] = [];
+ showExercises: boolean = false;
+
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
@@ -133,6 +136,17 @@ export class EquationInOneVanishingEasyComponent {
   navigateToTopics(): void {
     this.router.navigate(['/topic-selection']);
   }
+
+  fetchUserExercises(): void {
+    this.authService.getUserExercises4().subscribe((data: QuizData[]) => {
+      // Only consider exercises with non-empty equations
+      this.savedQuestions = data.filter(q => q.equation.trim() !== "");
+      this.showExercises = true;
+    }, error => {
+      console.error("Error fetching user exercises:", error);
+    });
+  }
+
 
 }
 

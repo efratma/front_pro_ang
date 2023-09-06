@@ -34,6 +34,8 @@ export class LawOfDivisionEasyComponent implements OnInit {
   testQuestions: QuizData[] = [];
   userTestAnswers: string[] = [];
   testCorrectAnswers: number = 0;
+  savedQuestions: QuizData[] = [];
+  showExercises: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -147,6 +149,14 @@ export class LawOfDivisionEasyComponent implements OnInit {
     this.userTestAnswers[index] = '';
   }
 
+  fetchUserExercises(): void {
+    this.authService.getUserExercises10().subscribe((data: QuizData[]) => {
+      this.savedQuestions = data;
+      this.showExercises = true;
+    }, error => {
+      console.error("Error fetching user exercises:", error);
+    });
+  }
   // Rest of the methods would be similar to the previous component
   // You may add or modify methods to suit the requirements of this specific component
 }

@@ -6,6 +6,8 @@ interface MeetingPointData {
   line1_equation: string;
   line2_equation: string;
   intersection_point: string;
+  userAnswer?: string; // user's provided answer
+  isCorrect?: boolean;
 }
 
 enum Part {
@@ -28,7 +30,7 @@ export class MeetingPointsComponent implements OnInit {
   userIntersectionPoint: string = '';
   isAnswerChecked: boolean = false;
   isAnswerCorrect: boolean = false;
-  attempts: number = 0;
+  attempts: number = 1;
   correctAnswers: number = 0;
   maxAttempts: number = 6;
   showSummary: boolean = false;
@@ -149,7 +151,7 @@ export class MeetingPointsComponent implements OnInit {
     this.router.navigate(['/topic-selection']);
   }
   fetchUserExercises(): void {
-    this.authService.getUserExercises().subscribe((data: MeetingPointData[]) => {
+    this.authService.getUserExercises1().subscribe((data: MeetingPointData[]) => {
         this.savedQuestions = data;
         this.showExercises = true;
     }, error => {

@@ -64,3 +64,24 @@
         </div>
       </div>
       <button (click)="navigateToTopics()">Back to Topics</button>
+      <button (click)="fetchUserExercises()">My exercises</button>
+
+      <!-- Display the list of user's exercises -->
+      <div *ngIf="showExercises">
+          <h2>My Exercises</h2>
+          <ul *ngIf="savedQuestions.length > 1">
+              <ng-container *ngFor="let question of savedQuestions">
+                  <li *ngIf="question.line_equation && question.line_equation.trim() !== '' && question.base && question.height !== ''">
+                      <p>Line Equation: {{ question.line_equation }}</p>
+                      <p>Base: {{ question.base }}</p>
+                      <p>Height: {{ question.height }}</p>
+                  </li>
+              </ng-container> <!-- You were missing this closing tag -->
+          </ul>
+
+          <div *ngIf="savedQuestions.length === 0">
+              <h2>No saved exercises found</h2>
+          </div>
+      </div>
+
+

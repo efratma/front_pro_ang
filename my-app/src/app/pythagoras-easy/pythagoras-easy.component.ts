@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 interface QuizData {
   a: number;
   b: number;
-  c_fl: number; // Missing side
+  c_fl: number;
 }
 
 enum Part {
@@ -40,6 +40,8 @@ export class PythagorasEasyComponent implements OnInit {
   testCorrectAnswers: number = 0;
   showTestSummary: boolean = false;
   question: string='';
+  savedExercises: QuizData[] = [];
+  showExercises: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -151,5 +153,19 @@ export class PythagorasEasyComponent implements OnInit {
   clearTestAnswer(index: number): void {
     this.userTestAnswers[index] = 0;
   }
+  fetchUserExercises(): void {
+    this.authService.getUserExercises13().subscribe((data: QuizData[]) => {
+        console.log("Fetched exercises:", data); // Add this line
+        this.savedExercises = data;
+        this.showExercises = true;
+    }, error => {
+        console.error("Error fetching user exercises:", error);
+    });
+}
+isValidExercise(exercise: QuizData): boolean {
+  return exercise.a !== 0 && exercise.b !== 0 && exercise.c_fl !== 0 ;
+}
+
+
 }
 

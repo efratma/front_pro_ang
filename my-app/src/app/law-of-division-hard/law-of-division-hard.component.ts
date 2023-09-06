@@ -41,6 +41,9 @@ export class LawOfDivisionHardComponent implements OnInit {
   testCorrectAnswers: number = 0;
   backgroundColor: string = '';
   showTestSummary: boolean = false;
+  savedQuestions: QuizData[] = [];
+showExercises: boolean = false;
+
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
@@ -155,4 +158,13 @@ export class LawOfDivisionHardComponent implements OnInit {
   clearTestAnswer(index: number): void {
     this.userTestAnswers[index] = '';
   }
+  fetchUserExercises(): void {
+    this.authService.getUserExercises11().subscribe((data: QuizData[]) => {
+        this.savedQuestions = data;
+        this.showExercises = true;
+    }, error => {
+        console.error("Error fetching user exercises:", error);
+    });
+}
+
 }

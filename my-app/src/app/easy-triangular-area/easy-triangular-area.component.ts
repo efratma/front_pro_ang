@@ -53,7 +53,8 @@ export class EasyTriangularAreaComponent implements OnInit {
   height:number=0;
   chartData: any[] = []; // This will hold the data for the chart.
   view: [number, number] = [700, 400]; // Width and height for the chart
-
+  savedQuestions: TriangularData[] = [];
+  showExercises: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -173,6 +174,15 @@ checkTestAnswers(): void {
   }
   navigateToTopics(): void {
     this.router.navigate(['/topic-selection']);
+  }
+
+  fetchUserExercises(): void {
+    this.authService.getUserExercises3().subscribe((data: TriangularData[]) => {
+      this.savedQuestions = data;
+      this.showExercises = true;
+    }, error => {
+      console.error("Error fetching user exercises:", error);
+    });
   }
 
 }

@@ -70,3 +70,22 @@
   </div>
 </div>
 <button (click)="navigateToTopics()">Back to Topics</button>
+<!-- Add this after your existing HTML code -->
+<button (click)="fetchUserExercises()">My exercises</button>
+<div *ngIf="showExercises">
+  <h2>My Exercises</h2>
+  <ul *ngIf="savedExercises.length > 0">
+    <ng-container *ngFor="let exercise of savedExercises">
+      <li *ngIf="isValidExercise(exercise)">
+        <p>Side A: {{ exercise.a }}</p>
+        <p>Side B: {{ exercise.b}}</p>
+        <p>Missing Side: {{ exercise.c_fl }}</p>
+      </li>
+    </ng-container>
+  </ul>
+
+
+  <div *ngIf="savedExercises.length === 0">
+    <h2>No saved exercises found</h2>
+  </div>
+</div>

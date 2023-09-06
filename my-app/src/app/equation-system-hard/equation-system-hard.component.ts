@@ -41,6 +41,8 @@ export class EquationSystemHardComponent implements OnInit {
   testCorrectAnswers: number = 0;
   backgroundColor: string = '';
   showTestSummary: boolean = false;
+  savedQuestions: any[] = [];
+  showExercises: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -176,6 +178,14 @@ export class EquationSystemHardComponent implements OnInit {
     console.log('Starting test, current part:', this.currentPart);
     this.initializeTest();
   }
+  fetchUserExercises(): void {
+    this.authService.getUserExercises8().subscribe((data: any[]) => {
+        this.savedQuestions = data;
+        this.showExercises = true;
+    }, error => {
+        console.error("Error fetching user exercises:", error);
+    });
+}
 
 
 }

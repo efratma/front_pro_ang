@@ -55,5 +55,24 @@
     <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
   </div>
 </div>
-
+<!-- Add this to your cutting-points.component.html -->
+<!-- Add this near the bottom of your cutting-points.component.html file -->
 <button (click)="navigateToTopics()">Back to Topics</button>
+<button (click)="fetchUserExercises()">My exercises</button>
+<div *ngIf="showExercises">
+  <h2>My Exercises</h2>
+  <ul *ngIf="savedQuestions.length > 0">
+    <ng-container *ngFor="let question of savedQuestions">
+      <li *ngIf="question.equation && question.equation.trim() !== '' && question.x_when_y_zero && question.x_when_y_zero !== 0">
+
+        <p>Equation: {{ question.equation }}</p>
+        <p>X when Y is zero: {{ question.x_when_y_zero }}</p>
+        <p>Y when X is zero: {{ question.y_when_x_zero }}</p>
+      </li>
+    </ng-container>
+  </ul>
+  <div *ngIf="savedQuestions.length === 0">
+    <h2>No saved exercises found</h2>
+  </div>
+</div>
+

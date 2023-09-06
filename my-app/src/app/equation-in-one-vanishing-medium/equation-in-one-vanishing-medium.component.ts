@@ -4,7 +4,8 @@ import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 interface QuizData {
   equation: string; // Updated field name
-  correct_answer_fl: number; // Updated field name and type
+  correct_answer_fl: number;// Updated field name and type
+
 }
 
 enum Part {
@@ -35,6 +36,8 @@ export class EquationInOneVanishingMediumComponent implements OnInit {
   userTestAnswers: number[] = [];
   testCorrectAnswers: number = 0;
   showTestSummary: boolean = false;
+  savedEquations: QuizData[] = [];
+  showExercises: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -132,4 +135,15 @@ export class EquationInOneVanishingMediumComponent implements OnInit {
   clearTestAnswer(index: number): void {
     this.userTestAnswers[index] = 0;
   }
+  fetchUserExercises(): void {
+    this.authService.getUserExercises6().subscribe((data: QuizData[]) => {
+      // Filter out the exercises without equations
+      this.savedEquations = data.filter(exercise => exercise.equation && exercise.equation.trim() !== '');
+      this.showExercises = true;
+    }, error => {
+        console.error("Error fetching user exercises:", error);
+    });
+  }
+
+
 }

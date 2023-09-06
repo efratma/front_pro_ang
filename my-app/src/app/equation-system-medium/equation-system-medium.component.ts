@@ -42,6 +42,13 @@ export class EquationSystemMediumComponent {
   testCorrectAnswers: number = 0;
   backgroundColor: string = '';
   showTestSummary: boolean = false;
+  savedQuestions: {
+    equation1: string;
+    equation2: string;
+    solution_x: number;
+    solution_y: number;
+  }[] = [];
+  showExercises: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -183,6 +190,17 @@ export class EquationSystemMediumComponent {
     this.currentPart = Part.Test;
     console.log('Starting test, current part:', this.currentPart);
     this.initializeTest();
+  }
+  fetchUserExercises(): void {
+    this.authService.getUserExercises9().subscribe(
+      (data) => {
+        this.savedQuestions = data;
+        this.showExercises = true;
+      },
+      error => {
+        console.error("Error fetching user exercises:", error);
+      }
+    );
   }
 
 

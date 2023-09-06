@@ -133,12 +133,95 @@ logout(): void {
 isAuthenticated(): boolean {
   return !!localStorage.getItem('token');
 }
-getUserExercises(): Observable<any> {
+getUserExercises1(): Observable<any> {
   const headers = {
     'Authorization': 'Bearer ' + localStorage.getItem('token')
   };
-  return this.http.get<any>(`${this.apiUrl}/user-exercises/`, { headers });
+  return this.http.get<any>(`${this.apiUrl}/problem/test_15/`, { headers });
 }
+getUserExercises2(): Observable<any> {
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/problem/test_27/`, { headers });
+}
+
+getUserExercises3(): Observable<any> {
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/problem/test_28/`, { headers });
+}
+
+getUserExercises4(): Observable<any> {
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/problem/test_23/`, { headers });
+}
+
+getUserExercises5(): Observable<any> {
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/problem/test_21/`, { headers });
+}
+getUserExercises6(): Observable<any> {
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/problem/test_22/`, { headers });
+}
+getUserExercises7(): Observable<any> {
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/problem/test_20/`, { headers });
+}
+getUserExercises8(): Observable<any> {
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/problem/test_18/`, { headers });
+}
+
+getUserExercises9(): Observable<any> {
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/problem/test_19/`, { headers });
+}
+getUserExercises10(): Observable<any> {
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/problem/test_17/`, { headers });
+}
+getUserExercises11(): Observable<any> {
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/problem/test_16/`, { headers });
+}
+getUserExercises12(): Observable<any> {
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/problem/test_26/`, { headers });
+}
+getUserExercises13(): Observable<any> {
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/problem/test_25/`, { headers });
+}
+getUserExercises14(): Observable<any> {
+  const headers = {
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  };
+  return this.http.get<any>(`${this.apiUrl}/problem/test_24/`, { headers });
+}
+
 }
 
 

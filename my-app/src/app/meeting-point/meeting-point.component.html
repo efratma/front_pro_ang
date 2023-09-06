@@ -55,16 +55,16 @@
 <div *ngIf="showExercises">
   <h2>My Exercises</h2>
   <ul *ngIf="savedQuestions.length > 0">
-    <li *ngFor="let question of savedQuestions">
-      <p>Line 1 Equation: {{ question.line1_equation }}</p>
-      <p>Line 2 Equation: {{ question.line2_equation }}</p>
-      <p>Intersection Point: {{ question.intersection_point }}</p>
-    </li>
+    <ng-container *ngFor="let question of savedQuestions">
+      <li *ngIf="question.line1_equation && question.line1_equation.trim() !== '' && question.line2_equation && question.line2_equation.trim() !== ''">
+        <p>Line 1 Equation: {{ question.line1_equation }}</p>
+        <p>Line 2 Equation: {{ question.line2_equation }}</p>
+      </li>
+    </ng-container>
   </ul>
 
   <div *ngIf="savedQuestions.length === 0">
     <h2>No saved exercises found</h2>
   </div>
 </div>
-
 
