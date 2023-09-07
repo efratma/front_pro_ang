@@ -18,6 +18,7 @@ import { MeetingPointsComponent } from './meeting-point/meeting-point.component'
 import { EasyTriangularAreaComponent } from './easy-triangular-area/easy-triangular-area.component';
 import { TopicSelectionComponent } from './topic-selection/topic-selection.component';
 import { LogoutComponent } from './logout/logout.component';
+import { HomeComponent } from './home/home.component';
 
 
 const routes: Routes = [
@@ -40,7 +41,7 @@ const routes: Routes = [
   { path: 'themes/easy-triangular-area', component: EasyTriangularAreaComponent },
   { path: 'topic-selection', component: TopicSelectionComponent },
   { path: 'logged-out', component: LogoutComponent },
-
+  { path: 'home', component: HomeComponent },
 
 
 

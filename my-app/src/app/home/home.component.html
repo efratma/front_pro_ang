@@ -1,0 +1,11 @@
+<div *ngIf="isComponentVisible" class="home-container">
+  <h1>Welcome to Our Site!</h1>
+  <p>This is a brief explanation of how our site works...</p>
+
+  <!-- Embed the YouTube video -->
+  <iframe width="560" height="315" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
+
+
+  <button (click)="navigateToRegister()">New User? Register Here</button>
+  <button (click)="navigateToLogin()">Already Registered? Login</button>
+</div>

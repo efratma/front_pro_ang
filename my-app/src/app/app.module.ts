@@ -29,6 +29,8 @@ import { CuttingPointsComponent } from './cutting-points/cutting-points.componen
 import { MeetingPointsComponent } from './meeting-point/meeting-point.component';
 import { EasyTriangularAreaComponent } from './easy-triangular-area/easy-triangular-area.component';
 import { LogoutComponent } from './logout/logout.component';
+import { HomeComponent } from './home/home.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 
 
@@ -57,6 +59,8 @@ import { LogoutComponent } from './logout/logout.component';
      MeetingPointsComponent,
      EasyTriangularAreaComponent,
      LogoutComponent,
+     HomeComponent,
+     NavbarComponent,
 
 
   ],
