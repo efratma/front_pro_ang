@@ -20,7 +20,8 @@ enum Part {
 @Component({
   selector: 'app-cutting-points',
   templateUrl: './cutting-points.component.html',
-  styleUrls: ['./cutting-points.component.sass']
+  styleUrls: ['./cutting-points.component.scss']
+
 })
 export class CuttingPointsComponent implements OnInit {
   Part = Part;
@@ -54,7 +55,7 @@ export class CuttingPointsComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.loadQuestion();
+ 
   }
 
   loadQuestion(): void {

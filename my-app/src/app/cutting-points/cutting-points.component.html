@@ -1,78 +1,102 @@
-<div *ngIf="currentPart === Part.Explanation">
-  <h1>Explanation</h1>
-  <p>Learn how to find the intersection points with the X and Y axes for a given linear equation:</p>
-  <iframe width="560" height="315" src="https://www.youtube.com/link-to-video" frameborder="0" allowfullscreen></iframe>
-  <button (click)="changePart(Part.Quiz)">Start Quiz</button>
-</div>
+<div id="container">
+  <div *ngIf="currentPart === Part.Explanation"class="center-content">
+      <h1>נקודות חיתוך עם הצירים</h1>
+      <p>בסירטון נלמד איך למצוא נקודות חיתוך עם ציר הX ועם ציר הY</p>
+      <iframe width="560" height="315" src="https://www.youtube.com/link-to-video" frameborder="0" allowfullscreen></iframe>
+      <div class="button-container">
 
-<div *ngIf="currentPart === Part.Quiz">
-  <div *ngIf="!showSummary">
-    <h1>Question {{ attempts + 1 }}: Find the Intersection Points</h1>
-    <p>Given equation: {{ equation }}</p>
-    <label for="userXIntersection">Enter the intersection point with the X axis (x, 0):</label>
-    <input type="text" id="userXIntersection" [(ngModel)]="userXIntersection" />
-    <label for="userYIntersection">Enter the intersection point with the Y axis (0, y):</label>
-    <input type="text" id="userYIntersection" [(ngModel)]="userYIntersection" />
-    <button (click)="checkSolution()" *ngIf="!isAnswerChecked">Check Solution</button>
-    <div *ngIf="isAnswerChecked">
-      <p *ngIf="isAnswerCorrect">You answered correctly!</p>
-      <p *ngIf="!isAnswerCorrect">
-        You answered incorrectly. The correct intersection points are X=( {{x_when_y_zero}},0), Y=(0, {{y_when_x_zero}}).
-      </p>
-    </div>
-
-    <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">Next Question</button>
-    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+      </div>
   </div>
-  <div *ngIf="showSummary">
-    <h1>Quiz Summary</h1>
-    <p>You answered {{ correctAnswers }} out of {{ maxAttempts }} questions correctly!</p>
-    <button (click)="resetQuiz()">Try Again</button>
+
+  <div *ngIf="currentPart === Part.Quiz"class="center-content">
+      <div *ngIf="!showSummary">
+          <h1>שאלה מספר  {{ attempts + 1 }}: מצא את נקודות החיתוך עם הצירים</h1>
+          <p>הפונקציה הקווית: {{ equation }}</p>
+          <label for="userXIntersection">הכנס את נקודת החיתוך עם ציר הX הכנס את זה בפורמט של נקודה  (x, 0):</label>
+          <input type="text" id="userXIntersection" [(ngModel)]="userXIntersection" />
+          <p>   </p>
+          <label for="userYIntersection">הכנס את נקודת החיתוך עם ציר הY הכנס את זה בפורמט של נקודה(0, y):</label>
+          <input type="text" id="userYIntersection" [(ngModel)]="userYIntersection" />
+          <div class="button-container">
+            <p></p>
+            <div *ngIf="isAnswerChecked">
+              <p *ngIf="isAnswerCorrect">כל הכבוד ענית נכון!</p>
+              <p *ngIf="!isAnswerCorrect">
+              אופס ענית לא נכון התשובה הנכונה היא: X=( {{x_when_y_zero}},0), Y=(0, {{y_when_x_zero}}).
+              </p>
+            </div>
+
+
+          </div>
+      </div>
+      <div *ngIf="showSummary">
+          <h1>סיימנו עם התרגול </h1>
+          <p>ענית {{ correctAnswers }} מתוך  {{ maxAttempts }} שאלות נכון !</p>
+          <div class="button-container">
+
+          </div>
+      </div>
+  </div>
+
+  <div *ngIf="currentPart === Part.QuizCompleted">
+      <h1>סיימנו עם התרגול </h1>
+      <p>ענית  {{ correctAnswers }} מתוך 6 שאלות נכון!</p>
+      <div class="button-container">
+
+      </div>
+  </div>
+
+  <div class="test-section" *ngIf="currentPart === Part.Test">
+      <h1>מבחן </h1>
+      <div *ngFor="let question of testQuestions; let i = index">
+          <p>שאלה  {{ i + 1 }}</p>
+          <p> פונקציה קווית {{ question.equation }}</p>
+          <label for="userXIntersection">הכנס את נקודת החיתוך עם ציר הX הכנס את זה בפורמט של נקודה  (x, 0):</label>
+          <input type="text" id="userTestAnswerX{{ i }}" [(ngModel)]="userTestAnswersX[i]" />
+          <label for="userYIntersection">הכנס את נקודת החיתוך עם ציר הY הכנס את זה בפורמט של נקודה(0, y):</label>
+          <input type="text" id="userTestAnswerY{{ i }}" [(ngModel)]="userTestAnswersY[i]" />
+      </div>
+      <div class="button-container">
+
+      </div>
+      <div *ngIf="showTestSummary">
+          <h1>גמרנו עם המבחן </h1>
+          <p>ענית {{ testCorrectAnswers }} מתוך {{ testQuestions.length }} שאלות נכון !</p>
+          <div class="button-container">
+
+          </div>
+      </div>
+  </div>
+
+  <div id="my-exercises-section" *ngIf="showExercises">
+<p>
+
+
+</p>
+      <h2>השאלות שפתרתי עד עכשיו</h2>
+      <div class="exercises-container" *ngIf="savedQuestions.length > 0">
+          <ng-container *ngFor="let question of savedQuestions">
+              <div class="exercise-item" *ngIf="question.equation && question.equation.trim() !== '' && question.x_when_y_zero && question.x_when_y_zero !== 0">
+                  <p>פונקציה קווית : {{ question.equation }}</p>
+                  <p>נקודת החיתוך עם ציר הX: ({{ question.x_when_y_zero }},0)</p>
+                  <p>נקודת חיתוך עם ציר הY: (0,{{ question.y_when_x_zero }}) </p>
+              </div>
+          </ng-container>
+      </div>
+      <div *ngIf="savedQuestions.length === 0">
+          <h2>כנראה לא פתרת עדיין תרגילים בנושא</h2>
+      </div>
+  </div>
+
+  <div class="menu-container">
+      <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
+      <button (click)="fetchUserExercises()">התרגילים שלי</button>
+      <button (click)="changePart(Part.Quiz)">להתחיל עם התרגול</button>
+      <button (click)="changePart(Part.Test)">להתחיל עם המבחן</button>
+      <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק את התשובה</button>
+      <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
+      <button (click)="checkTestAnswers()">בדוק את המבחן</button>
+      <button (click)="changePart(Part.Quiz)">לעשות שוב תרגול</button>
+      <!-- ... any other buttons you might have ... -->
   </div>
 </div>
-
-<div *ngIf="currentPart === Part.QuizCompleted">
-  <h1>Quiz Summary</h1>
-  <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
-  <button (click)="changePart(Part.Quiz)">Try Again</button>
-  <button (click)="startTest()">Start Test</button>
-</div>
-
-<div *ngIf="currentPart === Part.Test">
-  <h1>Test</h1>
-  <div *ngFor="let question of testQuestions; let i = index">
-    <p>Question {{ i + 1 }}</p>
-    <p>{{ question.equation }}</p>
-    <label for="userTestAnswerX{{ i }}">Enter the intersection point with the X axis (x, 0):</label>
-    <input type="text" id="userTestAnswerX{{ i }}" [(ngModel)]="userTestAnswersX[i]" />
-    <label for="userTestAnswerY{{ i }}">Enter the intersection point with the Y axis (0, y):</label>
-    <input type="text" id="userTestAnswerY{{ i }}" [(ngModel)]="userTestAnswersY[i]" />
-  </div>
-  <button (click)="checkTestAnswers()">Submit Test</button>
-  <div *ngIf="showTestSummary">
-    <h1>Test Summary</h1>
-    <p>You answered {{ testCorrectAnswers }} out of {{ testQuestions.length }} questions correctly!</p>
-    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
-  </div>
-</div>
-<!-- Add this to your cutting-points.component.html -->
-<!-- Add this near the bottom of your cutting-points.component.html file -->
-<button (click)="navigateToTopics()">Back to Topics</button>
-<button (click)="fetchUserExercises()">My exercises</button>
-<div *ngIf="showExercises">
-  <h2>My Exercises</h2>
-  <ul *ngIf="savedQuestions.length > 0">
-    <ng-container *ngFor="let question of savedQuestions">
-      <li *ngIf="question.equation && question.equation.trim() !== '' && question.x_when_y_zero && question.x_when_y_zero !== 0">
-
-        <p>Equation: {{ question.equation }}</p>
-        <p>X when Y is zero: {{ question.x_when_y_zero }}</p>
-        <p>Y when X is zero: {{ question.y_when_x_zero }}</p>
-      </li>
-    </ng-container>
-  </ul>
-  <div *ngIf="savedQuestions.length === 0">
-    <h2>No saved exercises found</h2>
-  </div>
-</div>
-
