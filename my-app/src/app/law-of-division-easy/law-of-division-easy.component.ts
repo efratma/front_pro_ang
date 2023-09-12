@@ -17,7 +17,7 @@ enum Part {
 @Component({
   selector: 'app-law-of-division-easy',
   templateUrl: './law-of-division-easy.component.html',
-  styleUrls: ['./law-of-division-easy.component.sass']
+  styleUrls: ['./law-of-division-easy.component.scss']
 })
 export class LawOfDivisionEasyComponent implements OnInit {
   Part = Part;

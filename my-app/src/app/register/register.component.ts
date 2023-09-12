@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrls: ['./register.component.sass']
+  styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
   successMessage: string | null = null;
@@ -18,7 +18,7 @@ export class RegisterComponent {
 
     this.authService.register(userCredentials).subscribe({
       next: response => {
-        this.successMessage = "Well done! You have successfully registered.";
+        this.successMessage = "מצוין! נרשמת בהצלחה .";
 
         setTimeout(() => {
           this.router.navigate(['/login']);
@@ -29,7 +29,7 @@ export class RegisterComponent {
         if (err && err.error && err.error.detail) {
           this.errorMessage = err.error.detail;
         } else {
-          this.errorMessage = 'Registration failed';
+          this.errorMessage = 'אופס כנראה שגאת לא הצלחת להירשם';
         }
       }
     });

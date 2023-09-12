@@ -1,11 +1,18 @@
-<div *ngIf="isComponentVisible" class="home-container">
-  <h1>Welcome to Our Site!</h1>
-  <p>This is a brief explanation of how our site works...</p>
+<div *ngIf="isComponentVisible" class="container mt-5 d-flex flex-column justify-content-center align-items-center" dir="rtl">
+  <h1>ברוכים הבאים לאתר</h1>
+  <h2>MathTicTac</h2>
+  <p>הנה הסבר קצר איך עובד האתר</p>
 
-  <!-- Embed the YouTube video -->
-  <iframe width="560" height="315" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
+  <!-- Absolute centered container for YouTube video and buttons -->
+  <div class="d-flex flex-column align-items-center justify-content-center" style="position: absolute; top: 60%; left: 50%; transform: translate(-50%, -50%);">
+    <!-- YouTube video with a direct size -->
+    <iframe class="custom-iframe" [src]="videoUrl" frameborder="0" allowfullscreen></iframe>
 
+    <!-- Button Group with added class for margin -->
+    <div class="d-flex justify-content-center button-group">
+      <button class="btn custom-btn btn-spacing" (click)="navigateToRegister()">משתמש חדש? הרשם כאן</button>
+      <button class="btn btn-secondary custom-btn" (click)="navigateToLogin()">רשום לאתר? הכנס</button>
+    </div>
 
-  <button (click)="navigateToRegister()">New User? Register Here</button>
-  <button (click)="navigateToLogin()">Already Registered? Login</button>
+  </div>
 </div>

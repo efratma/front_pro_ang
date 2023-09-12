@@ -22,7 +22,7 @@ enum Part {
 @Component({
   selector: 'app-linear-line',
   templateUrl: './linear-line.component.html',
-  styleUrls: ['./linear-line.component.sass']
+  styleUrls: ['./linear-line.component.scss']
 })
 export class LinearLineComponent implements OnInit {
   Part = Part;

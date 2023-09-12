@@ -1,87 +1,93 @@
-<div *ngIf="currentPart === Part.Explanation">
-  <h1>Explanation</h1>
-  <p>Learn how to find the base, height, and area of a triangular terrain given a linear equation:</p>
-  <iframe width="560" height="315" src="https://www.youtube.com/link-to-video" frameborder="0" allowfullscreen></iframe>
-  <button (click)="changePart(Part.Quiz)">Start Quiz</button>
-</div>
-
-<div *ngIf="currentPart === Part.Quiz">
-  <div *ngIf="!showSummary">
-    <h1>Question {{ attempts +1}}: Find the Base and Height</h1>
-    <p>Given equation: {{ line_equation }}</p>
-    <p>Intersection Points: X = ({{ x_intersection }},0), Y = (0,{{ y_intersection }})</p>
-    <h3>Formula to find the area of a triangle:</h3>
-    <p>Area = 0.5 × base × height</p>
-    <h2>Graphical Representation</h2>
-    <label for="userBase">Enter the base:</label>
-    <input type="text" id="userBase" [(ngModel)]="userBase" />
-    <label for="userHeight">Enter the height:</label>
-    <input type="text" id="userHeight" [(ngModel)]="userHeight" />
-    <label for="userArea">Enter the area:</label>
-    <input type="text" id="userArea" [(ngModel)]="userArea" />
-    <button (click)="checkSolution()" *ngIf="!isAnswerChecked">Check Solution</button>
-    <div *ngIf="isAnswerChecked">
-      <p *ngIf="isAnswerCorrect">You answered correctly!</p>
-      <p *ngIf="!isAnswerCorrect">
-        <p *ngIf="!isAnswerCorrect">You answered incorrectly. The correct base is {{ base }}, height is {{ height }}, and area is {{ area }}.</p>
+<div id="container">
+  <div *ngIf="currentPart === Part.Explanation" class="center-content">
+            <h1>שטח משולש במערכת צירים</h1>
+            <h1>נלמד כיצד למצוא את הבסיס והגובה במערכת צירים ואת שטח המשולש</h1>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/Gr6JdgCCnek?list=UUFwRoIbk7gng6WXyytDsd-Q&index=3" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
+        </div>
+
+        <!-- Quiz Section -->
+        <div *ngIf="currentPart === Part.Quiz" class="center-content">
+          <div *ngIf="!showSummary">
+                <h1>תרגיל: {{ attempts +1}}: מצא את הבסיס והגובה</h1>
+                <p>נתונה השאלה: {{ line_equation }}</p>
+                <p>נקודת חיתוך: X = ({{ x_intersection }},0), Y = (0,{{ y_intersection }})</p>
+                <h3>הנוסחה למציאת שטח</h3>
+                <p>שטח משולש  = 0.5 × base × height</p>
+                <label for="userBase">הכנס את אורך הבסיס</label>
+                <input type="text" id="userBase" [(ngModel)]="userBase" />
+                <label for="userHeight">הכנס את אורך הגובה</label>
+                <input type="text" id="userHeight" [(ngModel)]="userHeight" />
+                <label for="userArea">הכנס את השטח של המשולש</label>
+                <input type="text" id="userArea" [(ngModel)]="userArea" />
+
+                <div *ngIf="isAnswerChecked">
+                    <p *ngIf="isAnswerCorrect">תשובתך נכונה</p>
+                    <p *ngIf="!isAnswerCorrect">
+                       תשובתך לא נכונה. הבסיס הוא {{ base }},הגובה הוא{{ height }}, השטח הוא {{ area }}.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quiz Completed Section -->
+        <div *ngIf="currentPart === Part.QuizCompleted">
+            <h1>תוצאות המבדק</h1>
+            <p>ענית נכון על {{ correctAnswers }} מתוך 6 שאלות</p>
+        </div>
+
+        <!-- Test Section -->
+
+        <div class="test-section" *ngIf="currentPart === Part.Test">
+            <h1>מבדק</h1>
+            <h3>הנוסחא למציאת שטח</h3>
+            <p>Area = 0.5 × בסיס × גובה</p>
+            <div *ngFor="let question of testQuestions; let i = index">
+                <p>שאלה {{ i + 1 }}</p>
+                <p>{{ question.line_equation }}</p>
+                <p>נקודת חיתוך: X = ({{ question.x_intersection }},0), Y = (0,{{ question.y_intersection }})</p>
+                <label for="userTestAnswerBase{{ i }}">אורך הבסיס הוא </label>
+                <input type="text" id="userTestAnswerBase{{ i }}" [(ngModel)]="userTestAnswersBase[i]" />
+                <label for="userTestAnswerHeight{{ i }}">אורך הגובה הוא</label>
+                <input type="text" id="userTestAnswerHeight{{ i }}" [(ngModel)]="userTestAnswersHeight[i]" />
+                <label for="userTestAnswerArea{{ i }}">מהו השטח</label>
+                <input type="text" id="userTestAnswerArea{{ i }}" [(ngModel)]="userTestAnswersArea[i]" />
+            </div>
+            <div *ngIf="showTestSummary">
+                <h1>תוצאות המבדק</h1>
+                <p>ענית נכון {{ testCorrectAnswers }}מתוך {{ testQuestions.length }} שאלות!</p>
+            </div>
+        </div>
+
+        <div id="my-exercises-section" *ngIf="showExercises">
+          <p></p>
+          <h2>השאלות שפתרתי עד עכשיו</h2>
+          <div class="exercises-container" *ngIf="savedQuestions.length > 0">
+                <ng-container *ngFor="let question of savedQuestions">
+                    <li *ngIf="question.line_equation && question.line_equation.trim() !== '' && question.base && question.height !== ''">
+                        <p>משואת הישר {{ question.line_equation }}</p>
+                        <p>בסיס {{ question.base }}</p>
+                        <p>גובה {{ question.height }}</p>
+                    </li>
+                </ng-container>
+
+            <div *ngIf="savedQuestions.length === 0">
+                <h2>לא נמצאו תרגילים שנשמרו</h2>
+            </div>
+        </div>savedQuestions
+      </div>
+    <div class="menu-container">
+      <button (click)="changePart(Part.Quiz)">להתחיל בתרגול</button>
+      <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק תשובה</button>
+      <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
+      <button (click)="changePart(Part.Explanation)">חזור להסבר</button>
+      <button (click)="changePart(Part.Quiz)">לעשות שוב את התרגול</button>
+      <button (click)="startTest()">להתחיל את המבחן</button>
+      <button (click)="checkTestAnswers()">בדוק מבחן</button>
+      <button (click)="fetchUserExercises()">התרגילים שלי</button>
+      <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
+      <!-- You can add other buttons here as needed -->
     </div>
-    </div>
-    <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">Next Question</button>
-    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
   </div>
-
-
-<div *ngIf="currentPart === Part.QuizCompleted">
-  <h1>Quiz Summary</h1>
-  <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
-  <button (click)="changePart(Part.Quiz)">Try Again</button>
-  <button (click)="startTest()">Start Test</button>
-</div>
-      <!-- ... Other Parts ... -->
-      <div *ngIf="currentPart === Part.Test">
-        <h1>Test</h1>
-        <h3>Formula to find the area of a triangle:</h3>
-        <p>Area = 0.5 × base × height</p>
-        <div *ngFor="let question of testQuestions; let i = index">
-          <p>Question {{ i + 1 }}</p>
-          <p>{{ question.line_equation }}</p>
-          <p>Intersection Points: X = ({{ question.x_intersection }},0), Y = (0,{{ question.y_intersection }})</p>
-          <label for="userTestAnswerBase{{ i }}">Enter the base:</label>
-          <input type="text" id="userTestAnswerBase{{ i }}" [(ngModel)]="userTestAnswersBase[i]" />
-          <label for="userTestAnswerHeight{{ i }}">Enter the height:</label>
-          <input type="text" id="userTestAnswerHeight{{ i }}" [(ngModel)]="userTestAnswersHeight[i]" />
-          <label for="userTestAnswerArea{{ i }}">Enter the area:</label>
-          <input type="text" id="userTestAnswerArea{{ i }}" [(ngModel)]="userTestAnswersArea[i]" />
-
-        </div>
-        <button (click)="checkTestAnswers()">Submit Test</button>
-        <div *ngIf="showTestSummary">
-          <h1>Test Summary</h1>
-          <p>You answered {{ testCorrectAnswers }} out of {{ testQuestions.length }} questions correctly!</p>
-          <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
-        </div>
-      </div>
-      <button (click)="navigateToTopics()">Back to Topics</button>
-      <button (click)="fetchUserExercises()">My exercises</button>
-
-      <!-- Display the list of user's exercises -->
-      <div *ngIf="showExercises">
-          <h2>My Exercises</h2>
-          <ul *ngIf="savedQuestions.length > 1">
-              <ng-container *ngFor="let question of savedQuestions">
-                  <li *ngIf="question.line_equation && question.line_equation.trim() !== '' && question.base && question.height !== ''">
-                      <p>Line Equation: {{ question.line_equation }}</p>
-                      <p>Base: {{ question.base }}</p>
-                      <p>Height: {{ question.height }}</p>
-                  </li>
-              </ng-container> <!-- You were missing this closing tag -->
-          </ul>
-
-          <div *ngIf="savedQuestions.length === 0">
-              <h2>No saved exercises found</h2>
-          </div>
-      </div>
-
 

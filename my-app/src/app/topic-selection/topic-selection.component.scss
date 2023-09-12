@@ -1,0 +1,40 @@
+:host {
+  direction: rtl;
+}
+
+
+h1 {
+  text-align: center;
+  color: blueviolet;
+  font-size: 55px;
+  font-family: courier;
+  margin-top: 50px;
+}
+
+.topics-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100px; // Shift content down
+
+  .topic-group {
+    margin-bottom: 20px;
+
+    button {
+      background-color: rgb(70, 181, 178);
+      color: white;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 0px;
+      margin: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s, color 0.3s;
+
+      &:hover {
+        background-color: darken(rgb(205, 234, 226), 10%);
+        color: white;
+      }
+    }
+  }
+}

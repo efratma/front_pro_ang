@@ -1,87 +1,98 @@
-<div *ngIf="currentPart === Part.Explanation">
-  <h1>Explanation</h1>
-  <p>Learn how to find the linear line that goes between two points:</p>
-  <iframe width="560" height="315" src="https://www.youtube.com/link-to-video" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  <button (click)="changePart(Part.Quiz)">Start Quiz</button>
+<div id="container">
+<div *ngIf="currentPart === Part.Explanation" class="center-content">
+  <h1>פונקצית הקו הישר</h1>
+  <p>בסירטון נלמד איך מוצאים את משוואת הישר של הפונקציה כאשר נתונים לנו 2 נקודות</p>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/OLGMjOyM9a4?list=UUFwRoIbk7gng6WXyytDsd-Q&index=12" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 </div>
 
-<div *ngIf="currentPart === Part.Quiz">
+<div *ngIf="currentPart === Part.Quiz" class="center-content">
   <div *ngIf="!showSummary">
-    <h1>Question {{ attempts + 1 }}: Find the Linear Line</h1>
-    <p>Formula for slope:  m =  (y2 - y1)/(x2 - x1) </p> <!-- Added this line -->
-    <p>fermula for linear line :y=mx+b </p>
-    <p>Given points: ({{ point1_x }}, {{ point1_y }}) and ({{ point2_x }}, {{ point2_y }})</p>
-    <div *ngIf="!isSlopeChecked">
-      <label for="userSlope">Enter the slope (m):</label>
+    <h1>שאלה  {{ attempts + 1 }}:מצא את משוואת הישר של הפונקציה הבאה</h1>
+    <p>נוסחה למציאת השיפוע: m = (y2 - y1)/(x2 - x1)</p>
+    <p>נוסחה למציאת משוואת הישר: y = mx + b</p>
+    <p>הנקודות הנתונות: ({{ point1_x }}, {{ point1_y }}) ו({{ point2_x }}, {{ point2_y }})</p>
+    <div *ngIf="!isSlopeChecked" class="special-buttons-container">
+      <label for="userSlope">הכנס את השיפוע  (m):</label>
       <input type="number" id="userSlope" [(ngModel)]="userSlope" />
-      <button (click)="checkSlope()">Check Slope</button>
+      <button (click)="checkSlope()" class="special-button"> בדוק שיפוע </button>
       <div *ngIf="isSlopeChecked">
-        <p *ngIf="isSlopeCorrect">Your slope is correct!</p>
-        <p *ngIf="!isSlopeCorrect">Incorrect slope. The correct slope is {{ slope }}.</p>
+        <p *ngIf="isSlopeCorrect">השיפוע שלך נכון </p>
+        <p *ngIf="!isSlopeCorrect">אופס.. טעית השיפוע הנכון הוא{{ slope }}.</p>
       </div>
     </div>
 
     <div *ngIf="isSlopeChecked">
-      <label for="userSolution">Enter the equation of the line:</label>
+      <label for="userSolution">הכנס את משוואת הישר של הפונקציה:</label>
       <input type="text" id="userSolution" [(ngModel)]="userSolution" />
-      <button (click)="checkSolution()" *ngIf="!isAnswerChecked">Check Solution</button>
+
     </div>
-    <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">Next Question</button>
-    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+
     <div *ngIf="isAnswerChecked">
-      <p *ngIf="isAnswerCorrect">Well done, you answered correctly!</p>
-      <p *ngIf="!isAnswerCorrect">You answered incorrectly. The correct equation is {{ equation }}.</p>
+      <p *ngIf="isAnswerCorrect">כל הכבוד! ענית נכון</p>
+      <p *ngIf="!isAnswerCorrect">אופס.. ענית לא נכון התשובה הנכונה היא:{{ equation }}.</p>
     </div>
   </div>
-  <div *ngIf="showSummary">
-    <h1>Quiz Summary</h1>
+  <div *ngIf="showSummary" class="center-content">
+    <h1>גמרנו את התרגול</h1>
     <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
-    <button (click)="resetQuiz()">Try Again</button>
+    <button (click)="resetQuiz()" class="special-button">Try Again</button>
   </div>
 </div>
 
-<div *ngIf="currentPart === Part.QuizCompleted">
-  <h1>Quiz Summary</h1>
-  <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
-  <button (click)="changePart(Part.Quiz)">Try Again</button>
-  <button (click)="startTest()">Start Test</button>
+<div *ngIf="currentPart === Part.QuizCompleted" class="center-content">
+  <h1>גמרנו את התרגול</h1>
+  <p>ענית {{ correctAnswers }}מתוך 6 שאלות נכון!</p>
+
 </div>
 
-<div *ngIf="currentPart === Part.Test">
-  <h1>Test</h1>
-  <p>Formula for slope:  m =  (y2 - y1)/(x2 - x1 )</p> <!-- Added this line -->
-  <p>fermula for linear line :y=mx+b </p>
+<div *ngIf="currentPart === Part.Test" class="center-content">
+  <h1>מבחן</h1>
+  <p>נוסחה למציאת השיפוע: m = (y2 - y1)/(x2 - x1)</p>
+  <p>נוסחה למציאת משוואות הישר: y = mx + b</p>
   <div *ngFor="let question of testQuestions; let i = index">
-    <p>Question {{ i + 1 }}</p>
-    <p>Given points: ({{ question.point1_x }}, {{ question.point1_y }}) and ({{ question.point2_x }}, {{ question.point2_y }})</p>
-    <label for="userTestAnswer{{ i }}">Enter the equation of the line:</label>
+    <p>שאלה {{ i + 1 }}</p>
+    <p>הנקודות הנתונות: ({{ question.point1_x }}, {{ question.point1_y }}) ו ({{ question.point2_x }}, {{ question.point2_y }})</p>
+    <label for="userTestAnswer{{ i }}">הכנס את משוואת הישר של הפונקציה:</label>
     <input type="text" id="userTestAnswer{{ i }}" [(ngModel)]="userTestAnswers[i]" />
   </div>
-  <button (click)="checkTestAnswers()">Submit Test</button>
-  <div *ngIf="showTestSummary">
-    <h1>Test Summary</h1>
-    <p>You answered {{ testCorrectAnswers }} out of {{ testQuestions.length }} questions correctly!</p>
-    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+
+  <div *ngIf="showTestSummary" class="center-content">
+    <h1>גמרנו את המבחן</h1>
+    <p>ענית{{ testCorrectAnswers }} מתוך {{ testQuestions.length }} שאלות נכון!</p>
+
   </div>
 </div>
-<button (click)="navigateToTopics()">Back to Topics</button>
-<button (click)="fetchUserExercises()">My exercises</button>
+<div class="menu-container">
 
-<div *ngIf="showExercises">
-  <h2>My Exercises</h2>
-  <ul *ngIf="savedExercises.length > 0">
-    <ng-container *ngFor="let exercise of savedExercises">
-        <li *ngIf="isExerciseValid(exercise)">
-            <p>Point 1: ({{ exercise.point1_x }}, {{ exercise.point1_y }})</p>
-            <p>Point 2: ({{ exercise.point2_x }}, {{ exercise.point2_y }})</p>
-            <p>Equation: {{ exercise.equation }}</p>
+  <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
+  <button (click)="fetchUserExercises()">התרגילים שלי</button>
+  <button (click)="changePart(Part.Quiz)">נתחיל בתרגול</button>
+  <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק תשובה</button>
+  <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
+  <button (click)="changePart(Part.Quiz)">להתחיל את התרגול שוב</button>
+  <button (click)="startTest()">להתחיל את המבחן</button>
+  <button (click)="checkTestAnswers()">לבדוק את המבחן</button>
+  <button (click)="changePart(Part.Explanation)">לחזור להסבר</button>
+
+</div>
+
+<div id="my-exercises-section">
+  <div *ngIf="showExercises">
+    <h2>התרגילים שלי</h2>
+    <ul *ngIf="savedExercises.length > 0" class="exercises-container">
+      <ng-container *ngFor="let exercise of savedExercises">
+        <li *ngIf="isExerciseValid(exercise)" class="exercise-item">
+          <p>נקודה 1: ({{ exercise.point1_x }}, {{ exercise.point1_y }})</p>
+          <p>נקודה 2: ({{ exercise.point2_x }}, {{ exercise.point2_y }})</p>
+          <p>משוואות הישר: {{ exercise.equation }}</p>
         </li>
-    </ng-container>
-</ul>
-
-
-
-  <div *ngIf="savedExercises.length === 0">
-    <h2>No saved exercises found</h2>
+      </ng-container>
+    </ul>
+    <div *ngIf="savedExercises.length === 0">
+      <h2>כנראה עדיין לא פתרת תרגילים</h2>
+    </div>
   </div>
+</div>
 </div>

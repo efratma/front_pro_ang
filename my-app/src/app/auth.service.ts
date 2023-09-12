@@ -221,6 +221,20 @@ getUserExercises14(): Observable<any> {
   };
   return this.http.get<any>(`${this.apiUrl}/problem/test_24/`, { headers });
 }
+requestReset(requestData: any) { // Accept a single argument for the request data
+  return this.http.post(`${this.apiUrl}/request-password-reset/`, requestData);
+}
+
+resetPassword(uid: string, token: string, newPassword: string) {
+  // Construct the API URL with the appropriate parameters
+  const apiUrl = `${this.apiUrl}/reset-password/${uid}/${token}/`;
+
+  // Prepare the request data
+  const requestData = { new_password: newPassword };
+
+  // Make an HTTP POST request to reset the password
+  return this.http.post(apiUrl, requestData);
+}
 
 }
 

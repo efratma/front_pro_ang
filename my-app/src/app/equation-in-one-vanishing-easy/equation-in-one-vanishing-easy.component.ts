@@ -18,7 +18,7 @@ enum Part {
 @Component({
   selector: 'app-equation-in-one-vanishing-easy',
   templateUrl: './equation-in-one-vanishing-easy.component.html',
-  styleUrls: ['./equation-in-one-vanishing-easy.component.sass']
+  styleUrls: ['./equation-in-one-vanishing-easy.component.scss']
 })
 
 export class EquationInOneVanishingEasyComponent {

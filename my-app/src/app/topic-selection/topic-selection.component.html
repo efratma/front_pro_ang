@@ -1,4 +1,19 @@
-<h1>Select a Topic</h1>
-<div *ngFor="let topic of topics">
-  <button (click)="selectTopic(topic)">{{ topic.name }}</button>
+<h1>לפניך נושאים שונים לבחירה <br>בחר/י נושא שאותו תרצה/י לתרגל</h1>
+
+<div class="topics-group">
+  <div class="topic-group">
+    <button *ngFor="let topic of getTopicsByIds([1, 2, 3])" (click)="selectTopic(topic)">{{ topic.name }}</button>
+  </div>
+    <div class="topic-group">
+        <button *ngFor="let topic of getTopicsByIds([4, 5])" (click)="selectTopic(topic)">{{ topic.name }}</button>
+    </div>
+    <div class="topic-group">
+        <button *ngFor="let topic of getTopicsByIds([6, 7, 8])" (click)="selectTopic(topic)">{{ topic.name }}</button>
+    </div>
+    <div class="topic-group">
+        <button *ngFor="let topic of getTopicsByIds([9, 10])" (click)="selectTopic(topic)">{{ topic.name }}</button>
+    </div>
+    <div class="topic-group">
+        <button *ngFor="let topic of getTopicsByIds([11, 12, 15, 16])" (click)="selectTopic(topic)">{{ topic.name }}</button>
+    </div>
 </div>

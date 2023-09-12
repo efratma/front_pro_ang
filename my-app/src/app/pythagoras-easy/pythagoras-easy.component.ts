@@ -19,7 +19,7 @@ enum Part {
 @Component({
   selector: 'app-pythagoras-easy',
   templateUrl: './pythagoras-easy.component.html',
-  styleUrls: ['./pythagoras-easy.component.sass']
+  styleUrls: ['./pythagoras-easy.component.scss']
 })
 
 export class PythagorasEasyComponent implements OnInit {

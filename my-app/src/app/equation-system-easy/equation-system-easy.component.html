@@ -1,27 +1,35 @@
+<div id="container">
+  <div *ngIf="currentPart === Part.Explanation" class="center-content">
+    <h1>מערכת משוואות ברמה קלה </h1>
+    <h2>בסירטון נלמד כיצד לפתור מערכת משוואות ברמה קלה</h2>
+    <iframe
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/QmELxamfCqM"
+      frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+  </div>
 
-<div *ngIf="currentPart === Part.Explanation">
-  <h1>Explanation</h1>
-  <p>Watch the video tutorial on how to solve the easy-level exercise:</p>
-  <iframe width="560" height="315" src="https://www.youtube.com/link-to-video" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  <button (click)="changePart(Part.Quiz)">Start Quiz</button>
-</div>
 
-<div *ngIf="currentPart === Part.Quiz">
+
+<div *ngIf="currentPart === Part.Quiz" class="center-content">
   <div *ngIf="!showSummary">
-    <h1>Question {{ attempts + 1 }}: Solve the Easy System of Equations</h1>
+    <h2>שאלה {{ attempts + 1 }}: פתור את מערכת המשוואות שלפניך</h2>
     <div>{{ equation1 }}</div>
     <div>{{ equation2 }}</div>
-    <label for="solutionX">Enter your solution for x:</label>
+    <label for="solutionX">הערך של X:</label>
     <input type="number" id="solutionX" [(ngModel)]="userSolutionX" />
-    <label for="solutionY">Enter your solution for y:</label>
+    <label for="solutionY">הערך של y</label>
     <input type="number" id="solutionY" [(ngModel)]="userSolutionY" />
-    <button (click)="checkSolution()" *ngIf="!isAnswerChecked">Check Solution</button>
-    <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">Next Question</button>
-    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+
+
+
     <div *ngIf="isAnswerChecked">
-      <p *ngIf="isAnswerCorrect">Well done, you answered correctly!</p>
+      <p *ngIf="isAnswerCorrect">מצוין ! ענית נכון</p>
       <p *ngIf="!isAnswerCorrect && correctSolutionX !== null && correctSolutionY !== null">
-        You answered incorrectly. The correct answer is x={{ correctSolutionX }}, y={{ correctSolutionY }}.
+        אופס ענית לא נכון התשובה הנכונה היא: x={{ correctSolutionX }}, y={{ correctSolutionY }}.
       </p>
     </div>
     <div *ngIf="showSummary">
@@ -33,48 +41,56 @@
 </div>
 
 <div *ngIf="currentPart === Part.QuizCompleted">
-  <h1>Quiz Summary</h1>
-  <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
-  <button (click)="changePart(Part.Quiz)">Try Again</button>
-  <button (click)="startTest()">Start Test</button>
+  <h1>גמרנו עם התרגול</h1>
+  <p>כל הכבוד! ענית {{ correctAnswers }} מתוך 6 שאלות נכון</p>
+
 </div>
 
-<div *ngIf="currentPart === Part.Test">
-  <h1>Test</h1>
+<div class="test-section" *ngIf="currentPart === Part.Test">
+  <h1>מבחן</h1>
   <div *ngFor="let question of testQuestions; let i = index">
-    <p>Question {{ i + 1 }}</p>
+    <p>שאלה {{ i + 1 }}</p>
     <div>{{ question.equation1 }}</div>
     <div>{{ question.equation2 }}</div>
-    <label for="solutionX{{ i }}">Enter your solution for x:</label>
+    <label for="solutionX{{ i }}">הערך של X</label>
     <input type="number" id="solutionX{{ i }}" [(ngModel)]="userTestAnswers[i].x" />
-    <label for="solutionY{{ i }}">Enter your solution for y:</label>
+    <label for="solutionY{{ i }}">הערך של Y </label>
     <input type="number" id="solutionY{{ i }}" [(ngModel)]="userTestAnswers[i].y" />
   </div>
-  <button (click)="checkTestAnswers()">Submit Test</button>
+
   <div *ngIf="showTestSummary">
-    <h1>Test Summary</h1>
-    <p>You answered {{ testCorrectAnswers }} out of {{ testQuestions.length }} questions correctly!</p>
-    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+    <h1>גמרנו עם המבחן</h1>
+    <p>ענית{{ testCorrectAnswers }} מתוך {{ testQuestions.length }} שאלות נכון!</p>
+
   </div>
 </div>
 
-<button (click)="navigateToTopics()">Back to Topics</button>
-<!-- Add this towards the end of your equation-system-easy.component.html -->
-<button (click)="fetchUserExercises()">My exercises</button>
+<div class="menu-container">
+  <button (click)="changePart(Part.Quiz)">להתחיל בתרגול</button>
+  <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק תשובה</button>
+  <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
+  <button (click)="changePart(Part.Explanation)">חזור להסבר</button>
+  <button (click)="changePart(Part.Quiz)">לעשות שוב את התרגול</button>
+  <button (click)="startTest()">להתחיל את המבחן</button>
+  <button (click)="checkTestAnswers()">בדוק מבחן</button>
+  <button (click)="fetchUserExercises()">התרגילים שלי</button>
+  <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
+  <!-- You can add other buttons here as needed -->
+</div>
 
-<div *ngIf="showExercises">
-  <h2>My Exercises</h2>
-  <ul *ngIf="savedEquations.length > 0">
-    <ng-container *ngFor="let equation of savedEquations">
-      <!-- Check if equation.equation1 is not empty and display it in a list item -->
-      <li *ngIf="equation.equation1 && equation.equation1.trim() !== ''">Equation 1: {{ equation.equation1 }}</li>
-
-      <!-- Check if equation.equation2 is not empty and display it in a list item -->
-      <li *ngIf="equation.equation2 && equation.equation2.trim() !== ''">Equation 2: {{ equation.equation2 }}<P>*****</P></li>
-    </ng-container>
-  </ul>
-
-  <div *ngIf="savedEquations.length === 0">
-    <h2>No saved exercises found</h2>
+<div id="my-exercises-section" *ngIf="showExercises">
+  <p></p>
+  <h2>השאלות שפתרתי עד עכשיו</h2>
+  <div class="exercises-container" *ngIf="savedEquations.length > 0">
+    <ul>
+      <ng-container class="exercise-item"  *ngFor="let equation of savedEquations">
+        <li  *ngIf="equation.equation1 && equation.equation1.trim() !== ''">משוואה 1: {{ equation.equation1 }}</li>
+        <li *ngIf="equation.equation2 && equation.equation2.trim() !== ''">משוואה 2: {{ equation.equation2 }}<P>*****</P></li>
+      </ng-container>
+    </ul>
   </div>
+  <div *ngIf="savedEquations.length === 0">
+    <h2>כנראה שלא פתרת עדיין תרגילים</h2>
+  </div>
+</div>
 </div>

@@ -1,16 +1,25 @@
 .navbar {
   display: flex;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 10px 650px;
+
   background-color: #333;
+  font-family: 'Arial', sans-serif;  /* Change the font to Arial */
+}
 
-  a {
-    color: #fff;
-    text-decoration: none;
-    margin: 0 10px;
+/* Styles for the buttons inside the navbar */
+.navbar button {
+  background-color: #34c0c7;  /* Background color for buttons */
+  color: white;  /* White text color */
+  border: none;  /* Remove default borders */
+  padding: 10px 20px;  /* Padding around the text in the button */
+  margin-right: 10px;  /* Space between buttons */
+  cursor: pointer;  /* Change cursor to pointer on hover */
+  border-radius: 8px; /* slightly rounded corners */
+  transition: background-color 0.3s;  /* Smooth transition for hover effect */
+}
 
-    &:hover {
-      text-decoration: underline;
-    }
-  }
+/* Hover effect for the buttons */
+.navbar button:hover {
+  background-color: #777777;  /* Lighten the button background on hover */
 }

@@ -18,7 +18,7 @@ enum Part {
 @Component({
   selector: 'app-equation-in-one-vanishing-medium',
   templateUrl: './equation-in-one-vanishing-medium.component.html',
-  styleUrls: ['./equation-in-one-vanishing-medium.component.sass'],
+  styleUrls: ['./equation-in-one-vanishing-medium.component.scss'],
 })
 export class EquationInOneVanishingMediumComponent implements OnInit {
   Part = Part;

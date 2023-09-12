@@ -20,7 +20,7 @@ enum Part {
 @Component({
   selector: 'app-meeting-point',
   templateUrl: './meeting-point.component.html',
-  styleUrls: ['./meeting-point.component.sass']
+  styleUrls: ['./meeting-point.component.scss']
 })
 export class MeetingPointsComponent implements OnInit {
   Part = Part;
@@ -85,7 +85,7 @@ export class MeetingPointsComponent implements OnInit {
   nextQuestion(): void {
     this.isAnswerChecked = false;
     this.attempts++;
-    if (this.attempts < this.maxAttempts) {
+    if (this.attempts < this.maxAttempts - 1) {
       this.loadQuestion();
     } else {
       this.showSummary = true;

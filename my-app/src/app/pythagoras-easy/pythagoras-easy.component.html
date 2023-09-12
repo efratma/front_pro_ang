@@ -1,34 +1,31 @@
+<div id="container">
+<div *ngIf="currentPart === Part.Explanation" class="center-content">
+  <h1>פיתגורס רמה קלה</h1>
+  <p>בסירטון נלמד איך למצוא לפי משפט פיתגורס את הצלע החסרה במשולש ישר זווית</p>
 
-######################################################
-<div *ngIf="currentPart === Part.Explanation">
-  <h1>Explanation</h1>
-  <p>Learn how to find the missing side in a right triangle using Pythagoras' theorem:</p>
-  <p>Given sides  a and  b , find the missing side  c using the formula c² = a² + b².</p>
-  <iframe width="560" height="315" src="https://www.youtube.com/link-to-pythagoras-video" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  <button (click)="changePart(Part.Quiz)">Start Quiz</button>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/L1Jb_eJ4zBI?list=UUFwRoIbk7gng6WXyytDsd-Q&index=11" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 </div>
-<div *ngIf="currentPart === Part.Quiz">
+
+<div *ngIf="currentPart === Part.Quiz" class="center-content">
   <div *ngIf="!showSummary">
-    <h1>Question {{ attempts + 1 }}: Find the Missing Side</h1>
-    <div><i> c² = a² + b² הנוסחה למציאת  הצלע החסרה </i></div>
-    <p>Given sides: a = {{sideA}} and  b = {{sideB}} </p>
+    <h1>שאלה {{ attempts + 1 }}: מצא את הצלע החסרה</h1>
+    <div><i>c² = a² + b² הנוסחה למציאת הצלע החסרה</i></div>
+    <p>הצלעות הידועות: a = {{sideA}} ו b = {{sideB}}</p>
     <svg width="200" height="200">
       <polygon points="50,50 50,130 130,50" style="fill:lightgrey;stroke:black;stroke-width:2" />
       <line x1="50" y1="50" x2="50" y2="60" style="stroke:black;stroke-width:2" />
       <line x1="50" y1="50" x2="60" y2="50" style="stroke:black;stroke-width:2" />
-      <text x="45" y="100" text-anchor="end" font-family="Arial" font-size="14" fill="black">{{ sideA }}</text>
+      <text x="30" y="100" text-anchor="end" font-family="Arial" font-size="14" fill="black">{{ sideA }}</text>
       <text x="90" y="40" text-anchor="middle" font-family="Arial" font-size="14" fill="black">{{ sideB }}</text>
-      <text x="95" y="95" font-family="Arial" font-size="14" fill="black">c</text>
+      <text x="105" y="95" font-family="Arial" font-size="14" fill="black">c</text>
     </svg>
-
-    <label for="userSolution">Enter the value of  c =:</label>
+    <label for="userSolution">הכנס את הערך של  c =:</label>
     <input type="number" id="userSolution" [(ngModel)]="userSolution" />
-    <button (click)="checkSolution()" *ngIf="!isAnswerChecked">Check Solution</button>
-    <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">Next Question</button>
-    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
     <div *ngIf="isAnswerChecked">
-      <p *ngIf="isAnswerCorrect">Well done, you answered correctly!</p>
-      <p *ngIf="!isAnswerCorrect">You answered incorrectly. The correct answer is {{ correctSolution }}.</p>
+      <p *ngIf="isAnswerCorrect">כל הכבוד! ענית נכון</p>
+      <p *ngIf="!isAnswerCorrect">אופס.. ענית לא נכון התשובה הנכונה היא: {{ correctSolution }}.</p>
     </div>
   </div>
   <div *ngIf="showSummary">
@@ -38,54 +35,62 @@
   </div>
 </div>
 
-<div *ngIf="currentPart === Part.QuizCompleted">
-  <h1>Quiz Summary</h1>
-  <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
-  <button (click)="changePart(Part.Quiz)">Try Again</button>
-  <button (click)="startTest()">Start Test</button>
+<div *ngIf="currentPart === Part.QuizCompleted" class="center-content">
+  <h1>גמרנו עם התרגול</h1>
+  <p>ענית{{ correctAnswers }} מתוך 6 שאלות נכון!</p>
 </div>
 
-<div *ngIf="currentPart === Part.Test">
-  <h1>Test</h1>
-  <div><i> c² = a² + b² הנוסחה למציאת  הצלע החסרה </i></div>
+<div *ngIf="currentPart === Part.Test" class="center-content">
+  <h1>מבחן</h1>
+  <div><i>c² = a² + b² הנוסחה למציאת הצלע החסרה</i></div>
   <div *ngFor="let question of testQuestions; let i = index">
-    <p>Question {{ i + 1 }}</p>
-    <p>Given sides: a = {{question.a}}  and  b = {{question.b}}</p>
+    <p>שאלה {{ i + 1 }}</p>
+    <p>הצלעות הנתונות: a = {{question.a}} ו b = {{question.b}}</p>
     <svg width="200" height="200">
       <polygon points="50,50 50,130 130,50" style="fill:lightgrey;stroke:black;stroke-width:2" />
       <line x1="50" y1="50" x2="50" y2="60" style="stroke:black;stroke-width:2" />
       <line x1="50" y1="50" x2="60" y2="50" style="stroke:black;stroke-width:2" />
-      <text x="45" y="100" text-anchor="end" font-family="Arial" font-size="14" fill="black">{{ question.a }}</text>
+      <text x="30" y="100" text-anchor="end" font-family="Arial" font-size="14" fill="black">{{ question.a }}</text>
       <text x="90" y="40" text-anchor="middle" font-family="Arial" font-size="14" fill="black">{{ question.b }}</text>
-      <text x="95" y="95" font-family="Arial" font-size="14" fill="black">c</text>
+      <text x="105" y="95" font-family="Arial" font-size="14" fill="black">c</text>
     </svg>
-    <label for="userTestAnswer{{ i }}">Enter your solution:</label>
+    <label for="userTestAnswer{{ i }}">הכנס את הצלע c:</label>
     <input type="number" id="userTestAnswer{{ i }}" [(ngModel)]="userTestAnswers[i]" />
   </div>
-  <button (click)="checkTestAnswers()">Submit Test</button>
   <div *ngIf="showTestSummary">
-    <h1>Test Summary</h1>
-    <p>You answered {{ testCorrectAnswers }} out of {{ testQuestions.length }} questions correctly!</p>
-    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+    <h1>גמרנו עם המבחן</h1>
+    <p>ענית {{ testCorrectAnswers }} מתוך {{ testQuestions.length }} שאלות נכון!</p>
+
   </div>
 </div>
-<button (click)="navigateToTopics()">Back to Topics</button>
-<!-- Add this after your existing HTML code -->
-<button (click)="fetchUserExercises()">My exercises</button>
-<div *ngIf="showExercises">
-  <h2>My Exercises</h2>
-  <ul *ngIf="savedExercises.length > 0">
-    <ng-container *ngFor="let exercise of savedExercises">
-      <li *ngIf="isValidExercise(exercise)">
-        <p>Side A: {{ exercise.a }}</p>
-        <p>Side B: {{ exercise.b}}</p>
-        <p>Missing Side: {{ exercise.c_fl }}</p>
+<div class="menu-container">
+
+  <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
+  <button (click)="fetchUserExercises()">התרגילים שלי</button>
+  <button (click)="changePart(Part.Quiz)">נתחיל בתרגול</button>
+  <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק תשובה</button>
+  <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
+  <button (click)="changePart(Part.Quiz)">להתחיל את התרגול שוב</button>
+  <button (click)="startTest()">להתחיל את המבחן</button>
+  <button (click)="checkTestAnswers()">לבדוק את המבחן</button>
+  <button (click)="changePart(Part.Explanation)">לחזור להסבר</button>
+</div>
+  <div id="my-exercises-section">
+    <div *ngIf="showExercises">
+      <h2>התרגילים שלי</h2>
+      <ul *ngIf="savedExercises.length > 0" class="exercises-container">
+      <ng-container   class="exercise-item"  *ngFor="let exercise of savedExercises">
+      <li   class="exercise-item"  *ngIf="isValidExercise(exercise)">
+        <p>צלע A: {{ exercise.a }}</p>
+        <p>צלע B: {{ exercise.b}}</p>
+        <p>הצלע החסרה: {{ exercise.c_fl }}</p>
       </li>
     </ng-container>
   </ul>
 
 
   <div *ngIf="savedExercises.length === 0">
-    <h2>No saved exercises found</h2>
+    <h2>כנראה עדיין לא פתרת תרגילים</h2>
   </div>
+</div>
 </div>

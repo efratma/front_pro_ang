@@ -13,7 +13,7 @@ enum Part {
 @Component({
   selector: 'app-equation-system-easy',
   templateUrl: './equation-system-easy.component.html',
-  styleUrls: ['./equation-system-easy.component.sass']
+  styleUrls: ['./equation-system-easy.component.scss']
 })
 export class EquationSystemEasyComponent {
   Part = Part;

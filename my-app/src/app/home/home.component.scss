@@ -1,0 +1,78 @@
+.container {
+  height: 100vh;
+  position: relative;
+
+  h2 {
+    text-align: center;
+    color: blue;
+    font-size: 50px;
+    font-family: courier;
+  }
+
+  h1 {
+    text-align: center;
+    color: blueviolet;
+    font-size: 55px;
+    font-family: courier;
+    margin-top: 50px;
+}
+
+
+  p {
+    text-align: center;
+    color: black;
+    font-size: 30px;
+    font-family: 'Franklin Gothic Medium';
+  }
+
+  .custom-iframe {
+    width: 800px;
+    height: 400px;
+    margin: 0 auto;
+    display: block;
+}
+
+
+  .custom-btn {
+    width: 200px;
+    height: 50px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, background-color 0.3s;
+
+    &:hover {
+      background-color: #2980b9;
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  .btn-secondary.custom-btn {
+    background-color: #6c757d;
+
+    &:hover {
+      background-color: #5a6268;
+    }
+  }
+
+  .button-group {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .btn-spacing {
+    margin-right: 20px;
+  }
+}

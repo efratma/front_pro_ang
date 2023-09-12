@@ -31,6 +31,9 @@ import { EasyTriangularAreaComponent } from './easy-triangular-area/easy-triangu
 import { LogoutComponent } from './logout/logout.component';
 import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { RequestPasswordResetComponent } from './request-password-reset/request-password-reset.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+
 
 
 
@@ -61,6 +64,9 @@ import { NavbarComponent } from './navbar/navbar.component';
      LogoutComponent,
      HomeComponent,
      NavbarComponent,
+     RequestPasswordResetComponent,
+     ResetPasswordComponent,
+
 
 
   ],

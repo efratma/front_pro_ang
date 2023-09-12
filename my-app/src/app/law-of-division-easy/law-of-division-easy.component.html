@@ -1,97 +1,112 @@
+<div id="container">
 
-<div *ngIf="currentPart === Part.Explanation">
-  <h1>Explanation</h1>
-  <p>Watch the video tutorial on how to solve the Easy law of division exercise:</p>
-  <iframe width="560" height="315" src="https://www.youtube.com/link-to-video" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-  <button (click)="changePart(Part.Quiz)">Start Quiz</button>
-</div>
+  <div *ngIf="currentPart === Part.Explanation" class="center-content">
+      <h1>חוק הפילוג המורחב רמה קלה</h1>
+      <p>בסרטון נלמד איך לפתור תרגילים שבהם יש חוק הפילוג המורחב ברמה קלה</p>
 
-<div *ngIf="currentPart === Part.Quiz">
+      <iframe width="560" height="315" src="https://www.youtube.com/embed/-FFJkeQGyV4?list=UUFwRoIbk7gng6WXyytDsd-Q&index=6" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-  <div *ngIf="!showSummary">
-    <h1>Question {{ attempts + 1 }}: Solve the Equation</h1>
-    <div>{{ equation }}</div>
-    <label for="userSolution">Enter your solution:</label>
-    <input type="text" id="userSolution" [(ngModel)]="userSolution" />
-    <button (click)="addTerm('x^2')">x²</button>
-    <button (click)="addTerm('x')">x</button>
-    <button (click)="addTerm('^')">^</button>
-    <button (click)="addTerm('+')">+</button>
-    <button (click)="addTerm('-')">-</button>
-    <button (click)="addTerm('*')">*</button>
-    <button (click)="addTerm('/')">/</button>
-    <button (click)="addTerm('(')">(</button>
-    <button (click)="addTerm(')')">)</button>
-    <button (click)="addTerm(' ')" style="width: 50px;">Space</button>
-    <button (click)="clearTerm()">Clear</button>
-    <button (click)="checkSolution()" *ngIf="!isAnswerChecked">Check Solution</button>
-    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
-    <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">Next Question</button>
-    <div *ngIf="isAnswerChecked">
-      <p *ngIf="isAnswerCorrect">Well done, you answered correctly!</p>
-      <p *ngIf="!isAnswerCorrect">You answered incorrectly. The correct answer is {{ correctSolution }}.</p>
+
+  </div>
+
+  <div *ngIf="currentPart === Part.Quiz" class="center-content">
+    <div *ngIf="!showSummary">
+      <h1>שאלה  {{ attempts + 1 }}: פתור את התרגיל</h1>
+      <div>{{ equation }}</div>
+      <label for="userSolution">הכנס את התשובה:</label>
+      <input type="text" id="userSolution" [(ngModel)]="userSolution" />
+      <div class="special-buttons-container">
+      <button class="special-button" (click)="addTerm('x^2')">x²</button>
+      <button class="special-button" (click)="addTerm('x')">x</button>
+      <button class="special-button" (click)="addTerm('^')">^</button>
+      <button class="special-button" (click)="addTerm('+')">+</button>
+      <button class="special-button" (click)="addTerm('-')">-</button>
+      <button class="special-button" (click)="addTerm('*')">*</button>
+      <button class="special-button" (click)="addTerm('/')">/</button>
+      <button class="special-button" (click)="addTerm('(')">(</button>
+      <button class="special-button" (click)="addTerm(')')">)</button>
+      <button class="special-button" (click)="addTerm(' ')" style="width: 50px;">רווח</button>
+      <button class="special-button" (click)="clearTerm()">למחוק הכל</button>
+    </div>
+      <div *ngIf="isAnswerChecked">
+        <p *ngIf="isAnswerCorrect">כל הכבוד! ענית נכון</p>
+        <p *ngIf="!isAnswerCorrect">אופס..ענית לא נכון התשובה הנכונה היא: {{ correctSolution }}.</p>
+      </div>
+      <div *ngIf="showSummary">
+        <h1>Quiz Summary</h1>
+        <p>You answered {{ correctAnswers }} out of {{ maxAttempts }} questions correctly!</p>
+        <button (click)="resetQuiz()">Try Again</button>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="currentPart === Part.QuizCompleted" class="center-content">
+    <h1>נגמר התרגול</h1>
+    <p>ענית {{ correctAnswers }} מתוך 6 שאלות נכון!</p>
+
+  </div>
+
+  <div *ngIf="currentPart === Part.Test" class="center-content">
+    <h1>מבחן</h1>
+    <div *ngFor="let question of testQuestions; let i = index">
+      <p>שאלה {{ i + 1 }}</p>
+      <div>
+        {{ question.problem_str }}
+      </div>
+      <label for="userTestAnswer{{ i }}">הכנס את התשובה שלך:</label>
+      <div class="special-buttons-container">
+      <button class="special-button" (click)="addTerm('x^2')">x²</button>
+      <button class="special-button" (click)="addTerm('x')">x</button>
+      <button class="special-button" (click)="addTerm('^')">^</button>
+      <button class="special-button" (click)="addTerm('+')">+</button>
+      <button class="special-button" (click)="addTerm('-')">-</button>
+      <button class="special-button" (click)="addTerm('*')">*</button>
+      <button class="special-button" (click)="addTerm('/')">/</button>
+      <button class="special-button" (click)="addTerm('(')">(</button>
+      <button class="special-button" (click)="addTerm(')')">)</button>
+      <button class="special-button" (click)="addTerm(' ')" style="width: 50px;">רווח</button>
+      <button class="special-button" (click)="clearTerm()">למחוק הכל</button>
+    </div>
+    </div>
+
+      <div *ngIf="!showSummary">
+
     </div>
     <div *ngIf="showSummary">
-      <h1>Quiz Summary</h1>
-      <p>You answered {{ correctAnswers }} out of {{ maxAttempts }} questions correctly!</p>
-      <button (click)="resetQuiz()">Try Again</button>
+
+      <h1>המבחן נגמר</h1>
+      <p>ענית {{ testCorrectAnswers }} מתוך {{ testQuestions.length }} שאלות נכון!</p>
+
     </div>
   </div>
-</div>
+  <div class="menu-container">
 
-<div *ngIf="currentPart === Part.QuizCompleted">
-  <h1>Quiz Summary</h1>
-  <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
-  <button (click)="changePart(Part.Quiz)">Try Again</button>
-  <button (click)="startTest()">Start Test</button>
-</div>
+    <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
+    <button (click)="fetchUserExercises()">התרגילים שלי</button>
+    <button (click)="changePart(Part.Quiz)">נתחיל בתרגול</button>
+    <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק תשובה</button>
+    <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
+    <button (click)="changePart(Part.Quiz)">להתחיל את התרגול שוב</button>
+    <button (click)="startTest()">להתחיל את המבחן</button>
+    <button (click)="checkTestAnswers()">לבדוק את המבחן</button>
+    <button (click)="changePart(Part.Explanation)">לחזור להסבר</button>
 
-<div *ngIf="currentPart === Part.Test">
-  <h1>Test</h1>
-  <div *ngFor="let question of testQuestions; let i = index">
-    <p>Question {{ i + 1 }}</p>
-    <div>
-      {{ question.problem_str }}
+  </div>
+  <div id="my-exercises-section">
+    <div *ngIf="showExercises">
+      <h2>התרגילים שלי</h2>
+      <ul *ngIf="savedQuestions.length > 0" class="exercises-container">
+        <ng-container *ngFor="let question of savedQuestions">
+          <li *ngIf="question.problem_str && question.problem_str.trim() !== '' && question.solution && question.solution.trim() !== ''" class="exercise-item">
+            <p>שאלה:  {{ question.problem_str }}</p>
+            <p>תשובה: {{ question.solution }}</p>
+          </li>
+        </ng-container>
+      </ul>
+      <div *ngIf="savedQuestions.length === 0">
+        <h2>כנראה עדיין לא פתרת תרגילים</h2>
+      </div>
     </div>
-    <label for="userTestAnswer{{ i }}">Enter your solution:</label>
-    <input type="text" id="userTestAnswer{{ i }}" [(ngModel)]="userTestAnswers[i]" />
-    <button (click)="addSymbolToTestAnswer(i, 'x^2')">x²</button>
-    <button (click)="addSymbolToTestAnswer(i, 'x')">x</button>
-    <button (click)="addSymbolToTestAnswer(i, '^')">^</button>
-    <button (click)="addSymbolToTestAnswer(i, '+')">+</button>
-    <button (click)="addSymbolToTestAnswer(i, '-')">-</button>
-    <button (click)="addSymbolToTestAnswer(i, '*')">*</button>
-    <button (click)="addSymbolToTestAnswer(i, '/')">/</button>
-    <button (click)="addSymbolToTestAnswer(i, '(')">(</button>
-    <button (click)="addSymbolToTestAnswer(i, ')')">)</button>
-    <button (click)="addSymbolToTestAnswer(i, ' ')" style="width: 50px;">Space</button>
-    <button (click)="clearTestAnswer(i)">Clear</button>
   </div>
 
-<div *ngIf="!showSummary"> <!-- Updated this line -->
-  <button (click)="checkTestAnswers()">Submit Test</button>
 </div>
-<div *ngIf="showSummary"> <!-- Updated this line -->
-  <h1>Test Summary</h1>
-  <p>You answered {{ testCorrectAnswers }} out of {{ testQuestions.length }} questions correctly!</p>
-  <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
-</div>
-</div>
-
-<button (click)="navigateToTopics()">Back to Topics</button>
-<button (click)="fetchUserExercises()">My exercises</button>
-<div *ngIf="showExercises">
-  <h2>My Exercises</h2>
-  <ul *ngIf="savedQuestions.length > 0">
-    <ng-container *ngFor="let question of savedQuestions">
-      <li *ngIf="question.problem_str && question.problem_str.trim() !== '' && question.solution && question.solution.trim() !== ''">
-        <p>Problem: {{ question.problem_str }}</p>
-        <p>Solution: {{ question.solution }}</p>
-      </li>
-    </ng-container>
-  </ul>
-  <div *ngIf="savedQuestions.length === 0">
-    <h2>No saved exercises found</h2>
-  </div>
-</div>
-

@@ -19,10 +19,14 @@ import { EasyTriangularAreaComponent } from './easy-triangular-area/easy-triangu
 import { TopicSelectionComponent } from './topic-selection/topic-selection.component';
 import { LogoutComponent } from './logout/logout.component';
 import { HomeComponent } from './home/home.component';
+import { RequestPasswordResetComponent } from './request-password-reset/request-password-reset.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+
+
 
 
 const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redirect to login by default
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'themes/equation-system-hard', component: EquationSystemHardComponent },
@@ -42,6 +46,9 @@ const routes: Routes = [
   { path: 'topic-selection', component: TopicSelectionComponent },
   { path: 'logged-out', component: LogoutComponent },
   { path: 'home', component: HomeComponent },
+  { path: 'request-password-reset', component: RequestPasswordResetComponent },
+  { path: 'reset-password/:uid/:token', component: ResetPasswordComponent },
+
 
 
 

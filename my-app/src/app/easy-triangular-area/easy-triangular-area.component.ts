@@ -22,7 +22,7 @@ enum Part {
 @Component({
   selector: 'app-easy-triangular-area',
   templateUrl: './easy-triangular-area.component.html',
-  styleUrls: ['./easy-triangular-area.component.sass']
+  styleUrls: ['./easy-triangular-area.component.scss']
 
 })
 export class EasyTriangularAreaComponent implements OnInit {

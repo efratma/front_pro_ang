@@ -55,7 +55,7 @@ export class CuttingPointsComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
- 
+
   }
 
   loadQuestion(): void {
@@ -178,8 +178,4 @@ export class CuttingPointsComponent implements OnInit {
         console.error("Error fetching user exercises:", error);
     });
 }
-
-
-
-
 }

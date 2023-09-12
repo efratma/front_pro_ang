@@ -1,24 +1,24 @@
-<div *ngIf="currentPart === Part.Explanation">
-  <h1>Explanation</h1>
-  <p>Learn how to find the meeting point of two linear functions:</p>
-  <iframe width="560" height="315" src="https://www.youtube.com/link-to-video" frameborder="0" allowfullscreen></iframe>
-  <button (click)="changePart(Part.Quiz)">Start Quiz</button>
+<div id="container">
+<div *ngIf="currentPart === Part.Explanation" class="center-content">
+  <h1>נקודת מפגש של 2 פונקציות</h1>
+  <p>בסירטון נלמד איך למצוא נקודת מפגש של 2 פונקציות </p>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/Nct6yQUSdvw?list=UUFwRoIbk7gng6WXyytDsd-Q&index=2" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+
 </div>
 
-<div *ngIf="currentPart === Part.Quiz">
+<div *ngIf="currentPart === Part.Quiz" class="center-content">
   <div *ngIf="!showSummary">
-    <h1>Question {{ attempts + 1 }}: Find the Meeting Point</h1>
+    <h1>שאלה {{ attempts + 1 }}: מצא את נקודת המפגש</h1>
     <p>{{ line1_equation }}</p>
     <p>{{ line2_equation }}</p>
-    <label for="userIntersectionPoint">Enter the intersection point (x, y):</label>
+    <label for="userIntersectionPoint">הכנס את נקודת המפגש בצורה הבאה: (x, y):</label>
     <input type="text" id="userIntersectionPoint" [(ngModel)]="userIntersectionPoint" />
-    <button (click)="checkSolution()" *ngIf="!isAnswerChecked">Check Solution</button>
     <div *ngIf="isAnswerChecked">
-      <p *ngIf="isAnswerCorrect">Well done, you answered correctly!</p>
-      <p *ngIf="!isAnswerCorrect">You answered incorrectly. The correct intersection point is {{ intersection_point }}.</p>
+      <p *ngIf="isAnswerCorrect">כל הכבוד! ענית נכון</p>
+      <p *ngIf="!isAnswerCorrect">אופס..ענית לא נכון התשובה הנכונה היא: {{ intersection_point }}.</p>
     </div>
-    <button *ngIf="isAnswerChecked && attempts < maxAttempts" (click)="nextQuestion()">Next Question</button>
-    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+
   </div>
   <div *ngIf="showSummary">
     <h1>Quiz Summary</h1>
@@ -27,44 +27,56 @@
   </div>
 </div>
 
-<div *ngIf="currentPart === Part.QuizCompleted">
-  <h1>Quiz Summary</h1>
-  <p>You answered {{ correctAnswers }} out of {{ maxAttempts }} questions correctly!</p>
-  <button (click)="changePart(Part.Quiz)">Try Again</button>
-  <button (click)="startTest()">Start Test</button>
+<div *ngIf="currentPart === Part.QuizCompleted" class="center-content">
+  <h1>גמרנו עם התרגול</h1>
+  <p>ענית  {{ correctAnswers }} מתוך 6 שאלות נכון!</p>
+
 </div>
 
-<div *ngIf="currentPart === Part.Test">
-  <h1>Test</h1>
+<div *ngIf="currentPart === Part.Test" class="center-content">
+  <h1>מבחן</h1>
   <div *ngFor="let question of testQuestions; let i = index">
-    <p>Question {{ i + 1 }}</p>
+    <p>שאלה {{ i + 1 }}</p>
     <p>{{ question.line1_equation }}</p>
     <p>{{ question.line2_equation }}</p>
-    <label for="userTestAnswer{{ i }}">Enter the intersection point (x, y):</label>
+    <label for="userTestAnswer{{ i }}">הכנס את נקודת המפגש בצורה הבאה: (x, y):</label>
     <input type="text" id="userTestAnswer{{ i }}" [(ngModel)]="userTestAnswers[i]" />
   </div>
-  <button (click)="checkTestAnswers()">Submit Test</button>
+
   <div *ngIf="showTestSummary">
-    <h1>Test Summary</h1>
-    <p>You answered {{ testCorrectAnswers }} out of {{ testQuestions.length }} questions correctly!</p>
-    <button (click)="changePart(Part.Explanation)">Back to Explanation</button>
+    <h1>גמרנו את המבחן</h1>
+    <p>ענית {{ testCorrectAnswers }} מתוך {{ testQuestions.length }} שאלות נכון!</p>
+
   </div>
 </div>
-<button (click)="navigateToTopics()">Back to Topics</button>
-<button (click)="fetchUserExercises()">My exercises</button>
-<div *ngIf="showExercises">
-  <h2>My Exercises</h2>
-  <ul *ngIf="savedQuestions.length > 0">
-    <ng-container *ngFor="let question of savedQuestions">
-      <li *ngIf="question.line1_equation && question.line1_equation.trim() !== '' && question.line2_equation && question.line2_equation.trim() !== ''">
-        <p>Line 1 Equation: {{ question.line1_equation }}</p>
-        <p>Line 2 Equation: {{ question.line2_equation }}</p>
-      </li>
-    </ng-container>
-  </ul>
+<div class="menu-container">
 
-  <div *ngIf="savedQuestions.length === 0">
-    <h2>No saved exercises found</h2>
-  </div>
+  <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
+  <button (click)="fetchUserExercises()">התרגילים שלי</button>
+  <button (click)="changePart(Part.Quiz)">נתחיל בתרגול</button>
+  <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק תשובה</button>
+  <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
+  <button (click)="changePart(Part.Quiz)">להתחיל את התרגול שוב</button>
+  <button (click)="startTest()">להתחיל את המבחן</button>
+  <button (click)="checkTestAnswers()">לבדוק את המבחן</button>
+  <button (click)="changePart(Part.Explanation)">לחזור להסבר</button>
+
 </div>
 
+<div id="my-exercises-section">
+  <div *ngIf="showExercises">
+    <h2>התרגילים שלי</h2>
+    <ul *ngIf="savedQuestions.length > 0" class="exercises-container">
+      <ng-container *ngFor="let question of savedQuestions">
+        <li *ngIf="question.line1_equation && question.line1_equation.trim() !== '' && question.line2_equation && question.line2_equation.trim() !== ''" class="exercise-item">
+          <p>פונקציה 1: {{ question.line1_equation }}</p>
+          <p>פונקציה 2: {{ question.line2_equation }}</p>
+        </li>
+      </ng-container>
+    </ul>
+    <div *ngIf="savedQuestions.length === 0">
+      <h2>כנרהא עדיין לא פתרת תרגילים</h2>
+    </div>
+  </div>
+</div>
+</div>

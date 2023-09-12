@@ -20,7 +20,7 @@ enum Part {
 @Component({
   selector: 'app-pythagoras-hard',
   templateUrl: './pythagoras-hard.component.html',
-  styleUrls: ['./pythagoras-hard.component.sass']
+  styleUrls: ['./pythagoras-hard.component.scss']
 })
 export class PythagorasHardComponent implements OnInit {
   Part = Part;

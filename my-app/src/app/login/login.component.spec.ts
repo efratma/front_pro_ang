@@ -5,7 +5,7 @@ import { AuthService } from '../auth.service'; // Update the path based on your 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.sass']
+  styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
   errorMessage: string | null = null;

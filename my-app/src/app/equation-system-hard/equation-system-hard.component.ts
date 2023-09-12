@@ -12,7 +12,7 @@ enum Part {
 @Component({
   selector: 'app-equation-system-hard',
   templateUrl: './equation-system-hard.component.html',
-  styleUrls: ['./equation-system-hard.component.sass'],
+  styleUrls: ['./equation-system-hard.component.scss'],
 })
 export class EquationSystemHardComponent implements OnInit {
   Part = Part;

@@ -22,7 +22,7 @@ enum Part {
 @Component({
   selector: 'app-law-of-division-hard',
   templateUrl: './law-of-division-hard.component.html',
-  styleUrls: ['./law-of-division-hard.component.sass']
+  styleUrls: ['./law-of-division-hard.component.scss']
 })
 export class LawOfDivisionHardComponent implements OnInit {
   Part = Part;
