@@ -28,19 +28,19 @@ To access the website, users must register and set a password. If a user forgets
 
 |                     Signin Page                       |                  Signup Page                          |
 | :---------------------------------------------------: | :---------------------------------------------------: |
-| ![](/images/login.jpg)                      | ![](/images/register.jpg)                      |
+| ![](./images/login.jpg)                      | ![](./images/register.jpg)                      |
 
 |             Topic selection Page                     |            expelnation exsercise page                 |
 | :------------------------------------------------: | :------------------------------------------------: | 
-| ![](/images/topic.jpg)                 | ![](/images/home exsercise.jpg)             | 
+| ![](./images/topic.jpg)                 | ![](./images/home exsercise.jpg)             | 
 
 |                quiz part page      |                          my exsersice page           |
 | :--------------------------------------------: | :--------------------------------------------:   |
-| ![](/images/quiz.jpg)             | ![](/images/my exsersice.jpg)               |
+| ![](./images/quiz.jpg)             | ![](./images/my exsersice.jpg)               |
 
 |                    forget password page          |                     reset password page          |  
 | :------------------------------------------------:    | :------------------------------------------------:      |
-| ![](/images/newpassword.jpg)           |![](/images/resetpassword.jpg)                 |
+| ![](./images/newpassword.jpg)           |![](./images/resetpassword.jpg)                 |
 
 
 
