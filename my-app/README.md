@@ -1,27 +1,76 @@
-# MyApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.8.
 
-## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+# Mathtictac
 
-## Code scaffolding
+![MainPage](./images/main.jpg)                                                                                                                               
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+**in order to set up the app you will also need to set up the front-end part of the project**
+you can do that here: https://github.com/efratma/back_pro_dj
 
-## Build
+## What is included
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- MathTicTac- is primarily designed for middle school students, especially those in the 8th grade.
+The website provides explanations through short videos on a variety of study materials. Following each video, there's an opportunity to practice the subject and take a test on it. Each topic is presented at three levels of study: easy, medium, and hard.     
+                        
+To access the website, users must register and set a password. If a user forgets their password, there's an option to retrieve or reset it. The website remembers the exercises the user has already solved
+ 
+## Features
 
-## Running unit tests
+- the abillity to create random execises in diffrents levels
+- Email integration for password reset (works only with gmail) using EmailJS
+- Watch an instructional video explaining the material learned
+- Save exercises performed for reuse
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Screenshots
 
-## Further help
+|                     Signin Page                       |                  Signup Page                          |
+| :---------------------------------------------------: | :---------------------------------------------------: |
+| ![](/images/login.jpg)                      | ![](/images/register.jpg)                      |
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+|             Topic selection Page                     |            expelnation exsercise page                 |
+| :------------------------------------------------: | :------------------------------------------------: | 
+| ![](/images/topic.jpg)                 | ![](/images/home exsercise.jpg)             | 
+
+|                quiz part page      |                          my exsersice page           |
+| :--------------------------------------------: | :--------------------------------------------:   |
+| ![](/images/quiz.jpg)             | ![](/images/my exsersice.jpg)               |
+
+|                    forget password page          |                     reset password page          |  
+| :------------------------------------------------:    | :------------------------------------------------:      |
+| ![](/images/newpassword.jpg)           |![](/images/resetpassword.jpg)                 |
+
+
+
+## Setting up instructaions (without using docker)
+                                                                                          
+run this commad to install all the packages:
+-      npm install
+
+run this commad to start the server:
+-    Ng s -o
+
+                        
+and change the MY_SERVER to the ip of your back-end server:
+-      MY_SERVER = "https//:yourserver.com:ddd"
+
+[**dont forget to set up the backend aswell**](https://github.com/efratma/back_pro_dj)
+
+                                 
+
+
+- youtube       
+ (https://www.youtube.com/@amirachervonitz4723)
+
+
+## Technologies
+
+- [Django](https://www.djangoproject.com/) (at the back end part of the project)
+- [Sqlite3](https://www.sqlite.org/about.html) (at the back end part of the project)
+- [Python](https://www.python.org/about/) (at the back end part of the project)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Docker](https://www.docker.com/company/)
+- [angular](https://angular.io/)
+- [youtube](https://youtube.com/)
