@@ -28,7 +28,7 @@ To access the website, users must register and set a password. If a user forgets
 
 |                     Signin Page                       |                  Signup Page                          |
 | :---------------------------------------------------: | :---------------------------------------------------: |
-| ![](./images/login.jpg)                      | ![](./images/register.jpg)                      |
+| ![](../images/login.jpg)                      | ![](./images/register.jpg)                      |
 
 |             Topic selection Page                     |            expelnation exsercise page                 |
 | :------------------------------------------------: | :------------------------------------------------: | 
