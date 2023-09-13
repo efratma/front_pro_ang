@@ -3,7 +3,7 @@
 
 # Mathtictac
 
-![MainPage](./images/main.jpg)                                                                                                                               
+![MainPage](/images/main.jpg)                                                                                                                               
 
 **in order to set up the app you will also need to set up the front-end part of the project**
 you can do that here: https://github.com/efratma/back_pro_dj
@@ -32,11 +32,11 @@ To access the website, users must register and set a password. If a user forgets
 
 |             Topic selection Page                     |            expelnation exsercise page                 |
 | :------------------------------------------------: | :------------------------------------------------: | 
-| ![](./images/topic.jpg)                 | ![](./images/home exsercise.jpg)             | 
+| ![](./images/topic.jpg)                 | ![](./images/homeexsercise.jpg)             | 
 
 |                quiz part page      |                          my exsersice page           |
 | :--------------------------------------------: | :--------------------------------------------:   |
-| ![](./images/quiz.jpg)             | ![](./images/my exsersice.jpg)               |
+| ![](./images/quiz.jpg)             | ![](./images/myexsersice.jpg)               |
 
 |                    forget password page          |                     reset password page          |  
 | :------------------------------------------------:    | :------------------------------------------------:      |
