@@ -1,117 +1,91 @@
 <div id="container">
-
   <div *ngIf="currentPart === Part.Explanation" class="center-content">
-    <h1>מערכת משוואות בשני נעלמים רמה בינונית</h1>
-    <p>בסרטון נלמד איך לפתור מערכת משוואות בשני נעלמים ברמה בינונית</p>
-    <iframe width="560" height="315" src="https://www.youtube.com/embed/7-SqlwcGrk0?list=UUFwRoIbk7gng6WXyytDsd-Q" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <div class="menu-container">
-
-    </div>
-</div>
+    <h1>מערכת משוואות ברמה קלה </h1>
+    <h2>בסירטון נלמד כיצד לפתור מערכת משוואות ברמה קלה</h2>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/QmELxamfCqM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
 
   <div *ngIf="currentPart === Part.Quiz" class="center-content">
     <div *ngIf="!showSummary">
-      <h1>שאלה {{ attempts + 1 }}: פתור את מערכת המשוואות שלפניך</h1>
-      <div>
-        <!-- Equation 1 Fractions Display -->
-        <span *ngFor="let fraction of equation1Fractions; let last = last">
-          <span *ngIf="fraction.denominator" class="fraction">
-            <span class="numerator">{{ fraction.numerator }}</span>
-            <span class="denominator">{{ fraction.denominator }}</span>
-          </span>
-          <span *ngIf="!fraction.denominator">{{ fraction.numerator }}</span>
-          <span *ngIf="!last">&nbsp;</span>
-        </span>
-      </div>
-      <div>
-        <!-- Equation 2 Fractions Display -->
-        <span *ngFor="let fraction of equation2Fractions; let last = last">
-          <span *ngIf="fraction.denominator" class="fraction">
-            <span class="numerator">{{ fraction.numerator }}</span>
-            <span class="denominator">{{ fraction.denominator }}</span>
-          </span>
-          <span *ngIf="!fraction.denominator">{{ fraction.numerator }}</span>
-          <span *ngIf="!last">&nbsp;</span>
-        </span>
-      </div>
-      <!-- Solution Input Fields -->
-      <label for="solutionX">הכנס את הערך של  x:</label>
-      <input type="number" id="solutionX" [(ngModel)]="userSolutionX" />
-      <label for="solutionY">הכנס את הערך של y:</label>
-      <input type="number" id="solutionY" [(ngModel)]="userSolutionY" />
+      <h2>שאלה {{ attempts + 1 }}: פתור את מערכת המשוואות שלפניך</h2>
+      <div class="equation">{{ equation1 }}</div>
+      <div class="equation">{{ equation2 }}</div>
+      <p></p>
+      <label class="label-rtl" for="solutionX">הערך של X</label>
+      <input class="input-ltr" type="number" id="solutionX" [(ngModel)]="userSolutionX" />
 
-      <!-- Solution Feedback -->
+      <p></p>
+      <label class="label-rtl" for="solutionY">הערך של Y</label>
+      <input class="input-ltr" type="number" id="solutionY" [(ngModel)]="userSolutionY" />
+
+
       <div *ngIf="isAnswerChecked">
-        <p *ngIf="isAnswerCorrect">כל הכבוד! ענית נכון</p>
-        <p *ngIf="!isAnswerCorrect && correctSolutionX !== null && correctSolutionY !== null">
-          אופס.. ענית לא  נכון התשובה הנכונה היא: x={{ correctSolutionX }}, y={{ correctSolutionY }}.
+        <p *ngIf="isAnswerCorrect">מצוין ! ענית נכון</p>
+        <p class="answer-input" *ngIf="!isAnswerCorrect && correctSolutionX !== null && correctSolutionY !== null">
+          אופס ענית לא נכון התשובה הנכונה היא: x={{ correctSolutionX }}, y={{ correctSolutionY }}.
         </p>
       </div>
-    </div>
-    <!-- Quiz Summary -->
-    <div *ngIf="showSummary">
-
-
+      <div *ngIf="showSummary">
+        <h1>Quiz Summary</h1>
+        <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
+        <button (click)="resetQuiz()">Try Again</button>
+      </div>
     </div>
   </div>
 
-  <!-- Quiz Completed Section -->
-  <div *ngIf="currentPart === Part.QuizCompleted" class="center-content">
+  <div *ngIf="currentPart === Part.QuizCompleted">
     <h1>גמרנו עם התרגול</h1>
-    <p>ענית {{ correctAnswers }} מתוך 6 שאלות נכון</p>
-    <div class="menu-container">
-
-    </div>
+    <p>כל הכבוד! ענית {{ correctAnswers }} מתוך 6 שאלות נכון</p>
   </div>
 
-  <!-- Test Section -->
-  <div *ngIf="currentPart === Part.Test" class="center-content test-section">
-    <h1>מבחן</h1>
+  <div class="test-section" *ngIf="currentPart === Part.Test">
+    <h1 class="equation">מבחן</h1>
     <div *ngFor="let question of testQuestions; let i = index">
-      <p>שאלה {{ i + 1 }}</p>
-      <div>{{ question.equation1 }}</div>
-      <div>{{ question.equation2 }}</div>
-      <label for="solutionX{{ i }}">הכנס את הערך של x:</label>
-      <input type="number" id="solutionX{{ i }}" [(ngModel)]="userTestAnswers[i].x" />
-      <label for="solutionY{{ i }}">הכנס את הערך של y:</label>
-      <input type="number" id="solutionY{{ i }}" [(ngModel)]="userTestAnswers[i].y" />
+      <p></p>
+      <p class="equation">שאלה {{ i + 1 }}</p>
+      <p></p>
+      <div class="equation">{{question.equation1 }}</div>
+      <div class="equation">{{question.equation2 }}</div>
+      <label class="label-rtl" for="solutionX{{ i }}">הערך של X</label>
+      <input class="input-ltr" type="number" id="solutionX{{ i }}" [(ngModel)]="userTestAnswers[i].x" />
+
+      <p></p>
+      <label class="label-rtl" for="solutionY{{ i }}">הערך של Y</label>
+      <input class="input-ltr" type="number" id="solutionY{{ i }}" [(ngModel)]="userTestAnswers[i].y" />
+
     </div>
-    <button (click)="checkTestAnswers()">לבדוק את המבחן</button>
-    <!-- Test Summary -->
+
     <div *ngIf="showTestSummary">
       <h1>גמרנו עם המבחן</h1>
       <p>ענית {{ testCorrectAnswers }} מתוך {{ testQuestions.length }} שאלות נכון!</p>
-
     </div>
   </div>
-  <!-- Navigation Buttons -->
+
   <div class="menu-container">
-    <button (click)="navigateToTopics()">לחזור לרשימת הנושאים</button>
-    <button (click)="fetchUserExercises()">התרגילים שלי</button>
-    <button (click)="changePart(Part.Quiz)">נתחיל בתרגול</button>
+    <button (click)="changePart(Part.Quiz)">להתחיל בתרגול</button>
     <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק תשובה</button>
     <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
-
     <button (click)="changePart(Part.Explanation)">חזור להסבר</button>
-    <button (click)="changePart(Part.Quiz)">לעשות שוב תרגול</button>
-    <button (click)="startTest()">להתחיל מבחן</button>
-
+    <button (click)="changePart(Part.Quiz)">לעשות שוב את התרגול</button>
+    <button (click)="startTest()">להתחיל את המבחן</button>
+    <button (click)="checkTestAnswers()">בדוק מבחן</button>
+    <button (click)="fetchUserExercises()">התרגילים שלי</button>
+    <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
   </div>
 
-  <!-- Exercises Section -->
-  <div *ngIf="showExercises" id="my-exercises-section">
-    <h2>התרגילים שלי</h2>
-    <ul *ngIf="savedQuestions.length > 0">
-      <ng-container class="exercise-item" *ngFor="let equation of savedQuestions">
-        <!-- Check if equation.equation1 is not empty and display it in a list item -->
-        <li  *ngIf="equation.equation1 && equation.equation1.trim() !== ''">משוואה 1: {{ equation.equation1 }}</li>
-        <!-- Check if equation.equation2 is not empty and display it in a list item -->
-        <li  *ngIf="equation.equation2 && equation.equation2.trim() !== ''">משוואה 2 : {{ equation.equation2 }}<P>*****</P></li>
-      </ng-container>
-    </ul>
-    <!-- If No Exercises are found -->
+  <div id="my-exercises-section" *ngIf="showExercises">
+    <p></p>
+    <h2>השאלות שפתרתי עד עכשיו</h2>
+    <div class="exercises-container" *ngIf="savedQuestions.length > 0">
+      <ul>
+        <ng-container class="exercise-item"  *ngFor="let equation of savedQuestions">
+          <li  *ngIf="equation.equation1 && equation.equation1.trim() !== ''">משוואה 1: {{ equation.equation1 }}</li>
+          <li *ngIf="equation.equation2 && equation.equation2.trim() !== ''">משוואה 2: {{ equation.equation2 }}<P>*****</P></li>
+        </ng-container>
+      </ul>
+    </div>
     <div *ngIf="savedQuestions.length === 0">
-      <h2>כנראה עדיין לא פתרת תרגילים</h2>
+      <h2>כנראה שלא פתרת עדיין תרגילים</h2>
     </div>
   </div>
 </div>

@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
+
 enum Part {
   Explanation = 'explanation',
   Quiz = 'quiz',
   Test = 'test',
   QuizCompleted = 'quizCompleted',
 }
-
 
 @Component({
   selector: 'app-equation-system-easy',
@@ -21,8 +21,8 @@ export class EquationSystemEasyComponent {
   equation2: string = '';
   userSolutionX: number = 0;
   userSolutionY: number = 0;
-  correctSolutionX: number | null = 0;
-  correctSolutionY: number | null = 0;
+  correctSolutionX: number | string | null = 0;
+  correctSolutionY: number | string | null = 0;
   isAnswerChecked: boolean = false;
   isAnswerCorrect: boolean = false;
   attempts: number = 0;
@@ -42,15 +42,29 @@ export class EquationSystemEasyComponent {
   testCorrectAnswers: number = 0;
   backgroundColor: string = '';
   showTestSummary: boolean = false;
-// Add these to your existing properties
-savedEquations: { equation1: string, equation2: string }[] = [];
-showExercises: boolean = false;
+  savedEquations: { equation1: string, equation2: string }[] = [];
+  showExercises: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadQuestion();
   }
+
+  formatNumber(value: number): number {
+    const strValue = value.toString();
+    if (strValue.includes('.')) {
+        const [intPart, decimalPart] = strValue.split('.');
+        if (decimalPart === '00') {
+            return parseFloat(intPart);
+        } else if (decimalPart.charAt(1) === '0') {
+            return parseFloat(`${intPart}.${decimalPart.charAt(0)}`);
+        }
+    }
+    return value;
+}
+
+
   loadQuestion(): void {
     if (!this.authService.isAuthenticated()) {
       console.error("User not authenticated. Cannot fetch question.");
@@ -67,8 +81,8 @@ showExercises: boolean = false;
             // Handle the regular case with valid solutions
             this.equation1 = data.equation1;
             this.equation2 = data.equation2;
-            this.correctSolutionX = data.solution_x;
-            this.correctSolutionY = data.solution_y;
+            this.correctSolutionX = this.formatNumber(data.solution_x);
+            this.correctSolutionY = this.formatNumber(data.solution_y);
             this.isAnswerChecked = false; // Reset the answer check status
 
             // Format the equations into fractions
@@ -105,9 +119,14 @@ showExercises: boolean = false;
 
   checkSolution(): void {
     this.isAnswerChecked = true;
+
+    // Normalize both the correct solution and the user's input.
+    const normalizedUserX = this.formatNumber(this.userSolutionX);
+    const normalizedUserY = this.formatNumber(this.userSolutionY);
+
     if (
-      this.userSolutionX === this.correctSolutionX &&
-      this.userSolutionY === this.correctSolutionY
+      normalizedUserX === this.correctSolutionX &&
+      normalizedUserY === this.correctSolutionY
     ) {
       this.isAnswerCorrect = true;
       this.correctAnswers++;
@@ -115,6 +134,7 @@ showExercises: boolean = false;
       this.isAnswerCorrect = false;
     }
   }
+
   nextQuestion(): void {
     this.isAnswerChecked = false;
     this.attempts++;
@@ -153,8 +173,8 @@ showExercises: boolean = false;
         this.testQuestions = questions.map(question => ({
           equation1: question.equation1,
           equation2: question.equation2,
-          solution_x: question.solution_x,
-          solution_y: question.solution_y,
+          solution_x: this.formatNumber(question.solution_x),
+          solution_y: this.formatNumber(question.solution_y),
         }));
         // Initialize the user answers
         this.userTestAnswers = this.testQuestions.map(() => ({ x: 0, y: 0 }));
@@ -193,6 +213,28 @@ showExercises: boolean = false;
     }, error => {
       console.error("Error fetching user exercises:", error);
     });
+  }
+  processEquation(equation: string): string {
+    // Remove terms where coefficient is 0 for x or y
+    let processedEquation = equation.replace(/\s?\+?\s?0x/g, '').replace(/\s?\+?\s?0y/g, '').replace(/\s?\-\s?0x/g, '').replace(/\s?\-\s?0y/g, '');
+
+    // Remove coefficients of 1 for x or y
+    processedEquation = processedEquation.replace(/\s?\+?\s?1x/g, ' + x').replace(/\s?\+?\s?1y/g, ' + y').replace(/\s?\-\s?1x/g, ' - x').replace(/\s?\-\s?1y/g, ' - y');
+
+    // Remove the unnecessary '+' before negative numbers or at the start of an equation
+    processedEquation = processedEquation.replace(/\+\s?\-/g, '-');
+
+    // Handle the '- +' combination
+    processedEquation = processedEquation.replace(/\-\s?\+/g, '-');
+
+    // Remove '+' if it's the first character or right after '='
+    processedEquation = processedEquation.replace(/^(\s?\+)/g, '').replace(/=\s?\+/g, '=');
+
+    // Additional logic to handle spaces: If you end up with double spaces, replace them with a single space.
+    processedEquation = processedEquation.replace(/\s\s+/g, ' ');
+
+    // Trim any leading or trailing spaces.
+    return processedEquation.trim();
   }
 
 

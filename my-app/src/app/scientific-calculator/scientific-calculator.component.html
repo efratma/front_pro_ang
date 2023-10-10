@@ -1,0 +1,60 @@
+
+
+<form>
+  <table>
+    <tr>
+      <td colspan="6">
+        <input [(ngModel)]="displayValue" name="calculatorDisplay" type="text">
+
+      </td>
+    </tr>
+    <tr>
+      <td><input type="button" value="1" (click)="addToDisplay('1')"></td>
+      <td><input type="button" value="2" (click)="addToDisplay('2')"></td>
+      <td><input type="button" value="3" (click)="addToDisplay('3')"></td>
+      <td><input type="button" value="C" (click)="clearDisplay()"></td>
+      <td><input type="button" value="⌫" (click)="backspace()"></td>
+      <td><input type="button" value="=" (click)="calculate()"></td>
+    </tr>
+    <tr>
+      <td><input type="button" value="4" (click)="addToDisplay('4')"></td>
+      <td><input type="button" value="5" (click)="addToDisplay('5')"></td>
+      <td><input type="button" value="6" (click)="addToDisplay('6')"></td>
+      <td><input type="button" value="-" (click)="addToDisplay('-')"></td>
+      <td><input type="button" value="%" (click)="addToDisplay('%')"></td>
+      <td><input type="button" value="cos(" (click)="addToDisplay('cos(')"></td>
+    </tr>
+    <tr>
+      <td><input type="button" value="7" (click)="addToDisplay('7')"></td>
+      <td><input type="button" value="8" (click)="addToDisplay('8')"></td>
+      <td><input type="button" value="9" (click)="addToDisplay('9')"></td>
+      <td><input type="button" value="x" (click)="addToDisplay('*')"></td>
+      <td><input type="button" value="!" (click)="addToDisplay('!')"></td>
+      <td><input type="button" value="sin(" (click)="addToDisplay('sin(')"></td>
+    </tr>
+    <tr>
+      <td><input type="button" value="." (click)="addToDisplay('.')"></td>
+      <td><input type="button" value="0" (click)="addToDisplay('0')"></td>
+      <td><input type="button" value="," (click)="addToDisplay(',')"></td>
+      <td><input type="button" value="+" (click)="addToDisplay('+')"></td>
+      <td><input type="button" value="/" (click)="addToDisplay('/')"></td>
+      <td><input type="button" value="tan(" (click)="addToDisplay('tan(')"></td>
+    </tr>
+    <tr>
+      <td><input type="button" value="E" (click)="e()"></td>
+      <td><input type="button" value="pi" (click)="pi()"></td>
+      <td><input type="button" value="^" (click)="power()"></td>
+      <td><input type="button" value="(" (click)="addToDisplay('(')"></td>
+      <td><input type="button" value=")" (click)="addToDisplay(')')"></td>
+      <td><input type="button" value="log(" (click)="base10Log()"></td>
+    </tr>
+    <tr>
+      <td><input type="button" value="sqrt(" (click)="squareRoot()"></td>
+      <td><input type="button" value="ln2" (click)="addToDisplay('ln(2)')"></td>
+      <td><input type="button" value="log10(" (click)="base10Log()"></td>
+      <td><input type="button" value="l2e" (click)="addToDisplay('log2(e)')"></td>
+      <td><input type="button" value="l10e" (click)="addToDisplay('log10(e)')"></td>
+      <td><input type="button" value="exp(" (click)="addToDisplay('exp(')"></td>
+    </tr>
+  </table>
+</form>

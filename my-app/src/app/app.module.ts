@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
@@ -33,6 +34,8 @@ import { HomeComponent } from './home/home.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { RequestPasswordResetComponent } from './request-password-reset/request-password-reset.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ScientificCalculatorComponent } from './scientific-calculator/scientific-calculator.component';
+import { TokenInterceptor } from './token-interceptor.service';
 
 
 
@@ -66,6 +69,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
      NavbarComponent,
      RequestPasswordResetComponent,
      ResetPasswordComponent,
+     ScientificCalculatorComponent,
 
 
 
@@ -87,6 +91,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
 
   ],
   bootstrap: [AppComponent]

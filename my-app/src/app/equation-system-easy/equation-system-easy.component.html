@@ -16,19 +16,26 @@
 
 <div *ngIf="currentPart === Part.Quiz" class="center-content">
   <div *ngIf="!showSummary">
-    <h2>שאלה {{ attempts + 1 }}: פתור את מערכת המשוואות שלפניך</h2>
-    <div>{{ equation1 }}</div>
-    <div>{{ equation2 }}</div>
-    <label for="solutionX">הערך של X:</label>
-    <input type="number" id="solutionX" [(ngModel)]="userSolutionX" />
-    <label for="solutionY">הערך של y</label>
-    <input type="number" id="solutionY" [(ngModel)]="userSolutionY" />
+    <h2 >שאלה {{ attempts + 1 }}: פתור את מערכת המשוואות שלפניך</h2>
+    <div class="equation">{{ processEquation(equation1) }}</div>
+    <div class="equation">{{ processEquation(equation2) }}</div>
+    <p>
+
+    </p>
+    <input class="input-ltr" type="number" id="solutionX" [(ngModel)]="userSolutionX" />
+    <label class="label-rtl" for="solutionX">הערך של X</label>
+    <p>
+
+    </p>
+    <input class="input-ltr" type="number" id="solutionY" [(ngModel)]="userSolutionY" />
+    <label class="label-rtl" for="solutionY">הערך של Y</label>
+
 
 
 
     <div *ngIf="isAnswerChecked">
       <p *ngIf="isAnswerCorrect">מצוין ! ענית נכון</p>
-      <p *ngIf="!isAnswerCorrect && correctSolutionX !== null && correctSolutionY !== null">
+      <p class="answer-input" *ngIf="!isAnswerCorrect && correctSolutionX !== null && correctSolutionY !== null">
         אופס ענית לא נכון התשובה הנכונה היא: x={{ correctSolutionX }}, y={{ correctSolutionY }}.
       </p>
     </div>
@@ -47,15 +54,25 @@
 </div>
 
 <div class="test-section" *ngIf="currentPart === Part.Test">
-  <h1>מבחן</h1>
+  <h1 class="equation">מבחן</h1>
   <div *ngFor="let question of testQuestions; let i = index">
-    <p>שאלה {{ i + 1 }}</p>
-    <div>{{ question.equation1 }}</div>
-    <div>{{ question.equation2 }}</div>
-    <label for="solutionX{{ i }}">הערך של X</label>
-    <input type="number" id="solutionX{{ i }}" [(ngModel)]="userTestAnswers[i].x" />
-    <label for="solutionY{{ i }}">הערך של Y </label>
-    <input type="number" id="solutionY{{ i }}" [(ngModel)]="userTestAnswers[i].y" />
+    <p>
+
+    </p>
+    <p class="equation">שאלה {{ i + 1 }}</p>
+    <p>
+
+    </p>
+    <div class="equation">{{ processEquation(question.equation1) }}</div>
+    <div class="equation">{{ processEquation(question.equation2) }}</div>
+
+    <input class="input-ltr" type="number" id="solutionX{{ i }}" [(ngModel)]="userTestAnswers[i].x" />
+    <label class="label-rtl" for="solutionX{{ i }}">הערך של X</label>
+    <p></p>
+    <input class="input-ltr" type="number" id="solutionY{{ i }}" [(ngModel)]="userTestAnswers[i].y" />
+    <label class="label-rtl" for="solutionY{{ i }}">הערך של Y</label>
+
+
   </div>
 
   <div *ngIf="showTestSummary">

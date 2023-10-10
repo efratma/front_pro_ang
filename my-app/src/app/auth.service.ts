@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 interface QuizData {
   problem_str: string;
@@ -15,7 +16,8 @@ interface QuizData {
 export class AuthService {
   private apiUrl = 'http://127.0.0.1:8000'; // Update with your Django API URL
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
+
 
   login(user: { username: string; password: string }): Observable<any> {
     const url = `${this.apiUrl}/login/`;
@@ -236,6 +238,10 @@ resetPassword(uid: string, token: string, newPassword: string) {
   return this.http.post(apiUrl, requestData);
 }
 
+logoutAndNavigateToLogin(): void {
+  localStorage.removeItem('token');
+  this.router.navigate(['/login']);
+}
 }
 
 

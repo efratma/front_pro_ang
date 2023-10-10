@@ -68,8 +68,6 @@
       <h1>Quiz Summary</h1>
       <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
       <div class="menu-container">
-          <button (click)="changePart(Part.Quiz)">Try Again</button>
-          <button (click)="startTest()">Start Test</button>
       </div>
   </div>
 
@@ -121,15 +119,15 @@
   </div>
 
   <div class="menu-container">
-      <button (click)="navigateToTopics()">לחזור לרשימת הנושאים</button>
-      <button (click)="fetchUserExercises()">התרגילים שלי</button>
-      <button (click)="changePart(Part.Quiz)">להתחיל תרגול</button>
-      <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק תשובה</button>
-      <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
-      <button (click)="resetQuiz()">לעשות שוב תרגול</button>
-      <button (click)="checkTestAnswers()">בדוק תשובה</button>
-      <button (click)="changePart(Part.Explanation)">לחזור להסבר</button>
-
+    <button (click)="changePart(Part.Quiz)">להתחיל בתרגול</button>
+    <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק תשובה</button>
+    <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
+    <button (click)="changePart(Part.Explanation)">חזור להסבר</button>
+    <button (click)="changePart(Part.Quiz)">לעשות שוב את התרגול</button>
+    <button (click)="startTest()">להתחיל את המבחן</button>
+    <button (click)="checkTestAnswers()">בדוק מבחן</button>
+    <button (click)="fetchUserExercises()">התרגילים שלי</button>
+    <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
   </div>
 
   <div *ngIf="showExercises" id="my-exercises-section" class="center-content">

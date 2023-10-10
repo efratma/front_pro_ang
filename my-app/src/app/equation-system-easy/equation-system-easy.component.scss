@@ -7,7 +7,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  direction: rtl;  /* Setting the text direction to right-to-left */
+  direction: ltr;  /* Setting the text direction to right-to-left */
   padding: 30px 0;
   overflow-y: auto;  /* Allows vertical scrolling if the content exceeds the viewport height */
 }
@@ -78,4 +78,20 @@ button {
   padding: 20px;      /* Provides some spacing */
   border: 1px solid #ddd;  /* Optional: Adds a border to make the section more distinguishable */
   margin-bottom: 20px;     /* Gives space between this section and the next content */
+}
+.equation {
+  text-align: center;
+  direction: ltr;
+}
+
+.answer-input {
+  direction: rtl;
+}
+.label-rtl {
+  direction: rtl;
+  display: inline-block;  // to make sure direction applies correctly
+}
+
+.input-ltr {
+  direction: ltr;
 }

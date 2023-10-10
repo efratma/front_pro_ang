@@ -13,9 +13,9 @@
   <div *ngIf="currentPart === Part.Quiz" class="center-content">
     <div *ngIf="!showSummary">
       <h1>שאלה  {{ attempts + 1 }}: פתור את התרגיל</h1>
-      <div>{{ equation }}</div>
+      <div class="equation">{{ equation }}</div>
       <label for="userSolution">הכנס את התשובה:</label>
-      <input type="text" id="userSolution" [(ngModel)]="userSolution" />
+      <input class="input-ltr" type="text" id="userSolution" [(ngModel)]="userSolution" />
       <div class="special-buttons-container">
       <button class="special-button" (click)="addTerm('x^2')">x²</button>
       <button class="special-button" (click)="addTerm('x')">x</button>
@@ -31,7 +31,7 @@
     </div>
       <div *ngIf="isAnswerChecked">
         <p *ngIf="isAnswerCorrect">כל הכבוד! ענית נכון</p>
-        <p *ngIf="!isAnswerCorrect">אופס..ענית לא נכון התשובה הנכונה היא: {{ correctSolution }}.</p>
+        <p *ngIf="!isAnswerCorrect">אופס..ענית לא נכון התשובה הנכונה היא</p><p class="equation">{{ correctSolution }}</p>
       </div>
       <div *ngIf="showSummary">
         <h1>Quiz Summary</h1>

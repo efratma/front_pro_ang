@@ -60,8 +60,8 @@ showExercises: boolean = false;
     }
     if (this.attempts < this.maxAttempts) {
       this.authService.getHardLawOfDivision().subscribe((data: QuizData) => {
-        this.equation = data.problem_str;
-        this.correctSolution = data.solution;
+        this.equation = this.formatExpression(data.problem_str);
+        this.correctSolution = this.formatExpression(data.solution);
         this.isAnswerChecked = false;
       });
     } else {
@@ -69,15 +69,27 @@ showExercises: boolean = false;
     }
   }
 
+
   checkSolution(): void {
+    const formattedUserSolution = this.formatUserInput(this.userSolution);
+
     this.isAnswerChecked = true;
-    if (this.userSolution === this.correctSolution) {
+    if (formattedUserSolution.trim() === this.correctSolution.trim()) {
       this.isAnswerCorrect = true;
       this.correctAnswers++;
     } else {
       this.isAnswerCorrect = false;
     }
   }
+
+  formatExpression(expr: string): string {
+    return expr.replace(/([a-z])2/g, '$1^2');
+  }
+
+  formatUserInput(expr: string): string {
+    return expr.replace(/([a-z])\^2/g, '$12');
+  }
+
 
   nextQuestion(): void {
     this.isAnswerChecked = false;
@@ -111,28 +123,30 @@ showExercises: boolean = false;
     const requests = Array(10).fill(null).map(() => this.authService.getHardLawOfDivision());
 
     forkJoin(requests).subscribe({
-      next: (questions: QuizData[]) => {
-        this.testQuestions = questions.map(question => ({
-          equation: question.problem_str,
-          solution: question.solution,
-        }));
-        this.userTestAnswers = this.testQuestions.map(() => ''); // Initialize with empty strings
-      },
-      error: (error) => {
-        console.error('An error occurred:', error);
-      }
+        next: (questions: QuizData[]) => {
+            this.testQuestions = questions.map(question => ({
+                equation: this.formatExpression(question.problem_str),
+                solution: this.formatExpression(question.solution),
+            }));
+            this.userTestAnswers = this.testQuestions.map(() => ''); // Initialize with empty strings
+        },
+        error: (error) => {
+            console.error('An error occurred:', error);
+        }
     });
-  }
+}
 
-  checkTestAnswers(): void {
-    this.testCorrectAnswers = 0;
-    this.testQuestions.forEach((question, index) => {
-      if (question.solution === this.userTestAnswers[index]) {
-        this.testCorrectAnswers++;
+
+checkTestAnswers(): void {
+  this.testCorrectAnswers = 0;
+  this.testQuestions.forEach((question, index) => {
+      const formattedUserAnswer = this.formatUserInput(this.userTestAnswers[index].trim());
+      if (question.solution.trim() === formattedUserAnswer) {
+          this.testCorrectAnswers++;
       }
-    });
-    this.showTestSummary = true;
-  }
+  });
+  this.showTestSummary = true;
+}
 
   startTest(): void {
     this.currentPart = Part.Test;

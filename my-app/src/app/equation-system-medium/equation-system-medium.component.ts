@@ -55,6 +55,18 @@ export class EquationSystemMediumComponent {
   ngOnInit(): void {
     this.loadQuestion();
   }
+  formatNumber(value: number): number {
+    const strValue = value.toString();
+    if (strValue.includes('.')) {
+        const [intPart, decimalPart] = strValue.split('.');
+        if (decimalPart === '00') {
+            return parseFloat(intPart);
+        } else if (decimalPart.charAt(1) === '0') {
+            return parseFloat(`${intPart}.${decimalPart.charAt(0)}`);
+        }
+    }
+    return value;
+}
 
   navigateToTopics(): void {
     this.router.navigate(['/topic-selection']);
@@ -74,10 +86,10 @@ export class EquationSystemMediumComponent {
             this.loadQuestion();
           } else {
             // Handle the regular case with valid solutions
-            this.equation1 = data.equation1;
-            this.equation2 = data.equation2;
-            this.correctSolutionX = data.solution_x;
-            this.correctSolutionY = data.solution_y;
+            this.equation1 = this.processEquation(data.equation1);
+            this.equation2 = this.processEquation(data.equation2);
+            this.correctSolutionX = this.formatNumber(data.solution_x);
+            this.correctSolutionY = this.formatNumber(data.solution_y);
             this.isAnswerChecked = false; // Reset the answer check status
 
             // Format the equations into fractions
@@ -111,12 +123,16 @@ export class EquationSystemMediumComponent {
 
     return fractions;
   }
-
   checkSolution(): void {
     this.isAnswerChecked = true;
+
+    // Normalize both the correct solution and the user's input.
+    const normalizedUserX = this.formatNumber(this.userSolutionX);
+    const normalizedUserY = this.formatNumber(this.userSolutionY);
+
     if (
-      this.userSolutionX === this.correctSolutionX &&
-      this.userSolutionY === this.correctSolutionY
+      normalizedUserX === this.correctSolutionX &&
+      normalizedUserY === this.correctSolutionY
     ) {
       this.isAnswerCorrect = true;
       this.correctAnswers++;
@@ -124,6 +140,7 @@ export class EquationSystemMediumComponent {
       this.isAnswerCorrect = false;
     }
   }
+
   nextQuestion(): void {
     this.isAnswerChecked = false;
     this.attempts++;
@@ -160,10 +177,10 @@ export class EquationSystemMediumComponent {
       next: (questions) => {
         // Store the questions directly in testQuestions without formatting
         this.testQuestions = questions.map(question => ({
-          equation1: question.equation1,
-          equation2: question.equation2,
-          solution_x: question.solution_x,
-          solution_y: question.solution_y,
+          equation1: this.processEquation(question.equation1),
+          equation2: this.processEquation(question.equation2),
+          solution_x: this.formatNumber(question.solution_x),
+          solution_y: this.formatNumber(question.solution_y),
         }));
         // Initialize the user answers
         this.userTestAnswers = this.testQuestions.map(() => ({ x: 0, y: 0 }));
@@ -177,6 +194,8 @@ export class EquationSystemMediumComponent {
   checkTestAnswers(): void {
     this.testCorrectAnswers = 0;
     this.testQuestions.forEach((question, index) => {
+      this.userTestAnswers[index].x = this.formatNumber(this.userTestAnswers[index].x);
+      this.userTestAnswers[index].y = this.formatNumber(this.userTestAnswers[index].y);
       if (
         question.solution_x === this.userTestAnswers[index].x &&
         question.solution_y === this.userTestAnswers[index].y
@@ -185,7 +204,8 @@ export class EquationSystemMediumComponent {
       }
     });
     this.showTestSummary = true; // Show the test summary
-  }
+}
+
   startTest(): void {
     this.currentPart = Part.Test;
     console.log('Starting test, current part:', this.currentPart);
@@ -203,6 +223,16 @@ export class EquationSystemMediumComponent {
     );
   }
 
+  processEquation(equation: string): string {
+    let processedEquation = equation.replace(/\s?\+?\s?0x/g, '').replace(/\s?\+?\s?0y/g, '').replace(/\s?\-\s?0x/g, '').replace(/\s?\-\s?0y/g, '');
+    processedEquation = processedEquation.replace(/\s?\+?\s?1x/g, ' + x').replace(/\s?\+?\s?1y/g, ' + y').replace(/\s?\-\s?1x/g, ' - x').replace(/\s?\-\s?1y/g, ' - y');
+    processedEquation = processedEquation.replace(/\+\s?\-/g, '-');
+    processedEquation = processedEquation.replace(/\-\s?\+/g, '-');
+    processedEquation = processedEquation.replace(/^(\s?\+)/g, '').replace(/=\s?\+/g, '=');
+    processedEquation = processedEquation.replace(/\s\s+/g, ' ');
+
+    return processedEquation.trim();
+  }
 
 }
 
