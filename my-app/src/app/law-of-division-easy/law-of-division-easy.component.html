@@ -12,25 +12,26 @@
   <div *ngIf="currentPart === Part.Quiz" class="center-content">
     <div *ngIf="!showSummary">
       <h1>שאלה  {{ attempts + 1 }}: פתור את התרגיל</h1>
-      <div>{{ equation }}</div>
+      <p>שים לב שכאשר מכניסים את התשובה צריך לשים רווח בין המספרים לפעולה!  </p>
+      <div class="equation">{{ equation }}</div>
       <label for="userSolution">הכנס את התשובה:</label>
-      <input type="text" id="userSolution" [(ngModel)]="userSolution" />
+      <input class="input-ltr" type="text" id="userSolution" [(ngModel)]="userSolution" />
       <div class="special-buttons-container">
-      <button class="special-button" (click)="addTerm('x^2')">x²</button>
-      <button class="special-button" (click)="addTerm('x')">x</button>
-      <button class="special-button" (click)="addTerm('^')">^</button>
-      <button class="special-button" (click)="addTerm('+')">+</button>
-      <button class="special-button" (click)="addTerm('-')">-</button>
-      <button class="special-button" (click)="addTerm('*')">*</button>
-      <button class="special-button" (click)="addTerm('/')">/</button>
-      <button class="special-button" (click)="addTerm('(')">(</button>
-      <button class="special-button" (click)="addTerm(')')">)</button>
-      <button class="special-button" (click)="addTerm(' ')" style="width: 50px;">רווח</button>
-      <button class="special-button" (click)="clearTerm()">למחוק הכל</button>
-    </div>
+        <button class="special-button" (click)="addTerm('x^2')">x²</button>
+        <button class="special-button" (click)="addTerm('y^2')">y²</button>
+        <button class="special-button" (click)="addTerm('x')">x</button>
+        <button class="special-button" (click)="addTerm('y')">y</button>
+        <button class="special-button" (click)="addTerm('xy')">xy</button>
+        <button class="special-button" (click)="addTerm('^')">^</button>
+        <button class="special-button" (click)="addTerm('+')">+</button>
+        <button class="special-button" (click)="addTerm('-')">-</button>
+        <button class="special-button" (click)="addTerm('*')">*</button>
+        <button class="special-button" (click)="addTerm(' ')" style="width: 50px;">רווח</button>
+        <button class="special-button" (click)="clearTerm()">למחוק הכל</button>
+      </div>
       <div *ngIf="isAnswerChecked">
         <p *ngIf="isAnswerCorrect">כל הכבוד! ענית נכון</p>
-        <p *ngIf="!isAnswerCorrect">אופס..ענית לא נכון התשובה הנכונה היא: {{ correctSolution }}.</p>
+        <p *ngIf="!isAnswerCorrect">אופס..ענית לא נכון התשובה הנכונה היא: </p><p class="equation">{{ correctSolution }}</p>
       </div>
       <div *ngIf="showSummary">
         <h1>Quiz Summary</h1>
@@ -50,23 +51,24 @@
     <h1>מבחן</h1>
     <div *ngFor="let question of testQuestions; let i = index">
       <p>שאלה {{ i + 1 }}</p>
-      <div>
+      <div class="equation">
         {{ question.problem_str }}
       </div>
       <label for="userTestAnswer{{ i }}">הכנס את התשובה שלך:</label>
+      <input  class="input-ltr" type="text" id="userTestAnswer{{ i }}" [(ngModel)]="userTestAnswers[i]" />
       <div class="special-buttons-container">
-      <button class="special-button" (click)="addTerm('x^2')">x²</button>
-      <button class="special-button" (click)="addTerm('x')">x</button>
-      <button class="special-button" (click)="addTerm('^')">^</button>
-      <button class="special-button" (click)="addTerm('+')">+</button>
-      <button class="special-button" (click)="addTerm('-')">-</button>
-      <button class="special-button" (click)="addTerm('*')">*</button>
-      <button class="special-button" (click)="addTerm('/')">/</button>
-      <button class="special-button" (click)="addTerm('(')">(</button>
-      <button class="special-button" (click)="addTerm(')')">)</button>
-      <button class="special-button" (click)="addTerm(' ')" style="width: 50px;">רווח</button>
-      <button class="special-button" (click)="clearTerm()">למחוק הכל</button>
-    </div>
+        <button class="special-button" (click)="addTerm('x^2',i)">x²</button>
+        <button class="special-button" (click)="addTerm('y^2',i)">y²</button>
+        <button class="special-button" (click)="addTerm('y',i)">y</button>
+        <button class="special-button" (click)="addTerm('x',i)">x</button>
+        <button class="special-button" (click)="addTerm('xy',i)">xy</button>
+        <button class="special-button" (click)="addTerm('^',i)">^</button>
+        <button class="special-button" (click)="addTerm('+',i)">+</button>
+        <button class="special-button" (click)="addTerm('-',i)">-</button>
+        <button class="special-button" (click)="addTerm('*',i)">*</button>
+        <button class="special-button" (click)="addTerm(' ',i)" style="width: 50px;">רווח</button>
+        <button class="special-button" (click)="clearTerm(i)">למחוק הכל</button>
+      </div>
     </div>
 
       <div *ngIf="!showSummary">

@@ -18,8 +18,10 @@
               <span *ngFor="let fraction of equation1Fractions; let last = last">
                   <span *ngIf="fraction.denominator">
                       <span class="fraction">
+                        <div class="equation ">
                           <span class="numerator">{{ fraction.numerator }}</span>
                           <span class="denominator">{{ fraction.denominator }}</span>
+                        </div>
                       </span>
                   </span>
                   <span *ngIf="!fraction.denominator">{{ fraction.numerator }}</span>

@@ -69,26 +69,47 @@ showExercises: boolean = false;
     }
   }
 
+  normalizeExpression(expr: string): string {
+    return expr.replace(/\s+/g, '').trim();
+}
 
-  checkSolution(): void {
-    const formattedUserSolution = this.formatUserInput(this.userSolution);
+checkSolution(): void {
+  const normalizedUserSolution = this.normalizeExpression(this.formatUserInput(this.userSolution));
+  const normalizedCorrectSolution = this.normalizeExpression(this.formatExpression(this.correctSolution));
 
-    this.isAnswerChecked = true;
-    if (formattedUserSolution.trim() === this.correctSolution.trim()) {
+  this.isAnswerChecked = true;
+
+  if (normalizedUserSolution === normalizedCorrectSolution) {
       this.isAnswerCorrect = true;
       this.correctAnswers++;
-    } else {
+  } else {
       this.isAnswerCorrect = false;
-    }
+      // Debug output for discrepancy
+      console.log("User Solution: ", JSON.stringify(normalizedUserSolution));
+      console.log("Correct Solution: ", JSON.stringify(normalizedCorrectSolution));
   }
+}
 
-  formatExpression(expr: string): string {
-    return expr.replace(/([a-z])2/g, '$1^2');
-  }
+formatExpression(expr: string): string {
+  // Convert from x2 to x^2
+  expr = expr.replace(/([a-z])2/g, '$1^2');
 
-  formatUserInput(expr: string): string {
-    return expr.replace(/([a-z])\^2/g, '$12');
-  }
+  // Convert "+-" to "-"
+  expr = expr.replace(/\+\-/g, '-');
+
+  // Remove coefficient of 1 for variables
+  expr = expr.replace(/(^|\s|\+|\-|\/|\*)1([a-z])/g, '$1$2');
+
+  return expr;
+}
+
+
+
+formatUserInput(expr: string): string {
+  // If the user mistakenly enters x2, convert it to x^2
+  return expr.replace(/([a-z])2/g, '$1^2');
+}
+
 
 
   nextQuestion(): void {
@@ -139,14 +160,26 @@ showExercises: boolean = false;
 
 checkTestAnswers(): void {
   this.testCorrectAnswers = 0;
+
   this.testQuestions.forEach((question, index) => {
-      const formattedUserAnswer = this.formatUserInput(this.userTestAnswers[index].trim());
-      if (question.solution.trim() === formattedUserAnswer) {
+      const normalizedUserAnswer = this.normalizeExpression(this.formatUserInput(this.userTestAnswers[index]));
+      const normalizedCorrectSolution = this.normalizeExpression(this.formatExpression(question.solution));
+
+      if (normalizedCorrectSolution === normalizedUserAnswer) {
           this.testCorrectAnswers++;
+      } else {
+          // Debug output for discrepancy
+          console.log("Test Question ", index + 1);
+          console.log("User Solution: ", JSON.stringify(normalizedUserAnswer));
+          console.log("Correct Solution: ", JSON.stringify(normalizedCorrectSolution));
       }
   });
+
   this.showTestSummary = true;
 }
+
+
+
 
   startTest(): void {
     this.currentPart = Part.Test;
@@ -154,16 +187,31 @@ checkTestAnswers(): void {
   }
 
 
-  addTerm(term: string): void {
-    this.userSolution += term;
-  }
+  addTerm(term: string, index?: number): void {
+    if (typeof index !== 'undefined') {
+        this.userTestAnswers[index] = (this.userTestAnswers[index] || '') + term;
+    } else {
+        this.userSolution += term;
+    }
+}
 
-  clearTerm(): void {
-    this.userSolution = '';
+
+clearTerm(index?: number): void {
+  if (typeof index !== 'undefined') {
+      this.userTestAnswers[index] = '';
+  } else {
+      this.userSolution = '';
   }
-  addSymbol(symbol: string): void {
-    this.userSolution += symbol;
+}
+
+addSymbol(symbol: string, index?: number): void {
+  if (typeof index !== 'undefined') {
+      this.userTestAnswers[index] = (this.userTestAnswers[index] || '') + symbol;
+  } else {
+      this.userSolution += symbol;
   }
+}
+
 
   addSymbolToTestAnswer(index: number, symbol: string): void {
     this.userTestAnswers[index] += symbol;

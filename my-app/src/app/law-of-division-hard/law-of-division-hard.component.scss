@@ -1,56 +1,63 @@
+/* Use CSS Variables for consistency and maintainability */
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2980b9;
+  --hover-scale: 1.05;
+}
+
 #container {
   background-image: url('/assets/images/background.jpg');
   background-size: cover;
   background-repeat: no-repeat;
-  min-height: 100vh;  /* Changing from height to min-height */
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  direction: rtl;  /* Setting the text direction to right-to-left */
+  direction: rtl;
   padding: 30px 0;
-  overflow-y: auto;  /* Allows vertical scrolling if the content exceeds the viewport height */
+  overflow-y: auto;
 }
 
 .center-content {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 100%;  /* Ensure it takes the full width of its parent */
-  padding: 20px;  /* Add some padding around the content */
+  width: 100%;
+  padding: 20px;
 }
+
 .menu-container {
   display: flex;
-  flex-direction: row;   /* Changed from column to row for horizontal layout */
+  flex-direction: row;
   align-items: center;
   gap: 15px;
   padding: 20px 0;
-  justify-content: center;  /* Center aligns all buttons horizontally */
+  justify-content: center;
 }
 
 button {
-  width: 100px;   /* Increased size */
-  height: 100px;  /* Increased size */
-  background-color: #3498db;
+  width: 100px;
+  height: 100px;
+  background-color: var(--primary-color);
   color: white;
   border: none;
-  font-size: 16px;  /* Increased font size for better visibility */
+  font-size: 16px;
   cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
   box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, background-color 0.3s;
+}
 
-  &:hover {
-      background-color: #2980b9;
-      transform: scale(1.05);
-  }
+button:hover {
+  background-color: var(--secondary-color);
+  transform: scale(var(--hover-scale));
+}
 
-  &:active {
-      transform: scale(0.95);
-  }
+button:active {
+  transform: scale(0.95);
 }
 
 .test-section {
@@ -72,37 +79,39 @@ button {
 }
 
 #my-exercises-section {
-  max-height: 400px;  /* This can be adjusted based on your preference */
-  overflow-y: auto;   /* Allows vertical scrolling */
-  width: 90%;        /* Takes the full width */
-  padding: 20px;      /* Provides some spacing */
-  border: 1px solid #ddd;  /* Optional: Adds a border to make the section more distinguishable */
-  margin-bottom: 20px;     /* Gives space between this section and the next content */
+  max-height: 400px;
+  overflow-y: auto;
+  width: 90%;
+  padding: 20px;
+  border: 1px solid #ddd;
+  margin-bottom: 20px;
 }
+
 button.special-button {
   background-color: white;
   color: black;
-  width: auto; // reset the width
-  height: auto; // reset the height
-  font-size: 14px; // adjust if necessary
-  box-shadow: none; // remove shadow
-  margin: 0 5px; // some margin to separate the buttons
-
-  // Adjust hover and active states
-  &:hover {
-    background-color: #f0f0f0;
-    transform: none; // reset scaling
-  }
-
-  &:active {
-    transform: none; // reset scaling
-  }
+  width: auto;
+  height: auto;
+  font-size: 14px;
+  box-shadow: none;
+  margin: 0 5px;
 }
+
+button.special-button:hover {
+  background-color: #f0f0f0;
+  transform: none;
+}
+
+button.special-button:active {
+  transform: none;
+}
+
 .special-buttons-container {
   display: flex;
   flex-direction: row;
-  gap: 10px; // This provides space between each button
+  gap: 10px;
 }
+
 .equation {
   text-align: center;
   direction: ltr;
@@ -111,9 +120,10 @@ button.special-button {
 .answer-input {
   direction: rtl;
 }
+
 .label-rtl {
   direction: rtl;
-  display: inline-block;  // to make sure direction applies correctly
+  display: inline-block;
 }
 
 .input-ltr {

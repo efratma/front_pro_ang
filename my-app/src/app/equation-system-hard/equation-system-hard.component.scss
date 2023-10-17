@@ -93,6 +93,22 @@ button {
     border-top: 1px solid black;
   }
 }
+.equation {
+  text-align: center;
+  direction: ltr;
+}
+
+.answer-input {
+  direction: rtl;
+}
+.label-rtl {
+  direction: rtl;
+  display: inline-block;  // to make sure direction applies correctly
+}
+
+.input-ltr {
+  direction: ltr;
+}
 
 
 

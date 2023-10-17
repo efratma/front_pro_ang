@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
+
 interface QuizData {
   problem_str: string;
   solution: string;
@@ -42,6 +43,9 @@ export class LawOfDivisionEasyComponent implements OnInit {
   ngOnInit(): void {
     this.loadQuestion();
   }
+  navigateToTopics(): void {
+    this.router.navigate(['/topic-selection']);
+  }
 
   loadQuestion(): void {
     if (!this.authService.isAuthenticated()) {
@@ -50,8 +54,8 @@ export class LawOfDivisionEasyComponent implements OnInit {
     }
     if (this.attempts < this.maxAttempts) {
       this.authService.getEasyLawOfDivision().subscribe((data: QuizData) => {
-        this.equation = data.problem_str;
-        this.correctSolution = data.solution;
+        this.equation = this.formatExpression(data.problem_str);
+        this.correctSolution = this.formatExpression(data.solution);
         this.isAnswerChecked = false;
       });
     } else {
@@ -59,18 +63,47 @@ export class LawOfDivisionEasyComponent implements OnInit {
     }
   }
 
-  checkSolution(): void {
-    this.isAnswerChecked = true;
-    if (this.userSolution === this.correctSolution) {
+  normalizeExpression(expr: string): string {
+    return expr.replace(/\s+/g, '').trim();
+}
+
+checkSolution(): void {
+  const normalizedUserSolution = this.normalizeExpression(this.formatUserInput(this.userSolution));
+  const normalizedCorrectSolution = this.normalizeExpression(this.formatExpression(this.correctSolution));
+
+  this.isAnswerChecked = true;
+
+  if (normalizedUserSolution === normalizedCorrectSolution) {
       this.isAnswerCorrect = true;
       this.correctAnswers++;
-    } else {
+  } else {
       this.isAnswerCorrect = false;
-    }
+      // Debug output for discrepancy
+      console.log("User Solution: ", JSON.stringify(normalizedUserSolution));
+      console.log("Correct Solution: ", JSON.stringify(normalizedCorrectSolution));
   }
-  navigateToTopics(): void {
-    this.router.navigate(['/topic-selection']);
-  }
+}
+
+formatExpression(expr: string): string {
+  // Convert from x2 to x^2
+  expr = expr.replace(/([a-z])2/g, '$1^2');
+
+  // Convert "+-" to "-"
+  expr = expr.replace(/\+\-/g, '-');
+
+  // Remove coefficient of 1 for variables
+  expr = expr.replace(/(^|\s|\+|\-|\/|\*)1([a-z])/g, '$1$2');
+
+  return expr;
+}
+
+
+formatUserInput(expr: string): string {
+  // If the user mistakenly enters x2, convert it to x^2
+  return expr.replace(/([a-z])2/g, '$1^2');
+}
+
+
 
 
   nextQuestion(): void {
@@ -106,40 +139,74 @@ export class LawOfDivisionEasyComponent implements OnInit {
 
     forkJoin(requests).subscribe({
       next: (questions: QuizData[]) => {
-        this.testQuestions = questions; // Directly assign the questions, no need to map
-        this.userTestAnswers = this.testQuestions.map(() => ''); // Initialize with empty strings
-      },
-      error: (error) => {
-        console.error('An error occurred:', error);
-      }
-    });
-  }
+        this.testQuestions = questions.map(question => ({
+          problem_str: this.formatExpression(question.problem_str),
+          solution: this.formatExpression(question.solution),
+      }));
 
-  checkTestAnswers(): void {
-    this.testCorrectAnswers = 0;
-    this.testQuestions.forEach((question, index) => {
-      if (question.solution === this.userTestAnswers[index]) {
-        this.testCorrectAnswers++;
-      }
+            this.userTestAnswers = this.testQuestions.map(() => ''); // Initialize with empty strings
+        },
+        error: (error) => {
+            console.error('An error occurred:', error);
+        }
     });
-    this.showSummary = true; // Use showSummary instead of showTestSummary
-  }
+}
+
+
+checkTestAnswers(): void {
+  this.testCorrectAnswers = 0;
+
+  this.testQuestions.forEach((question, index) => {
+      const normalizedUserAnswer = this.normalizeExpression(this.formatUserInput(this.userTestAnswers[index]));
+      const normalizedCorrectSolution = this.normalizeExpression(this.formatExpression(question.solution));
+
+      if (normalizedCorrectSolution === normalizedUserAnswer) {
+          this.testCorrectAnswers++;
+      } else {
+          // Debug output for discrepancy
+          console.log("Test Question ", index + 1);
+          console.log("User Solution: ", JSON.stringify(normalizedUserAnswer));
+          console.log("Correct Solution: ", JSON.stringify(normalizedCorrectSolution));
+      }
+  });
+
+  this.showSummary = true;
+}
+
+
+
+
   startTest(): void {
     this.currentPart = Part.Test;
     this.initializeTest();
   }
 
 
-  addTerm(term: string): void {
-    this.userSolution += term;
-  }
+  addTerm(term: string, index?: number): void {
+    if (typeof index !== 'undefined') {
+        this.userTestAnswers[index] = (this.userTestAnswers[index] || '') + term;
+    } else {
+        this.userSolution += term;
+    }
+}
 
-  clearTerm(): void {
-    this.userSolution = '';
+
+clearTerm(index?: number): void {
+  if (typeof index !== 'undefined') {
+      this.userTestAnswers[index] = '';
+  } else {
+      this.userSolution = '';
   }
-  addSymbol(symbol: string): void {
-    this.userSolution += symbol;
+}
+
+addSymbol(symbol: string, index?: number): void {
+  if (typeof index !== 'undefined') {
+      this.userTestAnswers[index] = (this.userTestAnswers[index] || '') + symbol;
+  } else {
+      this.userSolution += symbol;
   }
+}
+
 
   addSymbolToTestAnswer(index: number, symbol: string): void {
     this.userTestAnswers[index] += symbol;

@@ -13,25 +13,27 @@
   <div *ngIf="currentPart === Part.Quiz" class="center-content">
     <div *ngIf="!showSummary">
       <h1>שאלה  {{ attempts + 1 }}: פתור את התרגיל</h1>
+      <p>שים לב שכאשר מכניסים את התשובה צריך לשים רווח בין המספרים לפעולה!  </p>
       <div class="equation">{{ equation }}</div>
       <label for="userSolution">הכנס את התשובה:</label>
       <input class="input-ltr" type="text" id="userSolution" [(ngModel)]="userSolution" />
       <div class="special-buttons-container">
       <button class="special-button" (click)="addTerm('x^2')">x²</button>
+      <button class="special-button" (click)="addTerm('y^2')">y²</button>
       <button class="special-button" (click)="addTerm('x')">x</button>
+      <button class="special-button" (click)="addTerm('y')">y</button>
+      <button class="special-button" (click)="addTerm('xy')">xy</button>
       <button class="special-button" (click)="addTerm('^')">^</button>
       <button class="special-button" (click)="addTerm('+')">+</button>
       <button class="special-button" (click)="addTerm('-')">-</button>
       <button class="special-button" (click)="addTerm('*')">*</button>
-      <button class="special-button" (click)="addTerm('/')">/</button>
-      <button class="special-button" (click)="addTerm('(')">(</button>
-      <button class="special-button" (click)="addTerm(')')">)</button>
       <button class="special-button" (click)="addTerm(' ')" style="width: 50px;">רווח</button>
       <button class="special-button" (click)="clearTerm()">למחוק הכל</button>
     </div>
       <div *ngIf="isAnswerChecked">
         <p *ngIf="isAnswerCorrect">כל הכבוד! ענית נכון</p>
-        <p *ngIf="!isAnswerCorrect">אופס..ענית לא נכון התשובה הנכונה היא</p><p class="equation">{{ correctSolution }}</p>
+        <p *ngIf="!isAnswerCorrect">אופס..ענית לא נכון התשובה הנכונה היא</p>
+        <p class="equation" *ngIf="!isAnswerCorrect">{{ correctSolution }} </p>
       </div>
       <div *ngIf="showSummary">
         <h1>Quiz Summary</h1>
@@ -51,47 +53,44 @@
     <h1>מבחן</h1>
     <div *ngFor="let question of testQuestions; let i = index">
       <p>שאלה {{ i + 1 }}</p>
-      <div>
+      <div class="equation" >
         {{ question.equation}}
       </div>
       <label for="userTestAnswer{{ i }}">הכנס את התשובה שלך:</label>
+      <input  class="input-ltr" type="text" id="userTestAnswer{{ i }}" [(ngModel)]="userTestAnswers[i]" />
       <div class="special-buttons-container">
-      <button class="special-button" (click)="addTerm('x^2')">x²</button>
-      <button class="special-button" (click)="addTerm('x')">x</button>
-      <button class="special-button" (click)="addTerm('^')">^</button>
-      <button class="special-button" (click)="addTerm('+')">+</button>
-      <button class="special-button" (click)="addTerm('-')">-</button>
-      <button class="special-button" (click)="addTerm('*')">*</button>
-      <button class="special-button" (click)="addTerm('/')">/</button>
-      <button class="special-button" (click)="addTerm('(')">(</button>
-      <button class="special-button" (click)="addTerm(')')">)</button>
-      <button class="special-button" (click)="addTerm(' ')" style="width: 50px;">רווח</button>
-      <button class="special-button" (click)="clearTerm()">למחוק הכל</button>
+      <button class="special-button" (click)="addTerm('x^2',i)">x²</button>
+      <button class="special-button" (click)="addTerm('y^2',i)">y²</button>
+      <button class="special-button" (click)="addTerm('y',i)">y</button>
+      <button class="special-button" (click)="addTerm('x',i)">x</button>
+      <button class="special-button" (click)="addTerm('xy',i)">xy</button>
+      <button class="special-button" (click)="addTerm('^',i)">^</button>
+      <button class="special-button" (click)="addTerm('+',i)">+</button>
+      <button class="special-button" (click)="addTerm('-',i)">-</button>
+      <button class="special-button" (click)="addTerm('*',i)">*</button>
+      <button class="special-button" (click)="addTerm(' ',i)" style="width: 50px;">רווח</button>
+      <button class="special-button" (click)="clearTerm(i)">למחוק הכל</button>
     </div>
     </div>
 
       <div *ngIf="!showSummary">
 
     </div>
-    <div *ngIf="showSummary">
-
-      <h1>המבחן נגמר</h1>
+    <div *ngIf="showTestSummary">
+      <h1>גמרנו עם המבחן</h1>
       <p>ענית {{ testCorrectAnswers }} מתוך {{ testQuestions.length }} שאלות נכון!</p>
-
     </div>
   </div>
   <div class="menu-container">
-
-    <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
-    <button (click)="fetchUserExercises()">התרגילים שלי</button>
-    <button (click)="changePart(Part.Quiz)">נתחיל בתרגול</button>
+    <button (click)="changePart(Part.Quiz)">להתחיל בתרגול</button>
     <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק תשובה</button>
     <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
-    <button (click)="changePart(Part.Quiz)">להתחיל את התרגול שוב</button>
+    <button (click)="changePart(Part.Explanation)">חזור להסבר</button>
+    <button (click)="changePart(Part.Quiz)">לעשות שוב את התרגול</button>
     <button (click)="startTest()">להתחיל את המבחן</button>
-    <button (click)="checkTestAnswers()">לבדוק את המבחן</button>
-    <button (click)="changePart(Part.Explanation)">לחזור להסבר</button>
-
+    <button (click)="checkTestAnswers()">בדוק מבחן</button>
+    <button (click)="fetchUserExercises()">התרגילים שלי</button>
+    <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
   </div>
   <div id="my-exercises-section">
     <div *ngIf="showExercises">
@@ -99,8 +98,8 @@
       <ul *ngIf="savedQuestions.length > 0" class="exercises-container">
         <ng-container *ngFor="let question of savedQuestions">
           <li *ngIf="question.problem_str && question.problem_str.trim() !== '' && question.solution && question.solution.trim() !== ''" class="exercise-item">
-            <p>שאלה:  {{ question.problem_str }}</p>
-            <p>תשובה: {{ question.solution }}</p>
+            <p class="input-ltr"> {{ question.problem_str }}: שאלה</p>
+            <p >תשובה: {{ question.solution }}</p>
           </li>
         </ng-container>
       </ul>

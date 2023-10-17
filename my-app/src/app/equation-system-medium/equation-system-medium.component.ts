@@ -105,7 +105,17 @@ export class EquationSystemMediumComponent {
     } else {
       this.showSummary = true; // Show the summary when all questions are answered
     }
+
   }
+
+  formatExpression(expr: string): string {
+    return expr.replace(/([a-z])2/g, '$1^2');
+  }
+
+  formatUserInput(expr: string): string {
+    return expr.replace(/([a-z])\^2/g, '$12');
+  }
+  
   formatEquation(equation: string): { numerator: string, denominator: string }[] {
     const fractions: { numerator: string, denominator: string }[] = [];
     const parts = equation.split(' ');
