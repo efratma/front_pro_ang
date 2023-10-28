@@ -79,3 +79,19 @@ button {
   border: 1px solid #ddd;  /* Optional: Adds a border to make the section more distinguishable */
   margin-bottom: 20px;     /* Gives space between this section and the next content */
 }
+.equation {
+  text-align: center;
+  direction: ltr;
+}
+
+.answer-input {
+  direction: rtl;
+}
+.label-rtl {
+  direction: rtl;
+  text-align: center;
+}
+
+.input-ltr {
+  direction: ltr;
+}

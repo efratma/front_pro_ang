@@ -13,11 +13,10 @@
       <div *ngIf="!showSummary">
           <h1>שאלה מספר  {{ attempts + 1 }}: מצא את נקודות החיתוך עם הצירים</h1>
           <p>הפונקציה הקווית: {{ equation }}</p>
-          <label for="userXIntersection">הכנס את נקודת החיתוך עם ציר הX הכנס את זה בפורמט של נקודה  (x, 0):</label>
-          <input type="text" id="userXIntersection" [(ngModel)]="userXIntersection" />
-          <p>   </p>
-          <label for="userYIntersection">הכנס את נקודת החיתוך עם ציר הY הכנס את זה בפורמט של נקודה(0, y):</label>
-          <input type="text" id="userYIntersection" [(ngModel)]="userYIntersection" />
+          <label for="userXIntersection">הכנס את נקודת החיתוך עם ציר X</label>&nbsp;
+          <input class="input-ltr" type="text" id="userXIntersection" [(ngModel)]="userXIntersection" />&nbsp;
+          <label for="userYIntersection">הכנס את נקודת החיתוך עם ציר ה Y: </label>&nbsp;
+          <input class="input-ltr" type="text" id="userYIntersection" [(ngModel)]="userYIntersection" />
           <div class="button-container">
             <p></p>
             <div *ngIf="isAnswerChecked">
@@ -52,9 +51,9 @@
       <div *ngFor="let question of testQuestions; let i = index">
           <p>שאלה  {{ i + 1 }}</p>
           <p> פונקציה קווית {{ question.equation }}</p>
-          <label for="userXIntersection">הכנס את נקודת החיתוך עם ציר הX הכנס את זה בפורמט של נקודה  (x, 0):</label>
-          <input type="text" id="userTestAnswerX{{ i }}" [(ngModel)]="userTestAnswersX[i]" />
-          <label for="userYIntersection">הכנס את נקודת החיתוך עם ציר הY הכנס את זה בפורמט של נקודה(0, y):</label>
+          <label for="userXIntersection">  הכנס את נקודת החיתוך עם ציר הX </label>&nbsp;
+          <input type="text" id="userTestAnswerX{{ i }}" [(ngModel)]="userTestAnswersX[i]" />&nbsp;
+          <label for="userYIntersection"> הכנס את נקודת החיתוך עם ציר הY </label>&nbsp;
           <input type="text" id="userTestAnswerY{{ i }}" [(ngModel)]="userTestAnswersY[i]" />
       </div>
       <div class="button-container">
@@ -88,14 +87,15 @@
   </div>
 
   <div class="menu-container">
-      <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
-      <button (click)="fetchUserExercises()">התרגילים שלי</button>
-      <button (click)="changePart(Part.Quiz)">להתחיל עם התרגול</button>
-      <button (click)="changePart(Part.Test)">להתחיל עם המבחן</button>
-      <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק את התשובה</button>
-      <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
-      <button (click)="checkTestAnswers()">בדוק את המבחן</button>
-      <button (click)="changePart(Part.Quiz)">לעשות שוב תרגול</button>
-      <!-- ... any other buttons you might have ... -->
+    <button (click)="changePart(Part.Quiz)">להתחיל בתרגול</button>
+    <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק תשובה</button>
+    <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
+    <button (click)="changePart(Part.Explanation)">חזור להסבר</button>
+    <button (click)="changePart(Part.Quiz)">לעשות שוב את התרגול</button>
+    <button (click)="startTest()">להתחיל את המבחן</button>
+    <button (click)="checkTestAnswers()">בדוק מבחן</button>
+    <button (click)="fetchUserExercises()">התרגילים שלי</button>
+    <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
+    <!-- You can add other buttons here as needed -->
   </div>
 </div>

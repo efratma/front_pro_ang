@@ -98,3 +98,19 @@ button.special-button {
     transform: none; // reset scaling
   }
 }
+.equation {
+  text-align: center;
+  direction: ltr;
+}
+
+.answer-input {
+  direction: rtl;
+}
+.label-rtl {
+  direction: rtl;
+  display: inline-block;  // to make sure direction applies correctly
+}
+
+.input-ltr {
+  direction: ltr;
+}

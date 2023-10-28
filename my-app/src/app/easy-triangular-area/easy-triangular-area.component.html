@@ -10,22 +10,24 @@
         <!-- Quiz Section -->
         <div *ngIf="currentPart === Part.Quiz" class="center-content">
           <div *ngIf="!showSummary">
+
                 <h1>תרגיל: {{ attempts +1}}: מצא את הבסיס והגובה</h1>
-                <p>נתונה השאלה: {{ line_equation }}</p>
-                <p>נקודת חיתוך: X = ({{ x_intersection }},0), Y = (0,{{ y_intersection }})</p>
-                <h3>הנוסחה למציאת שטח</h3>
-                <p>שטח משולש  = 0.5 × base × height</p>
-                <label for="userBase">הכנס את אורך הבסיס</label>
-                <input type="text" id="userBase" [(ngModel)]="userBase" />
-                <label for="userHeight">הכנס את אורך הגובה</label>
-                <input type="text" id="userHeight" [(ngModel)]="userHeight" />
-                <label for="userArea">הכנס את השטח של המשולש</label>
+                <h3> הנוסחה למציאת שטח משולש :  שטח המשולש  = 0.5 × בסיס × גובה</h3>
+                <svg id="triangle-sketch" width="300" height="300"></svg>
+                <p>פונקצית הקו הישר :{{ line_equation }}</p>
+                <p>נקודות החיתוך: X = ({{ x_intersection }},0), Y = (0,{{ y_intersection }})</p>
+
+                <label for="userBase"> הכנס את אורך הבסיס</label>&nbsp;
+                <input type="text" id="userBase" [(ngModel)]="userBase" /><p></p>
+                <label for="userHeight"> הכנס את אורך הגובה</label>&nbsp;
+                <input type="text" id="userHeight" [(ngModel)]="userHeight" /><p></p>
+                <label for="userArea"> הכנס את השטח של המשולש</label>&nbsp;
                 <input type="text" id="userArea" [(ngModel)]="userArea" />
 
                 <div *ngIf="isAnswerChecked">
                     <p *ngIf="isAnswerCorrect">תשובתך נכונה</p>
                     <p *ngIf="!isAnswerCorrect">
-                       תשובתך לא נכונה. הבסיס הוא {{ base }},הגובה הוא{{ height }}, השטח הוא {{ area }}.
+                        תשובתך לא נכונה. הבסיס הוא {{ base }}, הגובה הוא  {{ height }},  השטח הוא {{ area }}.
                     </p>
                 </div>
             </div>
@@ -40,23 +42,22 @@
         <!-- Test Section -->
 
         <div class="test-section" *ngIf="currentPart === Part.Test">
-            <h1>מבדק</h1>
-            <h3>הנוסחא למציאת שטח</h3>
-            <p>Area = 0.5 × בסיס × גובה</p>
+            <h1 class="label-rtl">מבחן</h1>
+            <h3 class="label-rtl"> הנוסחה למציאת שטח משולש :  שטח המשולש  = 0.5 × בסיס × גובה</h3>
             <div *ngFor="let question of testQuestions; let i = index">
-                <p>שאלה {{ i + 1 }}</p>
-                <p>{{ question.line_equation }}</p>
-                <p>נקודת חיתוך: X = ({{ question.x_intersection }},0), Y = (0,{{ question.y_intersection }})</p>
-                <label for="userTestAnswerBase{{ i }}">אורך הבסיס הוא </label>
-                <input type="text" id="userTestAnswerBase{{ i }}" [(ngModel)]="userTestAnswersBase[i]" />
-                <label for="userTestAnswerHeight{{ i }}">אורך הגובה הוא</label>
-                <input type="text" id="userTestAnswerHeight{{ i }}" [(ngModel)]="userTestAnswersHeight[i]" />
-                <label for="userTestAnswerArea{{ i }}">מהו השטח</label>
+                <h2 class="label-rtl" >שאלה {{ i + 1 }}</h2>
+                <p class="label-rtl" >פונקצית הקו הישר: {{ question.line_equation }}</p>
+                <p class="label-rtl" >נקודת חיתוך: X = ({{ question.x_intersection }},0), Y = (0,{{ question.y_intersection }})</p>
+                <label for="userTestAnswerBase{{ i }}">אורך הבסיס הוא </label>&nbsp;
+                <input type="text" id="userTestAnswerBase{{ i }}" [(ngModel)]="userTestAnswersBase[i]" />&nbsp;
+                <label for="userTestAnswerHeight{{ i }}">אורך הגובה הוא</label>&nbsp;
+                <input type="text" id="userTestAnswerHeight{{ i }}" [(ngModel)]="userTestAnswersHeight[i]" />&nbsp;
+                <label for="userTestAnswerArea{{ i }}">מהו השטח</label>&nbsp;
                 <input type="text" id="userTestAnswerArea{{ i }}" [(ngModel)]="userTestAnswersArea[i]" />
             </div>
             <div *ngIf="showTestSummary">
-                <h1>תוצאות המבדק</h1>
-                <p>ענית נכון {{ testCorrectAnswers }}מתוך {{ testQuestions.length }} שאלות!</p>
+                <h1 class="label-rtl">סיימנו עם המבחן</h1>
+                <p class="label-rtl" >ענית נכון {{ testCorrectAnswers }}מתוך {{ testQuestions.length }} שאלות!</p>
             </div>
         </div>
 
@@ -77,17 +78,17 @@
             </div>
         </div>savedQuestions
       </div>
-    <div class="menu-container">
-      <button (click)="changePart(Part.Quiz)">להתחיל בתרגול</button>
-      <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק תשובה</button>
-      <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
-      <button (click)="changePart(Part.Explanation)">חזור להסבר</button>
-      <button (click)="changePart(Part.Quiz)">לעשות שוב את התרגול</button>
-      <button (click)="startTest()">להתחיל את המבחן</button>
-      <button (click)="checkTestAnswers()">בדוק מבחן</button>
-      <button (click)="fetchUserExercises()">התרגילים שלי</button>
-      <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
-      <!-- You can add other buttons here as needed -->
-    </div>
+      <div class="menu-container">
+        <button (click)="changePart(Part.Quiz)">להתחיל בתרגול</button>
+        <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק תשובה</button>
+        <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
+        <button (click)="changePart(Part.Explanation)">חזור להסבר</button>
+        <button (click)="changePart(Part.Quiz)">לעשות שוב את התרגול</button>
+        <button (click)="startTest()">להתחיל את המבחן</button>
+        <button (click)="checkTestAnswers()">בדוק מבחן</button>
+        <button (click)="fetchUserExercises()">התרגילים שלי</button>
+        <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
+        <!-- You can add other buttons here as needed -->
+      </div>
   </div>
 

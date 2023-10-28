@@ -34,7 +34,7 @@ export class CuttingPointsComponent implements OnInit {
   correctSolutionY: string = '';
   isAnswerChecked: boolean = false;
   isAnswerCorrect: boolean = false;
-  attempts: number = 1;
+  attempts: number = 0;
   correctAnswers: number = 0;
   maxAttempts: number = 7;
   showSummary: boolean = false;
@@ -57,6 +57,43 @@ export class CuttingPointsComponent implements OnInit {
   ngOnInit(): void {
 
   }
+  formatEquation(equation: string): string {
+    const parts = equation.split(' ');
+
+    // Assuming the format is: y = mx + b
+    let m = parts[2];  // coefficient of x
+    let b = parts[4];  // constant term
+
+    // Process coefficient of x
+    if (m === '1' || m === '+1') {
+      m = '';  // Remove coefficient if it's 1
+    } else if (m === '-1') {
+      m = '-';  // Keep the sign if coefficient is -1
+    } else if (m === '0' || m === '+0' || m === '-0') {
+      m = '';  // Omit x term if coefficient is 0
+    } else {
+      m = m.replace('x', '');  // Remove x from coefficient
+    }
+
+    // Process constant term
+    if (b === '0' || b === '+0' || b === '-0') {
+      b = '';  // Omit constant term if it's 0
+    }
+
+    // Reconstruct the equation
+    let formattedEquation = 'y =';
+    if (m || m === '-') {
+      formattedEquation += ` ${m}x`;
+    }
+    if (b) {
+      if (b[0] !== '-' && (m || m === '-')) {
+        formattedEquation += ' +';
+      }
+      formattedEquation += ` ${b}`;
+    }
+
+    return formattedEquation;
+  }
 
   loadQuestion(): void {
     if (!this.authService.isAuthenticated()) {
@@ -64,12 +101,12 @@ export class CuttingPointsComponent implements OnInit {
       return;
     }
     if (this.attempts < this.maxAttempts) {
-      this.authService.getCuttingPoints().subscribe((data: any) => {
-        this.equation = data.equation;
-        this.x_when_y_zero = data.x_when_y_zero;
-        this.y_when_x_zero = data.y_when_x_zero;
-        this.isAnswerChecked = false;
-      });
+    this.authService.getCuttingPoints().subscribe((data: any) => {
+      this.equation = this.formatEquation(data.equation);
+      this.x_when_y_zero = data.x_when_y_zero;
+      this.y_when_x_zero = data.y_when_x_zero;
+      this.isAnswerChecked = false;
+    });
     } else {
       this.showSummary = true;
     }
@@ -129,7 +166,10 @@ export class CuttingPointsComponent implements OnInit {
 
     forkJoin(requests).subscribe({
       next: (questions: QuestionData[]) => {
-        this.testQuestions = questions;
+        this.testQuestions = questions.map(question => ({
+          ...question,
+          equation: this.formatEquation(question.equation),
+        }));
         // Initialize userTestAnswersX and userTestAnswersY after loading testQuestions
         this.userTestAnswersX = this.testQuestions.map(() => '');
         this.userTestAnswersY = this.testQuestions.map(() => '');

@@ -44,15 +44,16 @@
 </div>
 
 <div class="menu-container">
-  <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
-  <button (click)="fetchUserExercises()">התרגילים שלי</button>
-  <button (click)="changePart(Part.Quiz)">להתחיל עם התרגול</button>
-  <button (click)="changePart(Part.Test)">להתחיל עם המבחן</button>
-  <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק את התשובה</button>
+  <button (click)="changePart(Part.Quiz)">להתחיל בתרגול</button>
+  <button (click)="checkSolution()" *ngIf="!isAnswerChecked">בדוק תשובה</button>
   <button *ngIf="isAnswerChecked && attempts < maxAttempts - 1" (click)="nextQuestion()">שאלה הבאה</button>
-  <button (click)="checkTestAnswers()">בדוק את המבחן</button>
-  <button (click)="changePart(Part.Quiz)">לעשות שוב תרגול</button>
-  <!-- ... any other buttons you might have ... -->
+  <button (click)="changePart(Part.Explanation)">חזור להסבר</button>
+  <button (click)="changePart(Part.Quiz)">לעשות שוב את התרגול</button>
+  <button (click)="startTest()">להתחיל את המבחן</button>
+  <button (click)="checkTestAnswers()">בדוק מבחן</button>
+  <button (click)="fetchUserExercises()">התרגילים שלי</button>
+  <button (click)="navigateToTopics()">חזור לרשימת הנושאים</button>
+  <!-- You can add other buttons here as needed -->
 </div>
 
 <div id="my-exercises-section" *ngIf="showExercises">

@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2, ElementRef, AfterViewInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
+import * as d3 from 'd3';
+import { NgZone } from '@angular/core';
+
 
 interface TriangularData {
   area: string;
@@ -56,11 +59,66 @@ export class EasyTriangularAreaComponent implements OnInit {
   savedQuestions: TriangularData[] = [];
   showExercises: boolean = false;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private ngZone: NgZone,
+    private renderer: Renderer2,
+    private elRef: ElementRef
+  ) {}
+
 
   ngOnInit(): void {
     this.loadQuestion();
   }
+
+
+drawTriangle(): void {
+  console.log('drawTriangle called');
+    const svg = d3.select('#triangle-sketch');
+    svg.selectAll('*').remove();  // Clear previous drawings
+
+    const margin = {top: 10, right: 10, bottom: 20, left: 30};
+    const width = +svg.attr('width') - margin.left - margin.right;
+    const height = +svg.attr('height') - margin.top - margin.bottom;
+
+    const x = d3.scaleLinear().rangeRound([0, width]);
+    const y = d3.scaleLinear().rangeRound([height, 0]);
+
+    const g = svg.append('g')
+        .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+    x.domain([0, Math.max(this.base, this.height) + 1]);  // Adjust domain as needed
+    y.domain([0, Math.max(this.base, this.height) + 1]);  // Adjust domain as needed
+
+    // Draw X axis
+    g.append('g')
+        .attr('transform', 'translate(0,' + height + ')')
+        .call(d3.axisBottom(x))
+        .append('text')
+        .attr('x', width)
+        .attr('dy', '-0.71em')
+        .attr('text-anchor', 'end')
+        .text('X axis');
+
+    // Draw Y axis
+    g.append('g')
+        .call(d3.axisLeft(y))
+        .append('text')
+        .attr('transform', 'rotate(-90)')
+        .attr('y', 6)
+        .attr('dy', '0.71em')
+        .attr('text-anchor', 'end')
+        .text('Y axis');
+
+    // Draw Triangle
+    g.append('polygon')
+        .attr('points', `0,${y(0)}, ${x(this.base)},${y(0)}, 0,${y(this.height)}`)
+        .attr('fill', 'steelblue');
+}
+
+
+
 
   loadQuestion(): void {
     if (!this.authService.isAuthenticated()) {
@@ -78,10 +136,49 @@ export class EasyTriangularAreaComponent implements OnInit {
         this.height = parseFloat(data.height);
         this.area = data.area;
         this.isAnswerChecked = false;
+        this.drawTriangle();
       });
     } else {
       this.showSummary = true;
     }
+}
+
+formatEquation(equation: string): string {
+  const parts = equation.split(' ');
+
+  // Assuming the format is: y = mx + b
+  let m = parts[2];  // coefficient of x
+  let b = parts[4];  // constant term
+
+  // Process coefficient of x
+  if (m === '1' || m === '+1') {
+    m = '';  // Remove coefficient if it's 1
+  } else if (m === '-1') {
+    m = '-';  // Keep the sign if coefficient is -1
+  } else if (m === '0' || m === '+0' || m === '-0') {
+    m = '';  // Omit x term if coefficient is 0
+  } else {
+    m = m.replace('x', '');  // Remove x from coefficient
+  }
+
+  // Process constant term
+  if (b === '0' || b === '+0' || b === '-0') {
+    b = '';  // Omit constant term if it's 0
+  }
+
+  // Reconstruct the equation
+  let formattedEquation = 'y =';
+  if (m || m === '-') {
+    formattedEquation += ` ${m}x`;
+  }
+  if (b) {
+    if (b[0] !== '-' && (m || m === '-')) {
+      formattedEquation += ' +';
+    }
+    formattedEquation += ` ${b}`;
+  }
+
+  return formattedEquation;
 }
   checkSolution(): void {
     this.isAnswerChecked = true;
@@ -125,6 +222,7 @@ export class EasyTriangularAreaComponent implements OnInit {
       this.resetQuiz();
     } else if (part === Part.Test) {
       this.initializeTest();
+
     }
   }
 
