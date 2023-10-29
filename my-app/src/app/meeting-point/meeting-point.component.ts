@@ -46,6 +46,38 @@ export class MeetingPointsComponent implements OnInit {
   ngOnInit(): void {
     this.loadQuestion();
   }
+  formatEquation(equation: string): string {
+    const match = equation.match(/y\s*=\s*([-+]?\d*\.?\d+?)x\s*([-+]?\d*\.?\d+?)?/);
+
+    if (!match) {
+      return equation; // return the original equation if it doesn't match the pattern
+    }
+
+    let coefficient = parseFloat(match[1]);
+    let constant = match[2] ? parseFloat(match[2]) : 0;
+
+    let formattedEquation = 'y = ';
+
+    if (coefficient === -1) {
+      formattedEquation += '-x';
+    } else if (coefficient === 1) {
+      formattedEquation += 'x';
+    } else if (coefficient !== 0 && coefficient !== 1 && coefficient !== -1) {
+      formattedEquation += `${coefficient}x`;
+    }
+
+    if (coefficient !== 0) {
+        if (constant > 0) {
+            formattedEquation += ` + ${constant}`;
+        } else if (constant < 0) {
+            formattedEquation += ` - ${Math.abs(constant)}`;
+        }
+    } else if (constant !== 0) {  // Case where coefficient is 0, and there's only a constant
+        formattedEquation += `${constant}`;
+    }
+
+    return formattedEquation;
+}
 
   loadQuestion(): void {
     if (!this.authService.isAuthenticated()) {
@@ -55,8 +87,8 @@ export class MeetingPointsComponent implements OnInit {
 
     if (this.attempts < this.maxAttempts) {
       this.authService.getMeetingPoint().subscribe((data: any) => {
-        this.line1_equation = data.line1_equation;
-        this.line2_equation = data.line2_equation;
+        this.line1_equation = this.formatEquation(data.line1_equation);
+        this.line2_equation = this.formatEquation(data.line2_equation);
         this.intersection_point = data.intersection_point;
         this.isAnswerChecked = false;
       });
@@ -116,7 +148,11 @@ export class MeetingPointsComponent implements OnInit {
 
     forkJoin(requests).subscribe({
       next: (questions: MeetingPointData[]) => {
-        this.testQuestions = questions;
+        this.testQuestions = questions.map(question => ({
+          ...question,
+          line1_equation: this.formatEquation(question.line1_equation),
+          line2_equation: this.formatEquation(question.line2_equation)
+        }));
         this.userTestAnswers = this.testQuestions.map(() => '');
       },
       error: (error) => {
@@ -124,6 +160,8 @@ export class MeetingPointsComponent implements OnInit {
       },
     });
   }
+
+
 
   checkTestAnswers(): void {
     this.testCorrectAnswers = 0;

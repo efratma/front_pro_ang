@@ -10,12 +10,14 @@
 <div *ngIf="currentPart === Part.Quiz" class="center-content">
   <div *ngIf="!showSummary">
     <h1>שאלה  {{ attempts + 1 }}:מצא את משוואת הישר של הפונקציה הבאה</h1>
+    <p>משוואת ישר בצורה מפורשת:  y = mx + b</p>
     <p>נוסחה למציאת השיפוע: m = (y2 - y1)/(x2 - x1)</p>
-    <p>נוסחה למציאת משוואת הישר: y = mx + b</p>
-    <p>הנקודות הנתונות: ({{ point1_x }}, {{ point1_y }}) ו({{ point2_x }}, {{ point2_y }})</p>
+    <p>נוסחה למציאת משוואת ישר y-y1=m(x-x1) </p>
+    <p>הנקודות הנתונות: </p>
+    <p class="equation">({{ point1_x }}, {{ point1_y }}) ו({{ point2_x }}, {{ point2_y }})</p>
     <div *ngIf="!isSlopeChecked" class="special-buttons-container">
       <label for="userSlope">הכנס את השיפוע  (m):</label>
-      <input type="number" id="userSlope" [(ngModel)]="userSlope" />
+      <input   type="number" id="userSlope" [(ngModel)]="userSlope" />
       <button (click)="checkSlope()" class="special-button"> בדוק שיפוע </button>
       <div *ngIf="isSlopeChecked">
         <p *ngIf="isSlopeCorrect">השיפוע שלך נכון </p>
@@ -52,8 +54,9 @@
   <p>נוסחה למציאת השיפוע: m = (y2 - y1)/(x2 - x1)</p>
   <p>נוסחה למציאת משוואות הישר: y = mx + b</p>
   <div *ngFor="let question of testQuestions; let i = index">
-    <p>שאלה {{ i + 1 }}</p>
-    <p>הנקודות הנתונות: ({{ question.point1_x }}, {{ question.point1_y }}) ו ({{ question.point2_x }}, {{ question.point2_y }})</p>
+    <h2>שאלה {{ i + 1 }}</h2>
+    <p>הנקודות הנתונות:</p>
+    <p class="equation">({{ question.point1_x }}, {{ question.point1_y }}) ו ({{ question.point2_x }}, {{ question.point2_y }})</p>
     <label for="userTestAnswer{{ i }}">הכנס את משוואת הישר של הפונקציה:</label>
     <input type="text" id="userTestAnswer{{ i }}" [(ngModel)]="userTestAnswers[i]" />
   </div>

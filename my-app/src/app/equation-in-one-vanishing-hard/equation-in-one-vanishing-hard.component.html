@@ -12,10 +12,12 @@
     <h1>,תרגיל {{ attempts + 1 }}: פתור את המשואה</h1>
     <div>{{ equation }}</div>
     <label for="userSolution">הכנס את תשובתך</label>
-    <input type="number" id="userSolution" [(ngModel)]="userSolution" />
+    <input class="answer-input" type="number" id="userSolution" [(ngModel)]="userSolution" />
     <div *ngIf="isAnswerChecked">
       <p *ngIf="isAnswerCorrect">ענית נכון כל הכבוד</p>
-      <p *ngIf="!isAnswerCorrect">אופס..ענית לא נכון התשובה הנכונה היא:{{ correctSolution }}.</p>
+      <p *ngIf="!isAnswerCorrect">אופס..ענית לא נכון התשובה הנכונה היא:</p>
+      <p  class="answer-input"  *ngIf="!isAnswerCorrect">{{ correctSolution }}</p>
+      <p></p>
     </div>
     <div *ngIf="showSummary">
       <h1>סיכום המבדק</h1>
@@ -35,7 +37,7 @@
     <p>שאלה {{ i + 1 }}</p>
     <div>{{ question.equation_text }}</div>
     <label for="userTestAnswer{{ i }}">הכנס את תשובתך</label>
-    <input type="number" id="userTestAnswer{{ i }}" [(ngModel)]="userTestAnswers[i]" />
+    <input class="answer-input"  type="number" id="userTestAnswer{{ i }}" [(ngModel)]="userTestAnswers[i]" />
   </div>
   <div *ngIf="showTestSummary">
     <h1>גמרנו עם המבחן</h1>

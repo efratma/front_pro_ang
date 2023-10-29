@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
+
 interface QuizData {
   equation_text: string;
   correct_answer: string;
@@ -22,7 +23,7 @@ enum Part {
 export class EquationInOneVanishingHardComponent implements OnInit {
   Part = Part;
   equation: string = '';
-  userSolution: number = 0; // Changed to number
+  userSolution: number = 0;
   correctSolution: string = '';
   isAnswerChecked: boolean = false;
   isAnswerCorrect: boolean = false;
@@ -32,9 +33,9 @@ export class EquationInOneVanishingHardComponent implements OnInit {
   showSummary: boolean = false;
   currentPart: Part = Part.Explanation;
   testQuestions: QuizData[] = [];
-  userTestAnswers: number[] = []; // Changed to number array
+  userTestAnswers: number[] = [];
   testCorrectAnswers: number = 0;
-  showTestSummary: boolean = false; // Added this property
+  showTestSummary: boolean = false;
   savedExercises: QuizData[] = [];
   showExercises: boolean = false;
 
@@ -43,10 +44,24 @@ export class EquationInOneVanishingHardComponent implements OnInit {
   ngOnInit(): void {
     this.loadQuestion();
   }
+
+  private cleanEquation(equation: string): string {
+    let cleanedEquation = equation;
+    cleanedEquation = cleanedEquation.replace(/\b1x\b/g, 'x');
+    cleanedEquation = cleanedEquation.replace(/\+ -/g, '-');
+    return cleanedEquation;
+  }
+
   navigateToTopics(): void {
     this.router.navigate(['/topic-selection']);
   }
 
+  private removeTrailingZeroes(value: number | string): string {
+    let stringValue = String(value);
+    stringValue = stringValue.replace(/\.0+$/, '');      // remove .0s at the end
+    stringValue = stringValue.replace(/(\.\d*?)0+$/, '$1'); // remove trailing zeroes from decimal part
+    return stringValue;
+  }
 
   loadQuestion(): void {
     if (!this.authService.isAuthenticated()) {
@@ -55,8 +70,8 @@ export class EquationInOneVanishingHardComponent implements OnInit {
     }
     if (this.attempts < this.maxAttempts) {
       this.authService.getHardEquationInOneVanishing().subscribe((data: QuizData) => {
-        this.equation = data.equation_text;
-        this.correctSolution = data.correct_answer;
+        this.equation = this.cleanEquation(data.equation_text);
+        this.correctSolution = this.removeTrailingZeroes(data.correct_answer); // Format the solution here
         this.isAnswerChecked = false;
       });
     } else {
@@ -66,7 +81,9 @@ export class EquationInOneVanishingHardComponent implements OnInit {
 
   checkSolution(): void {
     this.isAnswerChecked = true;
-    if (this.userSolution === parseFloat(this.correctSolution)) { // Compare as numbers
+    const formattedUserSolution = this.removeTrailingZeroes(this.userSolution);
+    const formattedCorrectSolution = this.removeTrailingZeroes(this.correctSolution);
+    if (formattedUserSolution === formattedCorrectSolution) {
       this.isAnswerCorrect = true;
       this.correctAnswers++;
     } else {
@@ -80,10 +97,11 @@ export class EquationInOneVanishingHardComponent implements OnInit {
     if (this.attempts < this.maxAttempts - 1) {
       this.loadQuestion();
     } else {
-      this.showSummary = true; // Show the summary when all questions are answered
-      this.currentPart = Part.QuizCompleted; // If you want to move to another part
+      this.showSummary = true;
+      this.currentPart = Part.QuizCompleted;
     }
   }
+
   resetQuiz(): void {
     this.attempts = 0;
     this.correctAnswers = 0;
@@ -107,8 +125,11 @@ export class EquationInOneVanishingHardComponent implements OnInit {
 
     forkJoin(requests).subscribe({
       next: (questions: QuizData[]) => {
-        this.testQuestions = questions;
-        this.userTestAnswers = this.testQuestions.map(() => 0); // Initialize with zeros
+        this.testQuestions = questions.map(question => ({
+          ...question,
+          equation_text: this.cleanEquation(question.equation_text)
+        }));
+        this.userTestAnswers = this.testQuestions.map(() => 0);
       },
       error: (error) => {
         console.error('An error occurred:', error);
@@ -125,13 +146,16 @@ export class EquationInOneVanishingHardComponent implements OnInit {
     });
     this.showTestSummary = true;
   }
+
   startTest(): void {
     this.currentPart = Part.Test;
     this.initializeTest();
   }
+
   clearTestAnswer(index: number): void {
     this.userTestAnswers[index] = 0;
   }
+
   fetchUserExercises(): void {
     this.authService.getUserExercises5().subscribe((data: QuizData[]) => {
         this.savedExercises = data;
@@ -139,10 +163,9 @@ export class EquationInOneVanishingHardComponent implements OnInit {
     }, error => {
         console.error("Error fetching user exercises:", error);
     });
-}
-anyValidExercise(): boolean {
-  return this.savedExercises.some(exercise => exercise.equation_text && exercise.equation_text.trim() !== '' && exercise.equation_text !== 'Default Equation');
-}
+  }
 
-
+  anyValidExercise(): boolean {
+    return this.savedExercises.some(exercise => exercise.equation_text && exercise.equation_text.trim() !== '' && exercise.equation_text !== 'Default Equation');
+  }
 }

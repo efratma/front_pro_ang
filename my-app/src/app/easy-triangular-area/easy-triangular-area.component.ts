@@ -127,7 +127,7 @@ drawTriangle(): void {
     }
     if (this.attempts < this.maxAttempts) {
       this.authService.getTriangularArea().subscribe((data: any) => {
-        this.line_equation = data.line_equation;
+        this.line_equation = this.formatEquation(data.line_equation);
         this.x_intersection = data.x_intersection;
         this.y_intersection = data.y_intersection;
 

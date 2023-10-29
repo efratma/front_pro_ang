@@ -80,8 +80,8 @@ button {
   margin-bottom: 20px;     /* Gives space between this section and the next content */
 }
 button.special-button {
-  background-color: white;
-  color: black;
+  background-color: rgba(174, 212, 238, 0.86);
+  color: rgba(39, 22, 102, 0.821);
   width: auto; // reset the width
   height: auto; // reset the height
   font-size: 14px; // adjust if necessary
@@ -97,4 +97,20 @@ button.special-button {
   &:active {
     transform: none; // reset scaling
   }
+}
+.equation {
+  text-align: right;
+  direction: ltr;
+}
+
+.answer-input {
+  direction: rtl;
+}
+.label-rtl {
+  direction: rtl;
+  display: inline-block;  // to make sure direction applies correctly
+}
+
+.input-ltr {
+  direction: ltr;
 }
