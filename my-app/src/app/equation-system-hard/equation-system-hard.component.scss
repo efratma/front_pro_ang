@@ -86,11 +86,13 @@ button {
 
   .numerator {
     display: block;
+    direction: ltr;
   }
 
   .denominator {
     display: block;
     border-top: 1px solid black;
+    direction: ltr;
   }
 }
 .equation {
@@ -99,7 +101,7 @@ button {
 }
 
 .answer-input {
-  direction: rtl;
+  direction: ltr;
 }
 .label-rtl {
   direction: rtl;

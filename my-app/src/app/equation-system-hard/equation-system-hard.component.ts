@@ -55,30 +55,35 @@ export class EquationSystemHardComponent implements OnInit {
 
   loadQuestion(): void {
     if (!this.authService.isAuthenticated()) {
-      console.error("User not authenticated. Cannot fetch question.");
-      return;
+        console.error("User not authenticated. Cannot fetch question.");
+        return;
     }
     if (this.attempts < this.maxAttempts) {
-      this.authService.getDifficultSystemOfEquations().subscribe((data) => {
-        this.equation1Fractions = this.formatEquation(data.equation1);
-        this.equation2Fractions = this.formatEquation(data.equation2);
-        // Check if the question has no solution or infinite solutions
-        if (data.error) {
-          // If so, call loadQuestion() recursively to fetch a new question
-          this.loadQuestion();
-        } else {
-          // Handle the regular case with valid solutions
-          this.equation1 = data.equation1;
-          this.equation2 = data.equation2;
-          this.correctSolutionX = data.solution_x;
-          this.correctSolutionY = data.solution_y;
-          this.isAnswerChecked = false; // Reset the answer check status
-        }
-      });
+        this.authService.getDifficultSystemOfEquations().subscribe((data) => {
+            this.equation1Fractions = this.formatEquation(data.equation1);
+            this.equation2Fractions = this.formatEquation(data.equation2);
+
+            // Check if the question has no solution or infinite solutions
+            if (data.error) {
+                // If so, call loadQuestion() recursively to fetch a new question
+                this.loadQuestion();
+            } else {
+                // Handle the regular case with valid solutions
+                this.equation1 = data.equation1;
+                this.equation2 = data.equation2;
+
+                // Format the solutions
+                this.correctSolutionX = this.formatNumber(data.solution_x);
+                this.correctSolutionY = this.formatNumber(data.solution_y);
+
+                this.isAnswerChecked = false; // Reset the answer check status
+            }
+        });
     } else {
-      this.showSummary = true; // Show the summary when all questions are answered
+        this.showSummary = true; // Show the summary when all questions are answered
     }
-  }
+}
+
   formatEquation(equation: string): { numerator: string, denominator: string }[] {
     const fractions: { numerator: string, denominator: string }[] = [];
     const parts = equation.split(' ');
@@ -96,19 +101,39 @@ export class EquationSystemHardComponent implements OnInit {
 
     return fractions;
   }
+  formatNumber(value: number): number {
+    const strValue = value.toString();
+    if (strValue.includes('.')) {
+        const [intPart, decimalPart] = strValue.split('.');
+        if (decimalPart === '00') {
+            return parseFloat(intPart);
+        } else if (decimalPart.charAt(1) === '0') {
+            return parseFloat(`${intPart}.${decimalPart.charAt(0)}`);
+        }
+    }
+    return value;
+}
 
-  checkSolution(): void {
-    this.isAnswerChecked = true;
-    if (
-      this.userSolutionX === this.correctSolutionX &&
-      this.userSolutionY === this.correctSolutionY
-    ) {
+
+checkSolution(): void {
+  this.isAnswerChecked = true;
+
+  // Format user's answers
+  this.userSolutionX = this.formatNumber(this.userSolutionX);
+  this.userSolutionY = this.formatNumber(this.userSolutionY);
+
+  if (
+    this.userSolutionX === this.correctSolutionX &&
+    this.userSolutionY === this.correctSolutionY
+  ) {
       this.isAnswerCorrect = true;
       this.correctAnswers++;
-    } else {
+  } else {
       this.isAnswerCorrect = false;
-    }
   }
+}
+
+
   nextQuestion(): void {
     this.isAnswerChecked = false;
     this.attempts++;
@@ -142,37 +167,49 @@ export class EquationSystemHardComponent implements OnInit {
     const requests = Array(10).fill(null).map(() => this.authService.getDifficultSystemOfEquations());
 
     forkJoin(requests).subscribe({
-      next: (questions) => {
-        // Format each question and store it in testQuestions
-        this.testQuestions = questions.map(question => ({
-          equation1Fractions: this.formatEquation(question.equation1),
-          equation2Fractions: this.formatEquation(question.equation2),
-          solution_x: question.solution_x,
-          solution_y: question.solution_y,
-        }));
+        next: (questions) => {
+            // Format each question and store it in testQuestions
+            this.testQuestions = questions.map(question => ({
+                equation1Fractions: this.formatEquation(question.equation1),
+                equation2Fractions: this.formatEquation(question.equation2),
+                solution_x: this.formatNumber(question.solution_x),  // Formatting here
+                solution_y: this.formatNumber(question.solution_y),  // Formatting here
+            }));
 
-        // Initialize the user answers
-        this.userTestAnswers = this.testQuestions.map(() => ({ x: 0, y: 0 }));
-      },
-      error: (error) => {
-        console.error('An error occurred:', error);
-      }
+            // Initialize the user answers
+            this.userTestAnswers = this.testQuestions.map(() => ({ x: 0, y: 0 }));
+        },
+        error: (error) => {
+            console.error('An error occurred:', error);
+        }
     });
-  }
+}
 
 
   checkTestAnswers(): void {
     this.testCorrectAnswers = 0;
+
     this.testQuestions.forEach((question, index) => {
-      if (
-        question.solution_x === this.userTestAnswers[index].x &&
-        question.solution_y === this.userTestAnswers[index].y
-      ) {
-        this.testCorrectAnswers++;
-      }
+        // Format the correct solutions from the test questions
+        const formattedSolutionX = this.formatNumber(question.solution_x);
+        const formattedSolutionY = this.formatNumber(question.solution_y);
+
+        // Format the user's test answers
+        const formattedUserAnswerX = this.formatNumber(this.userTestAnswers[index].x);
+        const formattedUserAnswerY = this.formatNumber(this.userTestAnswers[index].y);
+
+        if (
+            formattedUserAnswerX === formattedSolutionX &&
+            formattedUserAnswerY === formattedSolutionY
+        ) {
+            this.testCorrectAnswers++;
+        }
     });
+
     this.showTestSummary = true; // Show the test summary
-  }
+}
+
+
   startTest(): void {
     this.currentPart = Part.Test;
     console.log('Starting test, current part:', this.currentPart);

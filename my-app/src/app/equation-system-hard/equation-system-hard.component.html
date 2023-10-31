@@ -18,13 +18,13 @@
               <span *ngFor="let fraction of equation1Fractions; let last = last">
                   <span *ngIf="fraction.denominator">
                       <span class="fraction">
-                        <div class="equation ">
-                          <span class="numerator">{{ fraction.numerator }}</span>
-                          <span class="denominator">{{ fraction.denominator }}</span>
-                        </div>
+
+                          <span  class="numerator">{{ fraction.numerator }}</span>
+                          <span   class="denominator">{{ fraction.denominator }}</span>
+
                       </span>
                   </span>
-                  <span *ngIf="!fraction.denominator">{{ fraction.numerator }}</span>
+                  <span class="denominator" *ngIf="!fraction.denominator">{{ fraction.numerator }}</span>
                   <span *ngIf="!last">&nbsp;</span>
               </span>
           </div>
@@ -38,15 +38,15 @@
                           <span class="denominator">{{ fraction.denominator }}</span>
                       </span>
                   </span>
-                  <span *ngIf="!fraction.denominator">{{ fraction.numerator }}</span>
+                  <span class="denominator"  *ngIf="!fraction.denominator">{{ fraction.numerator }}</span>
                   <span *ngIf="!last">&nbsp;</span>
               </span>
           </div>
 
           <label for="solutionX">הכנס את הערך של x:</label>
-          <input type="number" id="solutionX" [(ngModel)]="userSolutionX" />
+          <input  class="answer-input" type="number" id="solutionX" [(ngModel)]="userSolutionX" />
           <label for="solutionY">הכנס את הערך של  y:</label>
-          <input type="number" id="solutionY" [(ngModel)]="userSolutionY" />
+          <input class="answer-input" type="number" id="solutionY" [(ngModel)]="userSolutionY" />
           <div class="menu-container">
 
           </div>
@@ -67,8 +67,8 @@
   </div>
 
   <div *ngIf="currentPart === Part.QuizCompleted" class="center-content">
-      <h1>Quiz Summary</h1>
-      <p>You answered {{ correctAnswers }} out of 6 questions correctly!</p>
+    <h1>גמרנו עם התרגול</h1>
+    <p>ענית  {{ correctAnswers }} מתוך 6 שאלות נכון!</p>
       <div class="menu-container">
       </div>
   </div>
