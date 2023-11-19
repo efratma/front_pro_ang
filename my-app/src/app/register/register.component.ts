@@ -29,7 +29,7 @@ export class RegisterComponent {
         if (err && err.error && err.error.detail) {
           this.errorMessage = err.error.detail;
         } else {
-          this.errorMessage = 'אופס כנראה שגאת לא הצלחת להירשם';
+          this.errorMessage = 'אופס כנראה אחד הפרטים שגויים לא הצלחת להירשם ,נסה שוב';
         }
       }
     });
