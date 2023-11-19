@@ -14,7 +14,7 @@ interface QuizData {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://127.0.0.1:8000'; // Update with your Django API URL
+  private apiUrl = 'https://tic-tac-math.onrender.com'; // Update with your Django API URL
 
   constructor(private http: HttpClient, private router: Router) { }
 
